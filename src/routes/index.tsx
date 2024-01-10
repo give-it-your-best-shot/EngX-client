@@ -1,38 +1,20 @@
-import { Route, Routes } from "react-router-dom";
-import Signup from "../Signup/Signup";
-import Login from "../Login";
+import { useEffect } from "react"
+import AzureOpenAIService from "../services/azure_openai_service"
 
 export default function Index() {
-  return (
-    <>
-      <div>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Login
-                paragraph="Don't have an account yet? "
-                linkName="Signup"
-                linkUrl="/signup"
-                titleInput1="Username"
-                titleInput2="Password"
-              />
-            }
-          />
-          <Route
-            path="/signup"
-            element={
-              <Signup
-                paragraph="Don't have an account yet? "
-                linkName="Signup"
-                linkUrl="/signup"
-                titleInput1="Username"
-                titleInput2="Password"
-              />
-            }
-          />
-        </Routes>
-      </div>
+    const ai = AzureOpenAIService.getInstance()
+    useEffect(() => {
+        const start = async () => {
+            const message1 = await ai.prompt("Hi")
+            console.log(message1)
+            const message2 = await ai.prompt("I'm testing your API")
+            console.log(message2)
+        }
+        start()
+    }, [])
+    return <>
+        <div className="bg-slate-300 min-h-screen w-full text-white flex justify-center items-center">
+            Trying tailwind
+        </div>
     </>
-  );
 }
