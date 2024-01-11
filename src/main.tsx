@@ -31,7 +31,7 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <NextUIProvider>
-      <div className="flex justify-center items-center w-full h-screen bg-gradient-to-r from-blue-500 to-purple-500">
+      <div className="bg-fixed overflow-y-auto flex justify-center items-center w-full h-screen bg-gradient-to-r from-blue-500 to-purple-500 p-16">
         <RouterProvider router={router} />
       </div>
     </NextUIProvider>
