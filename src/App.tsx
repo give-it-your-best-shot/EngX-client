@@ -1,11 +1,12 @@
-import { Route, Routes } from "react-router-dom";
-import Signup from "../Signup/Signup";
-import Login from "../Login";
+import React from "react";
+import Login from "./Login";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Signup from "./Signup/Signup";
 
-export default function Index() {
+function App() {
   return (
-    <>
-      <div>
+    <div>
+      <BrowserRouter>
         <Routes>
           <Route
             path="/"
@@ -32,7 +33,9 @@ export default function Index() {
             }
           />
         </Routes>
-      </div>
-    </>
+      </BrowserRouter>
+    </div>
   );
 }
+
+export default App;
