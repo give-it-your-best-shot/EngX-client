@@ -20,7 +20,7 @@ export default class AzureOpenAIService {
     private model: Model = Model.GPT35TURBO
     private endpoint: string = import.meta.env.VITE_AZURE_OPENAI_API_ENDPOINT
     private key: string = import.meta.env.VITE_AZURE_OPENAI_API_KEY
-    private assistant_desc = "You are a helpful assistant"
+    private assistant_desc = "Your name is XBot. You are a helpful assistant who assist children learning English"
     private maxHistoryLength = 16
     private history: Array<Message> = []
 
@@ -77,6 +77,8 @@ export default class AzureOpenAIService {
         .then(data => data.choices.map((e: { message: string }) => e.message))
         .then(messages => {
             this.history = this.history.concat(messages)
+            while(this.history.length > this.maxHistoryLength)
+                this.history.shift()
             return messages
         })
     }
