@@ -1,11 +1,9 @@
 import { useEffect } from "react";
-import { Route, Routes } from "react-router-dom";
+import AzureOpenAIService from "../services/azure_openai_service";
 
 export default function Index() {
   useEffect(() => {
-    const start = async () => {
-      
-    }
+    const start = async () => {}
     start()
   }, [])
   return (
