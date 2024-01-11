@@ -29,11 +29,11 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <NextUIProvider>
-      <div className="bg-fixed overflow-y-auto flex justify-center items-center w-full h-screen bg-gradient-to-r from-blue-500 to-purple-500 p-16">
+      <div className="bg-fixed overflow-y-auto flex justify-center items-center w-full min-h-screen bg-gradient-to-r from-blue-500 to-purple-500 px-8 py-16">
         <RouterProvider router={router} />
       </div>
     </NextUIProvider>
-  </React.StrictMode>
+  // </React.StrictMode>
 );
