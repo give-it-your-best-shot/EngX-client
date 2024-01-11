@@ -4,19 +4,19 @@ import { SlLogin } from "react-icons/sl";
 import { Link } from "react-router-dom";
 
 interface LoginProps {
-  paragraph: string;
-  linkName: string;
+  paragraph?: string;
+  linkName?: string;
   linkUrl?: string;
-  titleInput1: string;
-  titleInput2: string;
+  titleInput1?: string;
+  titleInput2?: string;
 }
 
-export default function Login({
-  paragraph,
-  linkName,
-  linkUrl = "#",
-  titleInput1,
-  titleInput2,
+export default function Signup({
+  paragraph = "Don't have an account yet?",
+  linkName = "Sign up",
+  linkUrl = "/signup",
+  titleInput1 = "Username",
+  titleInput2 = "Password",
 }: LoginProps) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -67,7 +67,7 @@ export default function Login({
             </p>
             <div className="mt-4 flex justify-around">
               <Button color="primary" type="submit">
-                Login
+                Sign up
               </Button>
             </div>
           </form>
