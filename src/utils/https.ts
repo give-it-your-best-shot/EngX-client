@@ -1,15 +1,15 @@
-import axios, { AxiosInstance } from 'axios'
+import axios, { AxiosInstance } from "axios";
 
 class Http {
-  instance: AxiosInstance
+  instance: AxiosInstance;
   constructor() {
     this.instance = axios.create({
       baseURL: process.env.BACKEND_URL,
-      timeout: 10000
-    })
+      timeout: 10000,
+    });
   }
 }
 
-const http = new Http().instance
+const http = new Http().instance;
 
-export default http
+export default http;

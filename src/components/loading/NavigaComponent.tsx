@@ -16,24 +16,14 @@ import {
 // import { deleteCookie, getCookie } from "cookies-next";
 // import http from "@/app/utils/http";
 import AcmeLogo from "../../Icon/AcmeLogo";
-import {
-  Activity,
-  ChevronDown,
-  Flash,
-  Lock,
-  Scale,
-  Server,
-  TagUser,
-} from "../../Icon/Icons";
+import { Activity, ChevronDown, Flash, Lock, Scale, Server, TagUser } from "../../Icon/Icons";
 
 export default function NavigaComponent() {
   const icons = {
     chevron: <ChevronDown fill="currentColor" size={16} />,
     scale: <Scale className="text-warning" fill="currentColor" size={30} />,
     lock: <Lock className="text-success" fill="currentColor" size={30} />,
-    activity: (
-      <Activity className="text-secondary" fill="currentColor" size={30} />
-    ),
+    activity: <Activity className="text-secondary" fill="currentColor" size={30} />,
     flash: <Flash className="text-primary" fill="currentColor" size={30} />,
     server: <Server className="text-success" fill="currentColor" size={30} />,
     user: <TagUser className="text-danger" fill="currentColor" size={30} />,
@@ -74,10 +64,7 @@ export default function NavigaComponent() {
       <Navbar className="bg-white shadow-lg text-black">
         <NavbarBrand>
           <AcmeLogo />
-          <p
-            className="font-bold text-inherit cursor-pointer"
-            onClick={() => {}}
-          >
+          <p className="font-bold text-inherit cursor-pointer" onClick={() => {}}>
             EngX
           </p>
         </NavbarBrand>

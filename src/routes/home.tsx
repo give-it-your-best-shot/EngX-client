@@ -1,5 +1,4 @@
 import { Card, CardBody, CardFooter, Image } from "@nextui-org/react";
-import NavigaComponent from "../components/loading/NavigaComponent";
 import { IoIosArrowRoundForward } from "react-icons/io";
 
 export default function Home() {
@@ -50,12 +49,7 @@ export default function Home() {
       <div className="flex justify-center items-center">
         <div className="gap-8 grid grid-cols-2 sm:grid-cols-4 max-w-[900px] mt-14">
           {list.map((item, index) => (
-            <Card
-              shadow="sm"
-              key={index}
-              isPressable
-              onPress={() => console.log("item pressed")}
-            >
+            <Card shadow="sm" key={index} isPressable onPress={() => console.log("item pressed")}>
               <CardBody className="overflow-visible p-0 gap-4">
                 <Image
                   shadow="sm"

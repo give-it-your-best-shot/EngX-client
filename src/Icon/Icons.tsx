@@ -7,13 +7,7 @@ interface IconProps extends React.SVGProps<SVGSVGElement> {
   width?: number;
 }
 
-export const ChevronDown: FC<IconProps> = ({
-  fill,
-  size,
-  height,
-  width,
-  ...props
-}) => {
+export const ChevronDown: FC<IconProps> = ({ fill, size, height, width, ...props }) => {
   return (
     <svg
       fill="none"
@@ -35,13 +29,7 @@ export const ChevronDown: FC<IconProps> = ({
   );
 };
 
-export const Lock: FC<IconProps> = ({
-  fill,
-  size,
-  height,
-  width,
-  ...props
-}) => {
+export const Lock: FC<IconProps> = ({ fill, size, height, width, ...props }) => {
   const color = fill;
 
   return (
@@ -88,13 +76,7 @@ export const Lock: FC<IconProps> = ({
   );
 };
 
-export const Activity: FC<IconProps> = ({
-  fill,
-  size,
-  height,
-  width,
-  ...props
-}) => {
+export const Activity: FC<IconProps> = ({ fill, size, height, width, ...props }) => {
   return (
     <svg
       height={size || height || 24}
@@ -103,14 +85,7 @@ export const Activity: FC<IconProps> = ({
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
-      <g
-        fill="none"
-        stroke={fill}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeMiterlimit={10}
-        strokeWidth={1.5}
-      >
+      <g fill="none" stroke={fill} strokeLinecap="round" strokeLinejoin="round" strokeMiterlimit={10} strokeWidth={1.5}>
         <path d="M6.918 14.854l2.993-3.889 3.414 2.68 2.929-3.78" />
         <path d="M19.668 2.35a1.922 1.922 0 11-1.922 1.922 1.921 1.921 0 011.922-1.922z" />
         <path d="M20.756 9.269a20.809 20.809 0 01.194 3.034c0 6.938-2.312 9.25-9.25 9.25s-9.25-2.312-9.25-9.25 2.313-9.25 9.25-9.25a20.931 20.931 0 012.983.187" />
@@ -119,13 +94,7 @@ export const Activity: FC<IconProps> = ({
   );
 };
 
-export const Flash: FC<IconProps> = ({
-  fill = "currentColor",
-  size,
-  height,
-  width,
-  ...props
-}) => {
+export const Flash: FC<IconProps> = ({ fill = "currentColor", size, height, width, ...props }) => {
   return (
     <svg
       fill="none"
@@ -147,13 +116,7 @@ export const Flash: FC<IconProps> = ({
   );
 };
 
-export const Server: FC<IconProps> = ({
-  fill = "currentColor",
-  size,
-  height,
-  width,
-  ...props
-}) => {
+export const Server: FC<IconProps> = ({ fill = "currentColor", size, height, width, ...props }) => {
   return (
     <svg
       fill="none"
@@ -174,13 +137,7 @@ export const Server: FC<IconProps> = ({
   );
 };
 
-export const TagUser: FC<IconProps> = ({
-  fill = "currentColor",
-  size,
-  height,
-  width,
-  ...props
-}) => {
+export const TagUser: FC<IconProps> = ({ fill = "currentColor", size, height, width, ...props }) => {
   return (
     <svg
       fill="none"
@@ -209,13 +166,7 @@ export const TagUser: FC<IconProps> = ({
   );
 };
 
-export const Scale: FC<IconProps> = ({
-  fill = "currentColor",
-  size,
-  height,
-  width,
-  ...props
-}) => {
+export const Scale: FC<IconProps> = ({ fill = "currentColor", size, height, width, ...props }) => {
   return (
     <svg
       fill="none"
@@ -232,13 +183,7 @@ export const Scale: FC<IconProps> = ({
         strokeLinejoin="round"
         strokeWidth={1.5}
       />
-      <path
-        d="M18 10V6h-4M6 14v4h4"
-        stroke={fill}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={1.5}
-      />
+      <path d="M18 10V6h-4M6 14v4h4" stroke={fill} strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} />
     </svg>
   );
 };

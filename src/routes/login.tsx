@@ -27,52 +27,49 @@ export default function Login({
   };
 
   return (
-      <div className="flex justify-center items-center">
-        <div className="bg-white p-8 rounded-lg shadow-lg w-96">
-          <div className="flex flex-col justify-center items-center gap-4 font-bold text-2xl mb-6 text-gray-800">
-            <SlLogin className="text-4xl text-blue-500" />
-            Login
-            <form onSubmit={() => {}}>
-              <Input
-                isRequired
-                type="text"
-                label={titleInput1}
-                value={username}
-                className="mb-5 h-12 mr-32"
-                onChange={(e) => {
-                  const value = handleInputChange(e);
-                  setUsername(value);
-                }}
-              />
+    <div className="flex justify-center items-center">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-96">
+        <div className="flex flex-col justify-center items-center gap-4 font-bold text-2xl mb-6 text-gray-800">
+          <SlLogin className="text-4xl text-blue-500" />
+          Login
+          <form onSubmit={() => {}}>
+            <Input
+              isRequired
+              type="text"
+              label={titleInput1}
+              value={username}
+              className="mb-5 h-12 mr-32"
+              onChange={e => {
+                const value = handleInputChange(e);
+                setUsername(value);
+              }}
+            />
 
-              <Input
-                isRequired
-                type="password"
-                label={titleInput2}
-                value={password}
-                className="mb-5 h-12 mr-32"
-                onChange={(e) => {
-                  const value = handleInputChange(e);
-                  setPassword(value);
-                }}
-              />
-              <p className="text-center text-sm text-gray-600 mt-5">
-                {paragraph}{" "}
-                <Link
-                  to={linkUrl}
-                  className="font-medium text-purple-600 hover:text-purple-500"
-                >
-                  {linkName}
-                </Link>
-              </p>
-              <div className="mt-4 flex justify-around">
-                <Button color="primary" type="submit" className="font-bold">
-                  Login
-                </Button>
-              </div>
-            </form>
-          </div>
+            <Input
+              isRequired
+              type="password"
+              label={titleInput2}
+              value={password}
+              className="mb-5 h-12 mr-32"
+              onChange={e => {
+                const value = handleInputChange(e);
+                setPassword(value);
+              }}
+            />
+            <p className="text-center text-sm text-gray-600 mt-5">
+              {paragraph}{" "}
+              <Link to={linkUrl} className="font-medium text-purple-600 hover:text-purple-500">
+                {linkName}
+              </Link>
+            </p>
+            <div className="mt-4 flex justify-around">
+              <Button color="primary" type="submit" className="font-bold">
+                Login
+              </Button>
+            </div>
+          </form>
         </div>
       </div>
+    </div>
   );
 }
