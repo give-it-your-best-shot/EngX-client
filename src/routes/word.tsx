@@ -33,7 +33,7 @@ export default function Word() {
             _example => setExample(_example)
         )
     }, [language])
-    return <div className="bg-white p-16 rounded-lg shadow-lg w-full flex flex-col gap-10">
+    return <div className="m-16 bg-white p-16 rounded-lg shadow-lg flex flex-col gap-10">
         <div className="flex gap-5">
             <Dropdown>
                 <DropdownTrigger>

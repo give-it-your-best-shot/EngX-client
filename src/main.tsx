@@ -6,6 +6,9 @@ import "./index.css";
 import { NextUIProvider } from "@nextui-org/react";
 import Login from "./routes/login";
 import Signup from "./routes/signup";
+import Word from "./routes/word";
+import Home from "./routes/home";
+import NavigaComponent from "./components/loading/NavigaComponent";
 // import App from "./App";
 
 const router = createBrowserRouter([
@@ -15,14 +18,29 @@ const router = createBrowserRouter([
   },
   {
     path: "/signup",
-    element: <Signup />,
+    element: <Signup />
+  },
+  {
+    path: "/word/:word",
+    element: <Word />
+  },
+  {
+    path: "/home",
+    element: <Home />
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <NextUIProvider>
-      <RouterProvider router={router} />
+      <div className="fixed w-full z-40">
+        <NavigaComponent />
+      </div>
+      <div className="bg-fixed overflow-y-auto flex justify-center items-center w-full min-h-screen bg-slate-100 px-8 py-16">
+        <div className="mt-10 w-full">
+          <RouterProvider router={router} />
+        </div>
+      </div>
     </NextUIProvider>
-  </React.StrictMode>
+  // </React.StrictMode>
 );
