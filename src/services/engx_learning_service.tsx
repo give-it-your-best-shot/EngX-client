@@ -88,7 +88,7 @@ export default class EngXLearningService {
   }
 
   public getGameOfWords(words: Array<string>, num_sentence = 3) {
-    const prompt = `Please generate a pragraph contains total of ${num_sentence} sentences. The paragraph must includes all of the following words: ${words}`;
+    const prompt = `Please generate a fill in the blank quiz pragraph contains total of ${num_sentence} sentences. The paragraph must includes all of the following words: ${words.join(", ")}.`;
     console.log(prompt);
   }
 }
