@@ -86,4 +86,9 @@ export default class EngXLearningService {
       .replace("{1}", word);
     return this.gpt_service.prompt(example).then(messages => messages?.shift());
   }
+
+  public getGameOfWords(words: Array<string>, num_sentence = 3) {
+    const prompt = `Please generate a pragraph contains total of ${num_sentence} sentences. The paragraph must includes all of the following words: ${words}`;
+    console.log(prompt);
+  }
 }

@@ -9,6 +9,7 @@ import Signup from "./routes/signup";
 import Word from "./routes/word";
 import Home from "./routes/home";
 import NavigaComponent from "./components/loading/NavigaComponent";
+import Game from "./routes/game";
 // import App from "./App";
 
 const router = createBrowserRouter([
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
   {
     path: "/home",
     element: <Home />,
+  },
+  {
+    path: "/game",
+    element: <Game />,
   },
 ]);
 
