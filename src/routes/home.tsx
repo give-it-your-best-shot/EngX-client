@@ -1,4 +1,5 @@
 import { Card, CardBody, CardFooter, Image } from "@nextui-org/react";
+import NavigaComponent from "../components/loading/NavigaComponent";
 import { IoIosArrowRoundForward } from "react-icons/io";
 
 export default function Home() {
