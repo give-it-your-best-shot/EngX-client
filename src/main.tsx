@@ -8,6 +8,7 @@ import Login from "./routes/login";
 import Signup from "./routes/signup";
 import Word from "./routes/word";
 import Home from "./routes/home";
+import Vocab from "./routes/vocab";
 // import App from "./App";
 
 const router = createBrowserRouter([
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
   {
     path: "/home",
     element: <Home />
+  },
+  {
+    path: "/home/:id",
+    element: <Vocab />
   },
 ]);
 

@@ -1,7 +1,10 @@
 import { Button, Input } from "@nextui-org/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SlLogin } from "react-icons/sl";
 import { Link } from "react-router-dom";
+import { hasCookie, setCookie } from "cookies-next";
+import { useNavigate } from "react-router-dom";
+import { FormEvent } from "react";
 
 interface LoginProps {
   paragraph?: string;
@@ -18,8 +21,45 @@ export default function Login({
   titleInput1 = "Username",
   titleInput2 = "Password",
 }: LoginProps) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (hasCookie("access_token")) {
+      navigate("/home");
+      return;
+    }
+  }, [navigate]);
+
+  const handleLogin = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const headers: Headers = new Headers();
+    headers.append("Accept", "application/json");
+    headers.append("Content-Type", "application/json");
+    fetch(process.env.BACKEND_URL + "/auth/authenticate", {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify({
+        username: titleInput1,
+        password: titleInput2,
+      }),
+    })
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.code == 200) {
+          setCookie("access_token", d.data.access_token, {
+            maxAge: 60 * 60 * 24 * 7,
+          });
+          setCookie("refresh_token", d.data.refresh_token, {
+            maxAge: 60 * 60 * 24 * 7,
+          });
+          navigate("/home");
+        } else {
+          console.log("Error: " + d.error);
+        }
+      });
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -33,7 +73,11 @@ export default function Login({
           <div className="flex flex-col justify-center items-center gap-4 font-bold text-2xl mb-6 text-gray-800">
             <SlLogin className="text-4xl text-blue-500" />
             Login
-            <form onSubmit={() => {}}>
+            <form
+              onSubmit={() => {
+                handleLogin;
+              }}
+            >
               <Input
                 isRequired
                 type="text"

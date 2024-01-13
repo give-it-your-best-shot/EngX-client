@@ -1,50 +1,37 @@
 import { Card, CardBody, CardFooter, Image } from "@nextui-org/react";
 import NavigaComponent from "../components/loading/NavigaComponent";
 import { IoIosArrowRoundForward } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
+// import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import http from "../utils/https";
+import { Chapter } from "../types/chapter.type";
 
 export default function Home() {
-  const list = [
-    {
-      title: "Unit 1",
-      img: "/images/fruit-1.jpeg",
-      price: "$5.50",
-    },
-    {
-      title: "Unit 1",
-      img: "/images/fruit-2.jpeg",
-      price: "$3.00",
-    },
-    {
-      title: "Unit 1",
-      img: "/images/fruit-3.jpeg",
-      price: "$10.00",
-    },
-    {
-      title: "Unit 1",
-      img: "/images/fruit-4.jpeg",
-      price: "$5.30",
-    },
-    {
-      title: "Unit 1",
-      img: "/images/fruit-5.jpeg",
-      price: "$15.70",
-    },
-    {
-      title: "Unit 1",
-      img: "/images/fruit-6.jpeg",
-      price: "$8.00",
-    },
-    {
-      title: "Unit 1",
-      img: "/images/fruit-7.jpeg",
-      price: "$7.50",
-    },
-    {
-      title: "Unit 1",
-      img: "/images/fruit-8.jpeg",
-      price: "$12.20",
-    },
-  ];
+  const navigate = useNavigate();
+  // const { title } = useParams();
+  const [Chapters, setChapter] = useState<Chapter[]>([]);
+  const chapterList = Array.isArray(Chapters) ? Chapters : [];
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await http.get(`chapters`);
+
+        if (response.status === 200) {
+          setChapter(response.data);
+          console.log(response.data);
+        } else {
+          console.log("Loi he thong");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+
+    fetchData();
+  }, []);
+
   return (
     <>
       <div className="fixed w-full z-40 mb-10">
@@ -52,28 +39,31 @@ export default function Home() {
       </div>
       <div className="flex justify-center items-center h-screen">
         <div className="gap-8 grid grid-cols-2 sm:grid-cols-4 max-w-[900px] mt-14">
-          {list.map((item, index) => (
+          {chapterList.map((item, index) => (
             <Card
               shadow="sm"
               key={index}
               isPressable
-              onPress={() => console.log("item pressed")}
+              onClick={() => navigate(`/home/${item.id}`)}
             >
               <CardBody className="overflow-visible p-0 gap-4">
                 <Image
                   shadow="sm"
                   radius="lg"
                   width="100%"
-                  alt={item.title}
+                  alt={item.name}
                   className="w-full object-cover h-[140px]"
-                  src={item.img}
+                  src={item.photoURL}
                 />
 
-                <p className="text-default-500 ml-2">Hello Word</p>
+                <p className="text-default-500 ml-2">{item.description}</p>
               </CardBody>
               <CardFooter className="text-small flex justify-between gap-32">
-                <b>{item.title}</b>
-                <IoIosArrowRoundForward size={40} />
+                <b>{item.id}</b>
+                <IoIosArrowRoundForward
+                  size={40}
+                  onClick={() => navigate(`/home/${item.id}`)}
+                />
               </CardFooter>
             </Card>
           ))}
