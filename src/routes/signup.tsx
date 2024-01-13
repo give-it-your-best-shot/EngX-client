@@ -47,7 +47,7 @@ export default function Signup({
     const headers: Headers = new Headers();
     headers.append("Accept", "application/json");
     headers.append("Content-Type", "application/json");
-    fetch(process.env.BACKEND_URL + "auth/register", {
+    fetch(process.env.BACKEND_URL + `auth/register`, {
       method: "POST",
       headers: headers,
       body: JSON.stringify({
@@ -59,8 +59,8 @@ export default function Signup({
     })
       .then((r) => r.json())
       .then((d) => {
-        if (d.code == 200) {
-          navigate("/login");
+        if (d.status == 200) {
+          navigate("/");
         } else {
           console.log(d.error.message)
         }
@@ -74,7 +74,7 @@ export default function Signup({
           <div className="flex flex-col justify-center items-center gap-4 font-bold text-2xl mb-6 text-gray-800">
             <FaUserPlus className="text-4xl text-blue-500" />
             Login
-            <form onSubmit={() => {handleRegister}}>
+            <form onSubmit={handleRegister}>
               <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
                 <Input
                   isRequired
@@ -89,7 +89,7 @@ export default function Signup({
                 />
                 <Input
                   isRequired
-                  type="password"
+                  type="text"
                   label={titleInput2}
                   value={password}
                   className="mb-5 h-12"

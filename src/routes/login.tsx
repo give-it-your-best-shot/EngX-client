@@ -33,11 +33,12 @@ export default function Login({
   }, [navigate]);
 
   const handleLogin = (e: FormEvent<HTMLFormElement>) => {
+    console.log("Oke")
     e.preventDefault();
     const headers: Headers = new Headers();
     headers.append("Accept", "application/json");
     headers.append("Content-Type", "application/json");
-    fetch(process.env.BACKEND_URL + "/auth/authenticate", {
+    fetch(process.env.BACKEND_URL + `auth/authenticate`, {
       method: "POST",
       headers: headers,
       body: JSON.stringify({
@@ -47,7 +48,7 @@ export default function Login({
     })
       .then((r) => r.json())
       .then((d) => {
-        if (d.code == 200) {
+        if (d.status == 200) {
           setCookie("access_token", d.data.access_token, {
             maxAge: 60 * 60 * 24 * 7,
           });
@@ -74,9 +75,7 @@ export default function Login({
             <SlLogin className="text-4xl text-blue-500" />
             Login
             <form
-              onSubmit={() => {
-                handleLogin;
-              }}
+              onSubmit={handleLogin}
             >
               <Input
                 isRequired

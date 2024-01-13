@@ -17,10 +17,9 @@ export default function Home() {
     async function fetchData() {
       try {
         const response = await http.get(`chapters`);
-
         if (response.status === 200) {
-          setChapter(response.data);
-          console.log(response.data);
+          setChapter(response.data.data);
+          console.log(response.data.data);
         } else {
           console.log("Loi he thong");
         }

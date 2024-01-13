@@ -18,8 +18,8 @@ export default function Vocab() {
         const response = await http.get(`chapters/${id}`);
 
         if (response.status === 200) {
-          setWord(response.data.words);
-          console.log(response.data.words);
+          setWord(response.data.data.words);
+          console.log(response.data.data.words);
         } else {
           console.log("Loi he thong");
         }
