@@ -47,7 +47,7 @@ export default function Home() {
   ];
   return (
     <>
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center h-full">
         <div className="gap-8 grid grid-cols-2 sm:grid-cols-4 max-w-[900px] mt-14">
           {list.map((item, index) => (
             <Card shadow="sm" key={index} isPressable onPress={() => console.log("item pressed")}>

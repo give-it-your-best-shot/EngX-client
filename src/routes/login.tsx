@@ -27,7 +27,7 @@ export default function Login({
   };
 
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex justify-center items-center h-full">
       <div className="bg-white p-8 rounded-lg shadow-lg w-96">
         <div className="flex flex-col justify-center items-center gap-4 font-bold text-2xl mb-6 text-gray-800">
           <SlLogin className="text-4xl text-blue-500" />

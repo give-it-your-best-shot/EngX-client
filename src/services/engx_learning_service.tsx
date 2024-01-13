@@ -11,6 +11,15 @@ export enum Age {
   STUDENT = "student",
   EXPERT = "expert",
 }
+export interface Quiz {
+  paragraph: string,
+  questions: Array<Question>
+}
+
+export interface Question {
+  correct_answer: string,
+  incorrect_answers: Array<string>
+}
 
 export default class EngXLearningService {
   private static instance: EngXLearningService;
@@ -87,8 +96,29 @@ export default class EngXLearningService {
     return this.gpt_service.prompt(example).then(messages => messages?.shift());
   }
 
-  public getGameOfWords(words: Array<string>, num_sentence = 3) {
-    const prompt = `Please generate a fill in the blank quiz pragraph contains total of ${num_sentence} sentences. The paragraph must includes all of the following words: ${words.join(", ")}.`;
-    console.log(prompt);
+  private async getIncorrectAnswers(blank_id: number, word: string, num_of_incorrect = 3) {
+    const prompt = `Please also give ${num_of_incorrect} incorrect answers, for the blank number ${blank_id}, which should be fill with ${word}. Reponse in json {incorrect_answers:}`;
+    return await this.gpt_service.prompt(prompt).then(messages => messages![0].content)
+  }
+
+  public async getGameOfWords(words: Array<string>, num_sentence = 3, min_num_words = 50, max_num_words = 100) {
+    const prompt = `Please generate a fill in the blanks quiz pragraph contains total of ${num_sentence} sentences. The paragraph must includes all of the following words: ${words.join(", ")}, which should be filled in the blanks. The blank should be replaced with the words mentioned, and highlight them with {}, and not with ___. The paragraph should use only the volcabulary for ${this.age} to understand. The paragraph must be between ${min_num_words} to ${max_num_words} words. The grammars must be correct. Response only the paragraph`;
+    var paragraph = (await this.gpt_service.prompt(prompt))![0].content
+    var corrects = paragraph.matchAll(/{([A-Z|a-z]+)}/g)
+
+    var res = {
+      "paragraph": paragraph,
+      "questions": Array<Question>()
+    }
+
+    for(var correct of corrects) {
+      var incorrects_json = await this.getIncorrectAnswers(correct.index!, correct[1])
+      console.log(incorrects_json)
+      res.questions.push({
+        "correct_answer": correct[1],
+        "incorrect_answers": JSON.parse(incorrects_json).incorrect_answers
+      })
+    }
+    return res
   }
 }
