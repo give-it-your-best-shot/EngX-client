@@ -42,7 +42,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <NavigaComponent />
     </div>
     <div className="bg-fixed overflow-y-auto flex justify-center items-center w-full min-h-screen bg-slate-100 px-8 py-16">
-      <div className="h-[calc(100vh-10rem)] w-full">
+      <div className="h-[calc(100vh-10rem)] w-full flex flex-col items-center justify-center">
         <RouterProvider router={router} />
       </div>
     </div>

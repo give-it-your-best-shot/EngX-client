@@ -17,8 +17,8 @@ export interface Quiz {
 }
 
 export interface Question {
-  correct_answer: string,
-  incorrect_answers: Array<string>
+  answers: Array<string>,
+  correct_answer: number
 }
 
 export default class EngXLearningService {
@@ -101,6 +101,10 @@ export default class EngXLearningService {
     return await this.gpt_service.prompt(prompt).then(messages => messages![0].content)
   }
 
+  private randRange(min: number, max: number) {
+    return Math.floor(Math.random() * (max - min + 1)) + min
+  }
+
   public async getGameOfWords(words: Array<string>, num_sentence = 3, min_num_words = 50, max_num_words = 100) {
     const prompt = `Please generate a fill in the blanks quiz pragraph contains total of ${num_sentence} sentences. The paragraph must includes all of the following words: ${words.join(", ")}, which should be filled in the blanks. The blank should be replaced with the words mentioned, and highlight them with {}, and not with ___. The paragraph should use only the volcabulary for ${this.age} to understand. The paragraph must be between ${min_num_words} to ${max_num_words} words. The grammars must be correct. Response only the paragraph`;
     var paragraph = (await this.gpt_service.prompt(prompt))![0].content
@@ -112,11 +116,18 @@ export default class EngXLearningService {
     }
 
     for(var correct of corrects) {
-      var incorrects_json = await this.getIncorrectAnswers(correct.index!, correct[1])
-      console.log(incorrects_json)
+      var incorrects: Array<string> = JSON.parse(await this.getIncorrectAnswers(correct.index!, correct[1])).incorrect_answers
+      var correct_index = this.randRange(0, incorrects.length)
+
+      var answers = [
+        ...incorrects.slice(0, correct_index),
+        correct[1],
+        ...incorrects.slice(correct_index)
+      ]
+
       res.questions.push({
-        "correct_answer": correct[1],
-        "incorrect_answers": JSON.parse(incorrects_json).incorrect_answers
+        "answers": answers,
+        "correct_answer": correct_index
       })
     }
     return res
