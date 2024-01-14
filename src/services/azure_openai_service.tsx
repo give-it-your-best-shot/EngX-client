@@ -18,20 +18,24 @@ export default class AzureOpenAIService {
     }
 
     private model: Model = Model.GPT35TURBO
-    private endpoint: string = import.meta.env.VITE_AZURE_OPENAI_API_ENDPOINT
-    private key: string = import.meta.env.VITE_AZURE_OPENAI_API_KEY
-    private assistant_desc = "Your name is XBot. You are a helpful assistant who assist children learning English"
+    // private endpoint: string = import.meta.env.VITE_AZURE_OPENAI_API_ENDPOINT
+    // private key: string = import.meta.env.VITE_AZURE_OPENAI_API_KEY
+    private hostURL = import.meta.env.VITE_BACKEND_URL
+    private assistant_desc =
+    "Your name is XBot. You are a helpful assistant who assist children learning English. Always reply without intro or outro. If giving examples, use bulletpoint response like.";
     private maxHistoryLength = 16
     private history: Array<Message> = []
 
     private url() {
-        return `${this.endpoint}/openai/deployments/${this.model}/chat/completions?api-version=2023-05-15`
+        // return `${this.endpoint}/openai/deployments/${this.model}/chat/completions?api-version=2023-05-15`
+        return `${this.hostURL}/ai`
     }
 
     private default_header() {
         return {
             "Content-Type": "application/json;charset=UTF-8",
-            "api-key": this.key
+            "Accept": "application/json;charset=UTF-8"
+            // "api-key": this.key
         }
     }
 
@@ -59,6 +63,7 @@ export default class AzureOpenAIService {
             headers: this.default_header(),
             body: JSON.stringify(
                 {
+                    model: this.model.toString(),
                     messages: [
                         {
                             role: "system",

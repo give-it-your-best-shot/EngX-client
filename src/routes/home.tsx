@@ -6,38 +6,23 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import http from "../utils/https";
 import { Chapter } from "../types/chapter.type";
+import EngXDataService from "../services/engx_data_service";
 
 export default function Home() {
   const navigate = useNavigate();
   // const { title } = useParams();
-  const [Chapters, setChapter] = useState<Chapter[]>([]);
+  const engx_data_service = EngXDataService.getInstance()
+  const [Chapters, setChapters] = useState<Chapter[]>([]);
   const chapterList = Array.isArray(Chapters) ? Chapters : [];
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await http.get(`chapters`);
-        if (response.status === 200) {
-          setChapter(response.data.data);
-          console.log(response.data.data);
-        } else {
-          console.log("Loi he thong");
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    }
-
-    fetchData();
+    engx_data_service.getAllChapters().then(chapters => setChapters(chapters))
   }, []);
 
   return (
     <>
-      <div className="fixed w-full z-40 mb-10">
-        <NavigaComponent />
-      </div>
-      <div className="flex justify-center items-center h-screen">
-        <div className="gap-8 grid grid-cols-2 sm:grid-cols-4 max-w-[900px] mt-14">
+      <div className="flex justify-center items-center h-full">
+        <div className="gap-8 grid grid-cols-2 sm:grid-cols-4 max-w-[900px]">
           {chapterList.map((item, index) => (
             <Card
               shadow="sm"

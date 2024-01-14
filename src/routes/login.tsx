@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { hasCookie, setCookie } from "cookies-next";
 import { useNavigate } from "react-router-dom";
 import { FormEvent } from "react";
+import EngXAuthService from "../services/engx_auth_service";
 
 interface LoginProps {
   paragraph?: string;
@@ -24,6 +25,7 @@ export default function Login({
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
+  const engx_auth_service = EngXAuthService.getInstance()
 
   useEffect(() => {
     if (hasCookie("access_token")) {
@@ -33,33 +35,17 @@ export default function Login({
   }, [navigate]);
 
   const handleLogin = (e: FormEvent<HTMLFormElement>) => {
-    console.log("Oke")
     e.preventDefault();
-    const headers: Headers = new Headers();
-    headers.append("Accept", "application/json");
-    headers.append("Content-Type", "application/json");
-    fetch(process.env.BACKEND_URL + `auth/authenticate`, {
-      method: "POST",
-      headers: headers,
-      body: JSON.stringify({
-        username: titleInput1,
-        password: titleInput2,
-      }),
-    })
-      .then((r) => r.json())
-      .then((d) => {
-        if (d.status == 200) {
-          setCookie("access_token", d.data.access_token, {
-            maxAge: 60 * 60 * 24 * 7,
-          });
-          setCookie("refresh_token", d.data.refresh_token, {
-            maxAge: 60 * 60 * 24 * 7,
-          });
-          navigate("/home");
-        } else {
-          console.log("Error: " + d.error);
-        }
+    engx_auth_service.login(username, password)
+    .then((d) => {
+      setCookie("access_token", d.access_token, {
+        maxAge: 60 * 60 * 24 * 7,
       });
+      setCookie("refresh_token", d.refresh_token, {
+        maxAge: 60 * 60 * 24 * 7,
+      });
+      navigate("/home");
+    });
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,8 +54,7 @@ export default function Login({
   };
 
   return (
-    <div className="bg-fixed overflow-y-auto flex justify-center w-full h-screen bg-gradient-to-r from-blue-500 to-purple-500">
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center h-full">
         <div className="bg-white p-8 rounded-lg shadow-lg w-96">
           <div className="flex flex-col justify-center items-center gap-4 font-bold text-2xl mb-6 text-gray-800">
             <SlLogin className="text-4xl text-blue-500" />
@@ -118,6 +103,5 @@ export default function Login({
           </div>
         </div>
       </div>
-    </div>
   );
 }

@@ -3,6 +3,7 @@ import { hasCookie } from "cookies-next";
 import { FormEvent, useEffect, useState } from "react";
 import { FaUserPlus } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
+import EngXAuthService from "../services/engx_auth_service";
 
 interface LoginProps {
   paragraph?: string;
@@ -27,6 +28,7 @@ export default function Signup({
   const [password, setPassword] = useState<string>("");
   const [firstname, setFirstname] = useState<string>("");
   const [lastname, setLastname] = useState<string>("");
+  const engx_auth_service = EngXAuthService.getInstance()
 
   const navigate = useNavigate();
 
@@ -44,31 +46,13 @@ export default function Signup({
 
   const handleRegister = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const headers: Headers = new Headers();
-    headers.append("Accept", "application/json");
-    headers.append("Content-Type", "application/json");
-    fetch(process.env.BACKEND_URL + `auth/register`, {
-      method: "POST",
-      headers: headers,
-      body: JSON.stringify({
-        firstname: titleInput1,
-        lastname: titleInput2,
-        username: titleInput3,
-        password: titleInput4,
-      }),
-    })
-      .then((r) => r.json())
-      .then((d) => {
-        if (d.status == 200) {
-          navigate("/");
-        } else {
-          console.log(d.error.message)
-        }
-      });
+    engx_auth_service.register(firstname, lastname, username, password)
+    .then((d) => {
+      navigate("/");
+    });
   };
 
   return (
-    <div className="bg-fixed overflow-y-auto flex justify-center w-full h-screen bg-gradient-to-r from-blue-500 to-purple-500">
       <div className="flex justify-center items-center">
         <div className="bg-white p-8 rounded-lg shadow-lg w-96">
           <div className="flex flex-col justify-center items-center gap-4 font-bold text-2xl mb-6 text-gray-800">
@@ -80,22 +64,22 @@ export default function Signup({
                   isRequired
                   type="text"
                   label={titleInput1}
-                  value={username}
+                  value={firstname}
                   className="mb-5 h-12"
                   onChange={(e) => {
                     const value = handleInputChange(e);
-                    setUsername(value);
+                    setFirstname(value);
                   }}
                 />
                 <Input
                   isRequired
                   type="text"
                   label={titleInput2}
-                  value={password}
+                  value={lastname}
                   className="mb-5 h-12"
                   onChange={(e) => {
                     const value = handleInputChange(e);
-                    setPassword(value);
+                    setLastname(value);
                   }}
                 />
               </div>
@@ -103,11 +87,11 @@ export default function Signup({
                 isRequired
                 type="text"
                 label={titleInput3}
-                value={firstname}
+                value={username}
                 className="mb-5 h-12 mr-32"
                 onChange={(e) => {
                   const value = handleInputChange(e);
-                  setFirstname(value);
+                  setUsername(value);
                 }}
               />
 
@@ -115,14 +99,14 @@ export default function Signup({
                 isRequired
                 type="password"
                 label={titleInput4}
-                value={lastname}
+                value={password}
                 className="mb-5 h-12 mr-32"
                 onChange={(e) => {
                   const value = handleInputChange(e);
-                  setLastname(value);
+                  setPassword(value);
                 }}
               />
-              <p className="mt-2 text-center text-sm text-gray-600 mt-5">
+              <p className="mt-2 text-center text-sm text-gray-600">
                 {paragraph}{" "}
                 <Link
                   to={linkUrl}
@@ -149,6 +133,5 @@ export default function Signup({
           </div>
         </div>
       </div>
-    </div>
   );
 }

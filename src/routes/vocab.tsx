@@ -5,38 +5,24 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import http from "../utils/https";
 import { Link } from "@nextui-org/react";
+import EngXDataService from "../services/engx_data_service";
+import { Chapter } from "../types/chapter.type";
 
 export default function Vocab() {
   const navigate = useNavigate();
+  const engx_data_service = EngXDataService.getInstance()
   const { id } = useParams();
-  const [Words, setWord] = useState<[]>([]);
-  const wordList = Array.isArray(Words) ? Words : [];
+  const [chapter, setChapter] = useState<Chapter>();
+  // const [Words, setWord] = useState<[]>([]);
+  const wordList = Array.isArray(chapter?.words) ? chapter?.words : [];
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await http.get(`chapters/${id}`);
-
-        if (response.status === 200) {
-          setWord(response.data.data.words);
-          console.log(response.data.data.words);
-        } else {
-          console.log("Loi he thong");
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    }
-
-    fetchData();
+    engx_data_service.getChapterById(parseInt(id ?? "-1")).then(chapter => setChapter(chapter))
   }, [id]);
 
   return (
     <>
-      <div className="fixed w-full z-40 mb-10">
-        <NavigaComponent />
-      </div>
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center w-full">
         <div className="flex items-center justify-between p-4 border rounded-lg shadow-xl mt-20">
           <span>List Vocabulary</span>
         </div>

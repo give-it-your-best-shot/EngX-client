@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import "./index.css";
 // import Index from "./routes";
 import { NextUIProvider } from "@nextui-org/react";
@@ -13,44 +13,54 @@ import Game from "./routes/game";
 import Vocab from "./routes/vocab";
 // import App from "./App";
 
+const NavbarWrapper = () => {
+  return (
+    <NextUIProvider>
+      <div className="fixed w-full z-40">
+        <NavigaComponent />
+      </div>
+      <div className="bg-fixed overflow-y-auto flex flex-col justify-stretch items-center w-full h-fit min-h-screen bg-slate-100 py-16 pt-32 px-16">
+        <Outlet />
+      </div>
+    </NextUIProvider>
+  )
+}
+
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Login />,
-  },
-  {
-    path: "/signup",
-    element: <Signup />,
-  },
-  {
-    path: "/word/:word",
-    element: <Word />,
-  },
-  {
-    path: "/home",
-    element: <Home />,
-  },
-  {
-    path: "/game",
-    element: <Game />,
-  },
-  {
-    path: "/home/:id",
-    element: <Vocab />
+    element: <NavbarWrapper />,
+    children: [
+      {
+        path: "/",
+        element: <Login />,
+      },
+      {
+        path: "/signup",
+        element: <Signup />,
+      },
+      {
+        path: "/word/:word",
+        element: <Word />,
+      },
+      {
+        path: "/home",
+        element: <Home />,
+      },
+      {
+        path: "/game",
+        element: <Game />,
+      },
+      {
+        path: "/home/:id",
+        element: <Vocab />
+      },
+    ]
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   // <React.StrictMode>
-  <NextUIProvider>
-    <div className="fixed w-full z-40">
-      <NavigaComponent />
-    </div>
-    <div className="bg-fixed overflow-y-auto flex justify-center items-center w-full min-h-screen bg-slate-100 px-8 py-16">
-      <div className="h-[calc(100vh-10rem)] w-full flex flex-col items-center justify-center">
         <RouterProvider router={router} />
-      </div>
-    </div>
-  </NextUIProvider>
   // </React.StrictMode>
 );
