@@ -10,6 +10,7 @@ import Word from "./routes/word";
 import Home from "./routes/home";
 import NavigaComponent from "./components/loading/NavigaComponent";
 import Game from "./routes/game";
+import Vocab from "./routes/vocab";
 // import App from "./App";
 
 const router = createBrowserRouter([
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
   {
     path: "/game",
     element: <Game />,
+  },
+  {
+    path: "/home/:id",
+    element: <Vocab />
   },
 ]);
 

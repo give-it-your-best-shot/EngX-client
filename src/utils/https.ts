@@ -4,7 +4,7 @@ class Http {
   instance: AxiosInstance;
   constructor() {
     this.instance = axios.create({
-      baseURL: process.env.BACKEND_URL,
+      baseURL: import.meta.env.VITE_BACKEND_URL,
       timeout: 10000,
     });
   }
