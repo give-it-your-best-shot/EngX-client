@@ -7,6 +7,7 @@ import http from "../utils/https";
 import { Link, Button, Tabs, Tab, Tooltip } from "@nextui-org/react";
 import EngXDataService from "../services/engx_data_service";
 import { Chapter } from "../types/chapter.type";
+import NavigaComponent from "../components/loading/NavigaComponent";
 
 export default function Vocab() {
   const navigate = useNavigate();
@@ -32,6 +33,9 @@ export default function Vocab() {
 
   return (
     <>
+     <div className="fixed w-full z-40">
+        <NavigaComponent />
+      </div>
       <div className="flex justify-center items-center">
         <div className="flex items-center justify-between p-4 mt-20"></div>
       </div>
