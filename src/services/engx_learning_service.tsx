@@ -153,7 +153,7 @@ export default class EngXLearningService {
 
       var answers = [
         ...incorrects.slice(0, correct_index),
-        correct[1],
+        correct[0].slice(1, correct[0].length - 1),
         ...incorrects.slice(correct_index)
       ]
 
