@@ -45,7 +45,7 @@ export default class EngXAuthService {
         username: username,
         password: password,
       }),
-    }).then(res => res.json());
+    });
   }
 
   public async logout(token = getCookie("access_token")) {
