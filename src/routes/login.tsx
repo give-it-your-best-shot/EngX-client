@@ -1,11 +1,12 @@
 import { Button, Input } from "@nextui-org/react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { SlLogin } from "react-icons/sl";
 import { Link } from "react-router-dom";
 import { hasCookie, setCookie } from "cookies-next";
 import { useNavigate } from "react-router-dom";
 import { FormEvent } from "react";
-import EngXAuthService from "../services/engx_auth_service";
+import EngXAuthService, { LoginReponse } from "../services/engx_auth_service";
+import AuthContext from "../contexts/AuthContext";
 
 interface LoginProps {
   paragraph?: string;
@@ -24,26 +25,35 @@ export default function Login({
 }: LoginProps) {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const { user, setUser } = useContext(AuthContext);
   const navigate = useNavigate();
-  const engx_auth_service = EngXAuthService.getInstance()
+  const engx_auth_service = EngXAuthService.getInstance();
+  const [loginFail, setLoginFail] = useState<boolean>(false);
 
   useEffect(() => {
-    if (hasCookie("access_token")) {
+    if (user) {
       navigate("/home");
       return;
     }
-  }, [navigate]);
+  }, [navigate, user]);
 
-  const handleLogin = (e: FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    engx_auth_service.login(username, password)
-    .then((d) => {
-      setCookie("access_token", d.access_token, {
-        maxAge: 60 * 60 * 24 * 7,
-      });
-      setCookie("refresh_token", d.refresh_token, {
-        maxAge: 60 * 60 * 24 * 7,
-      });
+    const response = await engx_auth_service.login(username, password);
+    console.log(response);
+    if (response.status == 403) {
+      setLoginFail(true);
+      return;
+    }
+    const d: LoginReponse = await response.json();
+    setCookie("access_token", d.access_token, {
+      maxAge: 60 * 60 * 24 * 7,
+    });
+    setCookie("refresh_token", d.refresh_token, {
+      maxAge: 60 * 60 * 24 * 7,
+    });
+    engx_auth_service.getUser().then(user => {
+      setUser(user);
       navigate("/home");
     });
   };
@@ -54,21 +64,26 @@ export default function Login({
   };
 
   return (
+    user == null && (
       <div className="flex justify-center items-center h-full">
         <div className="bg-white p-8 rounded-lg shadow-lg w-96">
           <div className="flex flex-col justify-center items-center gap-4 font-bold text-2xl mb-6 text-gray-800">
             <SlLogin className="text-4xl text-blue-500" />
             Login
-            <form
-              onSubmit={handleLogin}
-            >
+            <form onSubmit={handleLogin}>
+              <div className="flex justify-center">
+                <p className={`${!loginFail && "hidden"} text-danger-500 font-thin text-base pb-3`}>
+                  Wrong username or password
+                </p>
+              </div>
+
               <Input
                 isRequired
                 type="text"
                 label={titleInput1}
                 value={username}
                 className="mb-5 h-12 mr-32"
-                onChange={(e) => {
+                onChange={e => {
                   const value = handleInputChange(e);
                   setUsername(value);
                 }}
@@ -80,17 +95,14 @@ export default function Login({
                 label={titleInput2}
                 value={password}
                 className="mb-5 h-12 mr-32"
-                onChange={(e) => {
+                onChange={e => {
                   const value = handleInputChange(e);
                   setPassword(value);
                 }}
               />
               <p className="text-center text-sm text-gray-600 mt-5">
                 {paragraph}{" "}
-                <Link
-                  to={linkUrl}
-                  className="font-medium text-purple-600 hover:text-purple-500"
-                >
+                <Link to={linkUrl} className="font-medium text-purple-600 hover:text-purple-500">
                   {linkName}
                 </Link>
               </p>
@@ -103,5 +115,6 @@ export default function Login({
           </div>
         </div>
       </div>
+    )
   );
 }

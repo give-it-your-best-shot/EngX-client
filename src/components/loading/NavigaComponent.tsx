@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   Navbar,
   NavbarBrand,
@@ -17,55 +17,19 @@ import AcmeLogo from "../../Icon/AcmeLogo";
 import { useNavigate } from "react-router-dom";
 import http from "../../utils/https";
 import EngXAuthService from "../../services/engx_auth_service";
+import AuthContext from "../../contexts/AuthContext";
 
 export default function NavigaComponent() {
   const navigate = useNavigate();
-  const [firstname, setFirstname] = useState<string>("");
-  const [lastname, setLastname] = useState<string>("");
+  const { user, setUser } = useContext(AuthContext);
   const engx_auth_service = EngXAuthService.getInstance();
-
-  useEffect(() => {
-    engx_auth_service.getUser()
-      .then(user => {
-        if(user) {
-          console.log(user)
-          setFirstname(user.firstName)
-          setLastname(user.lastName)
-        }
-      })
-    // async function fetchData() {
-    //   try {
-    //     const token = getCookie("access_token")?.toString();
-    //     const response = await http.get(`chapters`, {
-    //       headers: {
-    //         Authorization: `${token}`,
-    //       },
-    //     });
-
-    //     if (response.status === 200) {
-    //       setFirstname(response.data.user.firstname);
-    //       setLastname(response.data.user.lastname);
-    //       console.log(response.data.user);
-    //     } else {
-    //       console.log("Loi he thong");
-    //     }
-    //   } catch (error) {
-    //     console.error("Error:", error);
-    //   }
-    // }
-
-    // fetchData();
-  }, []);
 
   return (
     <>
       <Navbar className="bg-white shadow-lg text-black">
         <NavbarBrand>
           <AcmeLogo />
-          <p
-            className="font-bold text-inherit cursor-pointer"
-            onClick={() => {}}
-          >
+          <p className="font-bold text-inherit cursor-pointer" onClick={() => {}}>
             EngX
           </p>
         </NavbarBrand>
@@ -94,20 +58,36 @@ export default function NavigaComponent() {
                 <DropdownItem key="profile" className="h-14 gap-2">
                   <p className="font-semibold">Signed in as</p>
                   <p className="font-semibold">
-                    @{firstname} {lastname}
+                    @{user ? user.firstName : "Anonymous"} {user?.lastName}
                   </p>
                 </DropdownItem>
-                <DropdownItem
-                  key="logout"
-                  color="danger"
-                  onClick={() => {
-                    navigate("/");
-                    deleteCookie("access_token");
-                    deleteCookie("refresh_token");
-                  }}
-                >
-                  Log Out
-                </DropdownItem>
+                {user && (
+                  <DropdownItem
+                    key="logout"
+                    color="danger"
+                    onClick={() => {
+                      engx_auth_service.logout().then(() => {
+                        deleteCookie("access_token");
+                        deleteCookie("refresh_token");
+                        setUser(null);
+                        navigate("/");
+                      });
+                    }}
+                  >
+                    Log Out
+                  </DropdownItem>
+                )}
+                {user == null && (
+                  <DropdownItem
+                    key="logout"
+                    color="danger"
+                    onClick={() => {
+                      navigate("/");
+                    }}
+                  >
+                    Log In
+                  </DropdownItem>
+                )}
               </DropdownMenu>
             </Dropdown>
           </NavbarItem>

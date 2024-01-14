@@ -3,10 +3,11 @@ import NavigaComponent from "../components/loading/NavigaComponent";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 // import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import http from "../utils/https";
 import { Chapter } from "../types/chapter.type";
 import EngXDataService from "../services/engx_data_service";
+import AuthContext from "../contexts/AuthContext";
 
 export default function Home() {
   const navigate = useNavigate();
