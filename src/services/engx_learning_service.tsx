@@ -118,7 +118,7 @@ export default class EngXLearningService {
   }
 
   private async getImagePromptFromParagraph(paragraph: string) {
-    const prompt = `Please generate a stable diffusion prompt that is suitable for describing this paragraph: ${paragraph}`;
+    const prompt = `Please generate a stable diffusion prompt that is suitable for describing this paragraph: ${paragraph}. Please add some positives prompts to make the image better, and vary between a lot of color scheme.`;
     var sd_prompt = await this.gpt_service.prompt(prompt).then(messages => messages![0].content)
     console.log(sd_prompt)
     return sd_prompt
