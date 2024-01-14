@@ -1,8 +1,15 @@
 import { useEffect, useState } from "react";
 import EngXLearningService, { Question, Quiz } from "../services/engx_learning_service";
 import { Button } from "@nextui-org/react";
+import React from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import EngXDataService from "../services/engx_data_service";
 
 export default function Game() {
+  const { chapterId } = useParams()
+  const engx_data_service = EngXDataService.getInstance();
+  const engx_learning_service = EngXLearningService.getInstance();
+
   const [quiz, setQuiz] = useState<Quiz>()
   const [qid, setQid] = useState(-1)
   const [viewAnswer, setViewingAnswer] = useState(false)
@@ -10,10 +17,12 @@ export default function Game() {
   const [score, setScore] = useState(0)
   const [gameover, setGameover] = useState(false)
   const [death, setDeath] = useState(false)
+  const navigate = useNavigate()
   useEffect(() => {
     const start = async () => {
-      const engx_service = EngXLearningService.getInstance();
-      engx_service.getGameOfWords(["hello", "apple", "world"]).then(quiz => {
+      var chapter = await engx_data_service.getChapterById(parseInt(chapterId ?? "-1"))
+      engx_learning_service.getGameOfWords(chapter.words).then(quiz => {
+        console.log(quiz)
         setQuiz(quiz)
         setQid(0)
         setHp(Math.floor(quiz.questions.length / 2))
@@ -47,15 +56,27 @@ export default function Game() {
   }
   if(death && gameover) {
     return (
-      <>
-      Game Over
-      </>
+      <div className="bg-white p-16 px-16 rounded-lg shadow-lg h-fit justify-between text-6xl font-bold text-red-500 flex flex-col gap-10">
+        Game Over
+        <div className="flex justify-between">
+          <Button className="w-1/3 font-bold" color="primary" onClick={() => navigate(0)}>Try again</Button>
+          <Button className="w-1/3 font-bold" color="danger" onClick={() => navigate("/home")}>Exit</Button>
+        </div>
+      </div>
     )
   }
   if(gameover) {
     return (
-      <>
-      </>
+      <div className="bg-white p-16 px-16 rounded-lg shadow-lg h-fit justify-between text-6xl font-bold text-green-500 flex flex-col gap-10 items-center">
+        Congratulation
+        <div className="text-slate-800 font-semibold text-lg">
+          You answered {score}/{quiz?.questions.length} questions correctly!
+        </div>
+        <div className="flex justify-between w-full">
+          <Button className="w-1/3 font-bold" color="primary" onClick={() => navigate(0)}>Try again</Button>
+          <Button className="w-1/3 font-bold" color="danger" onClick={() => navigate("/home")}>Exit</Button>
+        </div>
+      </div>
     );
   }
   return (
@@ -87,8 +108,13 @@ export default function Game() {
             Loading
           </div>
           :
-          <div className="text-xl font-semibold">
-            {quiz.paragraph}
+          <div className="text-xl font-semibold leading-loose">
+            {quiz.paragraph.map((paragraph, index) => (
+              <React.Fragment key={index}>
+                {!!index && <span className={index - 1 == qid ? "border border-green-500 text-green-500 px-2 py-1" : "border border-slate-800 text-slate-800 px-2 py-1"}>{index - 1 < qid ? quiz?.questions[index - 1]._correct_answer_str : "_".repeat(quiz?.questions[index - 1]._correct_answer_str.length)}</span>}
+                {paragraph}
+              </React.Fragment>
+            ))}
           </div>
         }
       </div>

@@ -5,5 +5,5 @@ export interface Chapter {
     name: string;
     photoURL: string;
     description: string;
-    words: Word[];
+    words: string[];
   }

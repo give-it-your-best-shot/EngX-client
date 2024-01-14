@@ -1,3 +1,4 @@
+import { Word } from "../types/word.type";
 import AzureOpenAIService from "./azure_openai_service";
 
 export enum Language {
@@ -12,13 +13,17 @@ export enum Age {
   EXPERT = "expert",
 }
 export interface Quiz {
-  paragraph: string,
+  _original_paragraph: string
+  paragraph: string[],
   questions: Array<Question>
 }
 
 export interface Question {
   answers: Array<string>,
-  correct_answer: number
+  correct_answer: number,
+  _correct_answer_str: string
+  _blank_index: number | undefined,
+  _blank_length: number | undefined
 }
 
 export default class EngXLearningService {
@@ -106,12 +111,13 @@ export default class EngXLearningService {
   }
 
   public async getGameOfWords(words: Array<string>, num_sentence = 3, min_num_words = 50, max_num_words = 100) {
-    const prompt = `Please generate a fill in the blanks quiz pragraph contains total of ${num_sentence} sentences. The paragraph must includes all of the following words: ${words.join(", ")}, which should be filled in the blanks. The blank should be replaced with the words mentioned, and highlight them with {}, and not with ___. The paragraph should use only the volcabulary for ${this.age} to understand. The paragraph must be between ${min_num_words} to ${max_num_words} words. The grammars must be correct. Response only the paragraph`;
+    const prompt = `Please generate a fill in the blanks quiz pragraph contains total of ${num_sentence} sentences. The paragraph includes some of the following words: ${words.join(", ")}, which should be filled in the blanks. The blank should be replaced with the words mentioned, and highlight them with {}, and not with ___. The paragraph should use only the volcabulary for ${this.age} to understand. The paragraph must be between ${min_num_words} to ${max_num_words} words. The grammars must be correct. Response only the paragraph`;
     var paragraph = (await this.gpt_service.prompt(prompt))![0].content
     var corrects = paragraph.matchAll(/{([A-Z|a-z]+)}/g)
 
     var res = {
-      "paragraph": paragraph,
+      "_original_paragraph": paragraph,
+      "paragraph": paragraph.split(/{[^}]+}/g),
       "questions": Array<Question>()
     }
 
@@ -127,7 +133,10 @@ export default class EngXLearningService {
 
       res.questions.push({
         "answers": answers,
-        "correct_answer": correct_index
+        "correct_answer": correct_index,
+        "_correct_answer_str": correct[1],
+        "_blank_index": correct.index,
+        "_blank_length": correct[0].length
       })
     }
     return res
