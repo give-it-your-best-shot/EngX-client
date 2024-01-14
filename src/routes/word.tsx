@@ -1,9 +1,11 @@
 import { useParams } from "react-router-dom";
 import EngXLearningService, { Language } from "../services/engx_learning_service";
 import { useEffect, useState } from "react";
-import { BoltIcon, UserIcon } from "@heroicons/react/24/outline";
+import { BoltIcon, UserIcon, MicrophoneIcon as MicrophoneOutline } from "@heroicons/react/24/outline";
+import { MicrophoneIcon as MicrophoneSolid } from "@heroicons/react/24/solid";
 import { Message } from "../services/azure_openai_service";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownSection, DropdownItem, Button } from "@nextui-org/react";
+import { useSpeechSynthesis } from "react-speech-kit";
 
 export default function Word() {
   const { word } = useParams();
@@ -14,10 +16,20 @@ export default function Word() {
   const [language, setLanguage] = useState(engx_service.language);
   const [age, setAge] = useState(engx_service.age);
 
+  const { speak, speaking, voices } = useSpeechSynthesis({
+    onEnd: () => setMic1(false),
+  });
+  const [mic1, setMic1] = useState(false);
+
+  const turnOnMic = (text: String | undefined) => {
+    if (text && !speaking) speak({ text, rate: 0.7, voice: voices[1] });
+  };
+
   useEffect(() => {
-    setPronunciation(undefined)
-    setDefinition(undefined)
-    setExample(undefined)
+    console.log(voices)
+    setPronunciation(undefined);
+    setDefinition(undefined);
+    setExample(undefined);
     engx_service.clearHistory();
     engx_service.getWordPronunciation(word!).then(_pronunciation => setPronunciation(_pronunciation));
     engx_service.getWordDefinition(word!).then(_definition => setDefinition(_definition));
@@ -43,7 +55,19 @@ export default function Word() {
           </DropdownMenu>
         </Dropdown>
       </div>
-      <div className="text-slate-800 text-5xl font-bold">{word}</div>
+      <div className="text-slate-800 text-5xl font-bold flex-row flex items-center">
+        {word}
+        <MicrophoneOutline
+          width={24}
+          height={24}
+          className={`ml-2 cursor-pointer ${mic1 && "hidden"}`}
+          onClick={() => {
+            turnOnMic(word);
+            setMic1(prev => !prev);
+          }}
+        />
+        <MicrophoneSolid width={24} height={24} className={`ml-2 cursor-pointer ${!mic1 && "hidden"}`} />
+      </div>
       <div className="text-slate-600 text-lg items-center flex gap-5">
         <UserIcon className="w-8 h-8" />
         What is the pronunciation of '{word}'?
