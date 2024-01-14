@@ -11,12 +11,12 @@ import EngXDataService from "../services/engx_data_service";
 export default function Home() {
   const navigate = useNavigate();
   // const { title } = useParams();
-  const engx_data_service = EngXDataService.getInstance()
+  const engx_data_service = EngXDataService.getInstance();
   const [Chapters, setChapters] = useState<Chapter[]>([]);
   const chapterList = Array.isArray(Chapters) ? Chapters : [];
 
   useEffect(() => {
-    engx_data_service.getAllChapters().then(chapters => setChapters(chapters))
+    engx_data_service.getAllChapters().then(chapters => setChapters(chapters));
   }, []);
 
   return (
@@ -24,12 +24,7 @@ export default function Home() {
       <div className="flex justify-center items-center h-full">
         <div className="gap-8 grid grid-cols-2 sm:grid-cols-4 max-w-[900px]">
           {chapterList.map((item, index) => (
-            <Card
-              shadow="sm"
-              key={index}
-              isPressable
-              onClick={() => navigate(`/home/${item.id}`)}
-            >
+            <Card shadow="sm" key={index} isPressable onClick={() => navigate(`/home/${item.id}`)}>
               <CardBody className="overflow-visible p-0 gap-4">
                 <Image
                   shadow="sm"
@@ -42,12 +37,11 @@ export default function Home() {
 
                 <p className="text-default-500 ml-2">{item.description}</p>
               </CardBody>
-              <CardFooter className="text-small flex justify-between gap-32">
-                <b>{item.id}</b>
-                <IoIosArrowRoundForward
-                  size={40}
-                  onClick={() => navigate(`/home/${item.id}`)}
-                />
+              <CardFooter className="text-small flex justify-around">
+                <b>
+                  {index + 1}. {item.name}
+                </b>
+                <IoIosArrowRoundForward size={40} onClick={() => navigate(`/home/${item.id}`)} />
               </CardFooter>
             </Card>
           ))}
