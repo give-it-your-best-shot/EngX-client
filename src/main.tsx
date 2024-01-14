@@ -11,20 +11,23 @@ import Home from "./routes/home";
 import NavigaComponent from "./components/loading/NavigaComponent";
 import Game from "./routes/game";
 import Vocab from "./routes/vocab";
+import { AuthProvider } from "./contexts/AuthContext";
 // import App from "./App";
 
 const NavbarWrapper = () => {
   return (
-    <NextUIProvider>
-      <div className="fixed w-full z-40">
-        <NavigaComponent />
-      </div>
-      <div className="bg-fixed overflow-y-auto flex flex-col justify-stretch items-center w-full h-fit min-h-screen bg-slate-100 py-16 pt-32 px-16">
-        <Outlet />
-      </div>
-    </NextUIProvider>
-  )
-}
+    <AuthProvider>
+      <NextUIProvider>
+        <div className="fixed w-full z-40">
+          <NavigaComponent />
+        </div>
+        <div className="bg-fixed overflow-y-auto flex flex-col justify-stretch items-center w-full h-fit min-h-screen bg-slate-100 py-16 pt-32 px-16">
+          <Outlet />
+        </div>
+      </NextUIProvider>
+    </AuthProvider>
+  );
+};
 
 const router = createBrowserRouter([
   {
@@ -53,14 +56,14 @@ const router = createBrowserRouter([
       },
       {
         path: "/home/:id",
-        element: <Vocab />
+        element: <Vocab />,
       },
-    ]
+    ],
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   // <React.StrictMode>
-        <RouterProvider router={router} />
+  <RouterProvider router={router} />,
   // </React.StrictMode>
 );
