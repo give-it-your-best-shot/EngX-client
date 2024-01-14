@@ -1,5 +1,6 @@
 import { Word } from "../types/word.type";
 import AzureOpenAIService from "./azure_openai_service";
+import SDService from "./stable_diffusion_service";
 
 export enum Language {
   ENGLISH = "english",
@@ -15,7 +16,8 @@ export enum Age {
 export interface Quiz {
   _original_paragraph: string
   paragraph: string[],
-  questions: Array<Question>
+  questions: Array<Question>,
+  image: string | undefined
 }
 
 export interface Question {
@@ -34,6 +36,7 @@ export default class EngXLearningService {
   }
 
   private gpt_service: AzureOpenAIService;
+  private sd_service: SDService;
   private age_mapper = {
     english: {
       kid: "kid",
@@ -72,8 +75,12 @@ export default class EngXLearningService {
   public language: Language = Language.VIETNAMESE;
   public age: Age = Age.KID;
 
-  private constructor(gpt_service: AzureOpenAIService = AzureOpenAIService.getInstance()) {
+  private constructor(
+    gpt_service: AzureOpenAIService = AzureOpenAIService.getInstance(),
+    sd_service: SDService = SDService.getInstance()
+  ) {
     this.gpt_service = gpt_service;
+    this.sd_service = sd_service;
   }
 
   public clearHistory() {
@@ -110,17 +117,35 @@ export default class EngXLearningService {
     return Math.floor(Math.random() * (max - min + 1)) + min
   }
 
-  public async getGameOfWords(words: Array<string>, num_sentence = 3, min_num_words = 50, max_num_words = 100) {
-    const prompt = `Please generate a fill in the blanks quiz pragraph contains total of ${num_sentence} sentences. The paragraph includes some of the following words: ${words.join(", ")}, which should be filled in the blanks. The blank should be replaced with the words mentioned, and highlight them with {}, and not with ___. The paragraph should use only the volcabulary for ${this.age} to understand. The paragraph must be between ${min_num_words} to ${max_num_words} words. The grammars must be correct. Response only the paragraph`;
+  private async getImagePromptFromParagraph(paragraph: string) {
+    const prompt = `Please generate a stable diffusion prompt that is suitable for describing this paragraph: ${paragraph}`;
+    var sd_prompt = await this.gpt_service.prompt(prompt).then(messages => messages![0].content)
+    console.log(sd_prompt)
+    return sd_prompt
+  }
+
+  private themes = [
+    "normal",
+    "fantasy",
+    "futuristic",
+    "cartoon"
+  ]
+
+  public async getGameOfWords(words: Array<string>, num_sentence = 3, min_num_words = 50, max_num_words = 100, theme_id: number = this.randRange(0, 3)) {
+    const prompt = `Please generate a fill in the blanks quiz pragraph contains total of ${num_sentence} sentences. The paragraph includes some of the following words: ${words.join(", ")}, which should be filled in the blanks. The blank should be replaced with the words mentioned, and highlight them with {}, and not with ___. The paragraph should use only the volcabulary for ${this.age} to understand. The theme is ${this.themes[theme_id]}. The paragraph must be between ${min_num_words} to ${max_num_words} words. The grammars must be correct. Response only the paragraph`;
     var paragraph = (await this.gpt_service.prompt(prompt))![0].content
     var corrects = paragraph.matchAll(/{([A-Z|a-z]+)}/g)
+    
+    var sd_prompt = await this.getImagePromptFromParagraph(paragraph)
+    var sd_res = await this.sd_service.txt2img(sd_prompt)
 
     var res = {
       "_original_paragraph": paragraph,
       "paragraph": paragraph.split(/{[^}]+}/g),
-      "questions": Array<Question>()
+      "questions": Array<Question>(),
+      "image": sd_res.images.shift()
     }
-
+    
     for(var correct of corrects) {
       var incorrects: Array<string> = JSON.parse(await this.getIncorrectAnswers(correct.index!, correct[1])).incorrect_answers
       var correct_index = this.randRange(0, incorrects.length)

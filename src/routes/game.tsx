@@ -108,13 +108,18 @@ export default function Game() {
             Loading
           </div>
           :
-          <div className="text-xl font-semibold leading-loose">
+          <div className="text-xl font-semibold leading-loose flex gap-5">
+            <div className="flex w-1/2 items-center">
+              <img src={`data:image/jpeg;base64,${quiz.image}`} className="w-full h-[calc(35vh)] object-cover" />
+            </div>
+            <div className="w-1/2">
             {quiz.paragraph.map((paragraph, index) => (
               <React.Fragment key={index}>
                 {!!index && <span className={index - 1 == qid ? "border border-green-500 text-green-500 px-2 py-1" : "border border-slate-800 text-slate-800 px-2 py-1"}>{index - 1 < qid ? quiz?.questions[index - 1]._correct_answer_str : "_".repeat(quiz?.questions[index - 1]._correct_answer_str.length)}</span>}
                 {paragraph}
               </React.Fragment>
             ))}
+            </div>
           </div>
         }
       </div>
