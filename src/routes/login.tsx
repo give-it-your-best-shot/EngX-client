@@ -59,6 +59,7 @@ export default function Login({
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLoginFail(false);
     const value = e.target.value;
     return value;
   };
