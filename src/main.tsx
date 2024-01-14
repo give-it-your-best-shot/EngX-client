@@ -21,7 +21,7 @@ const NavbarWrapper = () => {
         <div className="fixed w-full z-40">
           <NavigaComponent />
         </div>
-        <div className="bg-fixed overflow-y-auto flex flex-col justify-stretch items-center w-full h-fit min-h-screen bg-slate-100 py-16 pt-32 px-16">
+        <div className="bg-fixed overflow-y-auto flex flex-col justify-stretch items-center w-full h-fit min-h-screen bg-slate-100 px-16">
           <Outlet />
         </div>
       </NextUIProvider>

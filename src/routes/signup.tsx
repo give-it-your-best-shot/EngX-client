@@ -77,7 +77,7 @@ export default function Signup({
   };
 
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex justify-center items-center pt-32 py-16">
       <div className="bg-white p-8 rounded-lg shadow-lg w-96">
         <div className="flex flex-col justify-center items-center gap-4 font-bold text-2xl mb-6 text-gray-800">
           <FaUserPlus className="text-4xl text-blue-500" />

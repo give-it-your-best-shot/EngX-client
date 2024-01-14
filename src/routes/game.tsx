@@ -80,7 +80,7 @@ export default function Game() {
     );
   }
   return (
-    <div className="flex flex-col h-[calc(75vh)] gap-5 w-4/5">
+    <div className="flex flex-col h-[calc(75vh)] gap-5 w-4/5 pt-32 py-16">
       <div className="bg-white p-5 px-16 rounded-lg shadow-lg flex h-1/5 justify-between">
         {
           hp != -1 ?

@@ -22,7 +22,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="flex justify-center items-center h-full">
+      <div className="flex justify-center items-center h-full  pt-32 py-16">
         <div className="gap-8 grid grid-cols-2 sm:grid-cols-4 max-w-[900px]">
           {chapterList.map((item, index) => (
             <Card shadow="sm" key={index} isPressable onClick={() => navigate(`/home/${item.id}`)}>
