@@ -104,11 +104,18 @@ export default function Game() {
       <div className="bg-white p-16 rounded-lg shadow-lg flex flex-col gap-10 h-full">
         {
           quiz == null ?
-          <div className="flex items-center justify-center font-bold text-6xl h-full">
-            Loading
+          (
+          <div className="flex flex-col items-center justify-center gap-10 h-full">
+            <div className="font-bold text-6xl h-full">
+              Loading
+            </div>
+            <div className="text-lg text-slate-500">
+              Stay tuned. It might seems to stuck but we actually trying to generate the best test for you.
+            </div>
           </div>
+          )
           :
-          <div className="text-xl font-semibold leading-loose flex gap-5">
+          <div className="text-lg font-semibold leading-loose flex gap-5">
             <div className="flex w-1/2 items-center">
               <img src={`data:image/jpeg;base64,${quiz.image}`} className="w-full h-[calc(35vh)] object-cover" />
             </div>

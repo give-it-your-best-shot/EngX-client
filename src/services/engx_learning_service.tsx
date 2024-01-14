@@ -134,7 +134,7 @@ export default class EngXLearningService {
   public async getGameOfWords(words: Array<string>, num_sentence = 3, min_num_words = 50, max_num_words = 100, theme_id: number = this.randRange(0, 3)) {
     const prompt = `Please generate a fill in the blanks quiz pragraph contains total of ${num_sentence} sentences. The paragraph includes some of the following words: ${words.join(", ")}, which should be filled in the blanks. The blank should be replaced with the words mentioned, and highlight them with {}, and not with ___. The paragraph should use only the volcabulary for ${this.age} to understand. The theme is ${this.themes[theme_id]}. The paragraph must be between ${min_num_words} to ${max_num_words} words. The grammars must be correct. Response only the paragraph`;
     var paragraph = (await this.gpt_service.prompt(prompt))![0].content
-    var corrects = paragraph.matchAll(/{([A-Z|a-z]+)}/g)
+    var corrects = paragraph.matchAll(/{[^}]+}/g)
     
     var sd_prompt = await this.getImagePromptFromParagraph(paragraph)
     var sd_res = await this.sd_service.txt2img(sd_prompt)
@@ -147,7 +147,8 @@ export default class EngXLearningService {
     }
     
     for(var correct of corrects) {
-      var incorrects: Array<string> = JSON.parse(await this.getIncorrectAnswers(correct.index!, correct[1])).incorrect_answers
+      console.log(correct)
+      var incorrects: Array<string> = JSON.parse(await this.getIncorrectAnswers(correct.index!, correct[0].slice(1, correct[0].length - 1))).incorrect_answers
       var correct_index = this.randRange(0, incorrects.length)
 
       var answers = [
@@ -159,7 +160,7 @@ export default class EngXLearningService {
       res.questions.push({
         "answers": answers,
         "correct_answer": correct_index,
-        "_correct_answer_str": correct[1],
+        "_correct_answer_str": correct[0].slice(1, correct[0].length - 1),
         "_blank_index": correct.index,
         "_blank_length": correct[0].length
       })
