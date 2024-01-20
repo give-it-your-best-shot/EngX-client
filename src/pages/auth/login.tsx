@@ -1,0 +1,125 @@
+import { Button, Input } from "@nextui-org/react";
+import { useEffect, useState } from "react";
+import { SlLogin } from "react-icons/sl";
+import { Link } from "react-router-dom";
+import { setCookie } from "cookies-next";
+import { useNavigate } from "react-router-dom";
+import { FormEvent } from "react";
+import AuthService from "src/services/auth_service";
+import { useAuthenticationStore } from "src/stores";
+import { ACCESS_TOKEN_EXPIRE, REFRESH_TOKEN_EXPIRE } from "src/utils/const";
+
+interface LoginProps {
+  paragraph?: string;
+  linkName?: string;
+  linkUrl?: string;
+  titleInput1?: string;
+  titleInput2?: string;
+}
+
+export default function Login({
+  paragraph = "Don't have an account yet?",
+  linkName = "Sign up",
+  linkUrl = "/signup",
+  titleInput1 = "Username",
+  titleInput2 = "Password",
+}: LoginProps) {
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const navigate = useNavigate();
+  const setUser = useAuthenticationStore((state) => state.setUser);
+  const user = useAuthenticationStore((state) => state.user);
+  const [loginFail, setLoginFail] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (user) {
+      navigate("/home");
+      return;
+    }
+  }, [navigate, user]);
+
+  const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const payload = await AuthService.login(username, password);
+    if (payload) {
+      const { access_token, refresh_token, auth_user } = payload;
+      setCookie("access_token", access_token, {
+        maxAge: ACCESS_TOKEN_EXPIRE,
+      });
+      setCookie("refresh_token", refresh_token, {
+        maxAge: REFRESH_TOKEN_EXPIRE,
+      });
+      setUser(auth_user);
+      navigate("/home");
+    } else {
+      setLoginFail(true);
+      return;
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLoginFail(false);
+    const value = e.target.value;
+    return value;
+  };
+
+  return (
+    user == null && (
+      <div className="flex justify-center items-center h-full pt-32 py-16">
+        <div className="bg-white p-8 rounded-lg shadow-lg w-96 ">
+          <div className="flex flex-col justify-center items-center gap-4 font-bold text-2xl mb-6 text-gray-800">
+            <SlLogin className="text-4xl text-blue-500" />
+            Login
+            <form onSubmit={handleLogin}>
+              <div className="flex justify-center">
+                <p
+                  className={`${!loginFail && "hidden"} text-danger-500 font-thin text-base pb-3`}
+                >
+                  Wrong username or password
+                </p>
+              </div>
+
+              <Input
+                isRequired
+                type="text"
+                label={titleInput1}
+                value={username}
+                className="mb-5 h-12 mr-32"
+                onChange={(e) => {
+                  const value = handleInputChange(e);
+                  setUsername(value);
+                }}
+              />
+
+              <Input
+                isRequired
+                type="password"
+                label={titleInput2}
+                value={password}
+                className="mb-5 h-12 mr-32"
+                onChange={(e) => {
+                  const value = handleInputChange(e);
+                  setPassword(value);
+                }}
+              />
+              <p className="text-center text-sm text-gray-600 mt-5">
+                {paragraph}{" "}
+                <Link
+                  to={linkUrl}
+                  className="font-medium text-purple-600 hover:text-purple-500"
+                >
+                  {linkName}
+                </Link>
+              </p>
+              <div className="mt-4 flex justify-around">
+                <Button color="primary" type="submit" className="font-bold">
+                  Login
+                </Button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    )
+  );
+}
