@@ -21,10 +21,10 @@ export default function Login({
   paragraph = "Don't have an account yet?",
   linkName = "Sign up",
   linkUrl = "/signup",
-  titleInput1 = "Username",
+  titleInput1 = "Email",
   titleInput2 = "Password",
 }: LoginProps) {
-  const [username, setUsername] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
   const setUser = useAuthenticationStore((state) => state.setUser);
@@ -40,7 +40,7 @@ export default function Login({
 
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const payload = await AuthService.login(username, password);
+    const payload = await AuthService.login(email, password);
     if (payload) {
       const { access_token, refresh_token, auth_user } = payload;
       setCookie("access_token", access_token, {
@@ -64,7 +64,7 @@ export default function Login({
   };
 
   return (
-    user == null && (
+    user === null && (
       <div className="flex justify-center items-center h-full pt-32 py-16">
         <div className="bg-white p-8 rounded-lg shadow-lg w-96 ">
           <div className="flex flex-col justify-center items-center gap-4 font-bold text-2xl mb-6 text-gray-800">
@@ -75,19 +75,20 @@ export default function Login({
                 <p
                   className={`${!loginFail && "hidden"} text-danger-500 font-thin text-base pb-3`}
                 >
-                  Wrong username or password
+                  Wrong email or password
                 </p>
               </div>
 
               <Input
                 isRequired
-                type="text"
+                type="email"
                 label={titleInput1}
-                value={username}
+                value={email}
+                required
                 className="mb-5 h-12 mr-32"
                 onChange={(e) => {
                   const value = handleInputChange(e);
-                  setUsername(value);
+                  setEmail(value);
                 }}
               />
 
@@ -96,6 +97,7 @@ export default function Login({
                 type="password"
                 label={titleInput2}
                 value={password}
+                required
                 className="mb-5 h-12 mr-32"
                 onChange={(e) => {
                   const value = handleInputChange(e);
@@ -103,7 +105,7 @@ export default function Login({
                 }}
               />
               <p className="text-center text-sm text-gray-600 mt-5">
-                {paragraph}{" "}
+                {paragraph}
                 <Link
                   to={linkUrl}
                   className="font-medium text-purple-600 hover:text-purple-500"
@@ -116,6 +118,12 @@ export default function Login({
                   Login
                 </Button>
               </div>
+              <a
+                className="bg-blue-600"
+                href="http://localhost:8080/oauth2/authorization/google"
+              >
+                <span className="button-text">Login with Google</span>
+              </a>
             </form>
           </div>
         </div>

@@ -10,6 +10,7 @@ import { Login, Signup } from "./pages/auth";
 import { Game } from "./pages/game";
 import { Vocab, Word } from "./pages/material";
 import { Profile } from "./pages/profile";
+import OAuthCallback from "./pages/auth/oauth_callback";
 
 const BaseLayout = () => {
   return (
@@ -30,10 +31,6 @@ const App: React.FC = () => {
   useEffect(() => {
     (async () => {
       const payload = await auth_service.getUser();
-      if (payload == undefined) {
-        setUser(null);
-        return;
-      }
       if (payload) {
         setUser(payload);
       } else {
@@ -64,6 +61,7 @@ const App: React.FC = () => {
           <Route path="/game/:chapterId" element={<Game />} />
           <Route path="/home/:id" element={<Vocab />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/oauth2/callback" element={<OAuthCallback />} />
         </Route>
       </Routes>{" "}
     </BrowserRouter>
