@@ -29,6 +29,10 @@ const App: React.FC = () => {
   useEffect(() => {
     (async () => {
       const payload = await auth_service.getUser();
+      if (payload == undefined) {
+        setUser(null);
+        return;
+      }
       if (payload) {
         setUser(payload);
       } else {
@@ -42,6 +46,8 @@ const App: React.FC = () => {
             maxAge: REFRESH_TOKEN_EXPIRE,
           });
           setUser(auth_user);
+        } else {
+          setUser(null);
         }
       }
     })();

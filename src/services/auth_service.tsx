@@ -54,9 +54,9 @@ class AuthService {
     return !("error" in data);
   }
 
-  public async getUser(): Promise<User | null> {
+  public async getUser(): Promise<User | null | undefined> {
     const access_token = getCookie("access_token");
-    if (!!!access_token) return null;
+    if (!Boolean(access_token)) return undefined;
     const response = await http.post("/users/get-user", null, {
       headers: {
         Accept: "application/json",
