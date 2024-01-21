@@ -9,6 +9,7 @@ import { ACCESS_TOKEN_EXPIRE, REFRESH_TOKEN_EXPIRE } from "./utils/const";
 import { Login, Signup } from "./pages/auth";
 import { Game } from "./pages/game";
 import { Vocab, Word } from "./pages/material";
+import { Profile } from "./pages/profile";
 
 const BaseLayout = () => {
   return (
@@ -62,6 +63,7 @@ const App: React.FC = () => {
           <Route path="/home" element={<>Nothing</>} />
           <Route path="/game/:chapterId" element={<Game />} />
           <Route path="/home/:id" element={<Vocab />} />
+          <Route path="/profile" element={<Profile />} />
         </Route>
       </Routes>{" "}
     </BrowserRouter>
