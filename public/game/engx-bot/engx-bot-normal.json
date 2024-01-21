@@ -1,6 +1,6 @@
 {
   "frames": {
-    "Sprite-0001 0.": {
+    "Bot-Normal 0.": {
       "frame": { "x": 0, "y": 0, "w": 32, "h": 32 },
       "rotated": false,
       "trimmed": false,
@@ -8,7 +8,7 @@
       "sourceSize": { "w": 32, "h": 32 },
       "duration": 100
     },
-    "Sprite-0001 1.": {
+    "Bot-Normal 1.": {
       "frame": { "x": 32, "y": 0, "w": 32, "h": 32 },
       "rotated": false,
       "trimmed": false,
@@ -16,7 +16,7 @@
       "sourceSize": { "w": 32, "h": 32 },
       "duration": 100
     },
-    "Sprite-0001 2.": {
+    "Bot-Normal 2.": {
       "frame": { "x": 64, "y": 0, "w": 32, "h": 32 },
       "rotated": false,
       "trimmed": false,
@@ -24,7 +24,7 @@
       "sourceSize": { "w": 32, "h": 32 },
       "duration": 100
     },
-    "Sprite-0001 3.": {
+    "Bot-Normal 3.": {
       "frame": { "x": 96, "y": 0, "w": 32, "h": 32 },
       "rotated": false,
       "trimmed": false,
@@ -32,7 +32,7 @@
       "sourceSize": { "w": 32, "h": 32 },
       "duration": 100
     },
-    "Sprite-0001 4.": {
+    "Bot-Normal 4.": {
       "frame": { "x": 128, "y": 0, "w": 32, "h": 32 },
       "rotated": false,
       "trimmed": false,
@@ -40,7 +40,7 @@
       "sourceSize": { "w": 32, "h": 32 },
       "duration": 100
     },
-    "Sprite-0001 5.": {
+    "Bot-Normal 5.": {
       "frame": { "x": 160, "y": 0, "w": 32, "h": 32 },
       "rotated": false,
       "trimmed": false,
@@ -48,7 +48,7 @@
       "sourceSize": { "w": 32, "h": 32 },
       "duration": 100
     },
-    "Sprite-0001 6.": {
+    "Bot-Normal 6.": {
       "frame": { "x": 192, "y": 0, "w": 32, "h": 32 },
       "rotated": false,
       "trimmed": false,
@@ -56,7 +56,7 @@
       "sourceSize": { "w": 32, "h": 32 },
       "duration": 100
     },
-    "Sprite-0001 7.": {
+    "Bot-Normal 7.": {
       "frame": { "x": 224, "y": 0, "w": 32, "h": 32 },
       "rotated": false,
       "trimmed": false,
@@ -64,7 +64,7 @@
       "sourceSize": { "w": 32, "h": 32 },
       "duration": 100
     },
-    "Sprite-0001 8.": {
+    "Bot-Normal 8.": {
       "frame": { "x": 256, "y": 0, "w": 32, "h": 32 },
       "rotated": false,
       "trimmed": false,
@@ -72,7 +72,7 @@
       "sourceSize": { "w": 32, "h": 32 },
       "duration": 100
     },
-    "Sprite-0001 9.": {
+    "Bot-Normal 9.": {
       "frame": { "x": 288, "y": 0, "w": 32, "h": 32 },
       "rotated": false,
       "trimmed": false,
@@ -80,6 +80,19 @@
       "sourceSize": { "w": 32, "h": 32 },
       "duration": 100
     }
+  },
+  "animations": {
+    "normal": [
+      "Bot-Normal 1.",
+      "Bot-Normal 2.",
+      "Bot-Normal 3.",
+      "Bot-Normal 4.",
+      "Bot-Normal 5.",
+      "Bot-Normal 6.",
+      "Bot-Normal 7.",
+      "Bot-Normal 8.",
+      "Bot-Normal 9."
+    ]
   },
   "meta": {
     "app": "https://www.aseprite.org/",

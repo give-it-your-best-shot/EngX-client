@@ -30,7 +30,6 @@ export default function Game() {
         engx_learning_service
           .getGameOfWords(unit.words.map((word) => word.write))
           .then((quiz) => {
-            console.log(quiz);
             setQuiz(quiz);
             setQid(0);
             setHp(Math.floor(quiz.questions.length / 2));
