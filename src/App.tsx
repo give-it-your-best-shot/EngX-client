@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { Outlet, createBrowserRouter, RouterProvider } from "react-router-dom";
 import { NextUIProvider } from "@nextui-org/react";
 import NavigaComponent from "src/components/loading/NavigaComponent";
 import { useAuthenticationStore } from "./stores";
@@ -26,6 +26,51 @@ const BaseLayout = () => {
   );
 };
 
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <BaseLayout />,
+    children: [
+      {
+        path: "/",
+        element: <LandingPage />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/signup",
+        element: <Signup />,
+      },
+      {
+        path: "/word/:word",
+        element: <Word />,
+      },
+      {
+        path: "/home",
+        element: <>Nothing</>,
+      },
+      {
+        path: "/game/:chapterId",
+        element: <Game />,
+      },
+      {
+        path: "/home/:id",
+        element: <Vocab />,
+      },
+      {
+        path: "/profile",
+        element: <Profile />,
+      },
+      {
+        path: "/oauth2/callback",
+        element: <OAuthCallback />,
+      },
+    ],
+  },
+]);
+
 const App: React.FC = () => {
   const setUser = useAuthenticationStore((state) => state.setUser);
 
@@ -51,23 +96,7 @@ const App: React.FC = () => {
       }
     })();
   }, [setUser]);
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<BaseLayout />}>
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />,
-          <Route path="/word/:word" element={<Word />} />
-          <Route path="/home" element={<>Nothing</>} />
-          <Route path="/game/:chapterId" element={<Game />} />
-          <Route path="/home/:id" element={<Vocab />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/oauth2/callback" element={<OAuthCallback />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
-  );
+  return <RouterProvider router={router} />;
 };
 
 export default App;
