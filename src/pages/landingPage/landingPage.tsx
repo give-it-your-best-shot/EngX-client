@@ -5,7 +5,7 @@ import { Button } from "@nextui-org/react";
 export default function LandingPage() {
   return (
     <div>
-      <div className="h-screen pt-0 flex flex-col items-center justify-center overflow-hidden relative">
+      <div className="h-screen pt-0 flex flex-col items-center justify-center overflow-hidden relative mt-16">
         <div className="absolute inset-0 bg-black opacity-50"></div>
         <img src={landingImage} alt="" className="object-cover w-full h-full" />
         <div className="absolute inset-0 flex flex-col justify-center text-white">
@@ -40,7 +40,7 @@ export default function LandingPage() {
                 Register Now!
               </Button>
             </a>
-            <a href="/signup" className="pl-20">
+            <a href="/login" className="pl-20">
               <Button color="primary" className="px-8 py-4 text-lg font-bold">
                 Login
               </Button>

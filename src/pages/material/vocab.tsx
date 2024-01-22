@@ -5,22 +5,34 @@ import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { Link, Button, Tabs, Tab, Tooltip } from "@nextui-org/react";
 import material_service from "src/services/material_service";
-import { Unit } from "src/types/unit.type";
+// import { Unit } from "src/types/unit.type";
 import { Word } from "src/types/word.type";
+import { WordComponent } from ".";
 
 export default function Vocab() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const [unit, setUnit] = useState<Unit | null>();
+  // const [unit, setUnit] = useState<Unit | null>();
+  const [wordList, setWordList] = useState<Word[] | null>([]);
   const [isLoading] = useState<boolean>(false);
+  const [currentIndex, setCurrentIndex] = useState<number>(-1);
 
-  const wordList = Array.isArray(unit?.words) ? unit?.words : [];
+  // const wordList = Array.isArray(unit?.words) ? unit?.words : [];
 
   useEffect(() => {
     material_service
-      .getUnitById(parseInt(id ?? "-1"))
-      .then((unit) => setUnit(unit));
+      .getAllWordsOfUnit(parseInt(id ?? "-1"))
+      .then((words) => setWordList(words));
   }, [id]);
+
+  useEffect(() => {
+    if (wordList !== null && wordList.length > 0) {
+      setCurrentIndex(0);
+    }
+  }, [wordList]);
+
+  console.log(wordList);
+  console.log(currentIndex);
 
   // const handleStartButtonClick = () => {
   //   setIsLoading(true);
@@ -36,32 +48,47 @@ export default function Vocab() {
       <div className="flex justify-center items-center">
         <div className="flex items-center justify-between p-4 mt-20"></div>
       </div>
-      <Tabs key={0} color="danger" aria-label="Tabs colors" radius="full">
+      <Tabs
+        key={0}
+        color="danger"
+        aria-label="Tabs colors"
+        radius="full"
+        className="flex justify-center items-center"
+      >
         <Tab key="vocab" title="Vocabulary">
-          {wordList.map((word: Word, index: Key | null | undefined) => (
+          {currentIndex != -1 && (
+            <WordComponent word={wordList![currentIndex]} />
+          )}
+          {wordList?.map((word: Word, index: Key | null | undefined) => (
             <div key={index} className="flex justify-center items-center mt-10">
               <Tooltip
                 key={word.id}
                 color="secondary"
-                content={word.write}
+                content={word.writing}
                 className="capitalize"
               >
                 <div
                   className="flex items-center justify-between p-4 border rounded-lg shadow-xl w-96 cursor-pointer"
-                  onClick={() => navigate(`/word/${word.write}`)}
+                  onClick={() => {
+                    window.scrollTo(0, 0);
+                    setCurrentIndex(index as number);
+                  }}
                 >
                   <Link
                     size="md"
                     className="text-blue-500 hover:underline"
-                    onClick={() => navigate(`/word/${word.write}`)}
+                    onClick={() => {
+                      window.scrollTo(0, 0);
+                      setCurrentIndex(index as number);
+                    }}
                   >
-                    {word.write}
+                    {word.writing}
                   </Link>
                   <div className="flex items-center">
                     <IoIosArrowRoundForward
                       size={15}
                       className="text-gray-500 cursor-pointer"
-                      onClick={() => navigate(`/word/${word.write}`)}
+                      onClick={() => navigate(`/word/${word.writing}`)}
                     />
                   </div>
                 </div>

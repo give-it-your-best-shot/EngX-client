@@ -1,5 +1,5 @@
 export interface Word {
   id: number;
-  write: string;
+  writing: string;
   meaning: string;
 }

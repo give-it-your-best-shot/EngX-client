@@ -8,6 +8,7 @@ import { FormEvent } from "react";
 import AuthService from "src/services/auth_service";
 import { useAuthenticationStore } from "src/stores";
 import { ACCESS_TOKEN_EXPIRE, REFRESH_TOKEN_EXPIRE } from "src/utils/const";
+import GoogleLogin from "react-google-login";
 
 interface LoginProps {
   paragraph?: string;
@@ -65,8 +66,8 @@ export default function Login({
 
   return (
     user === null && (
-      <div className="flex justify-center items-center h-full pt-32 py-16">
-        <div className="bg-white p-8 rounded-lg shadow-lg w-96 ">
+      <div className="flex justify-center items-center h-full py-16 mt-20">
+        <div className="bg-white p-8 rounded-lg shadow-lg w-96">
           <div className="flex flex-col justify-center items-center gap-4 font-bold text-2xl mb-6 text-gray-800">
             <SlLogin className="text-4xl text-blue-500" />
             Login
@@ -124,6 +125,11 @@ export default function Login({
               >
                 <span className="button-text">Login with Google</span>
               </a>
+              <GoogleLogin
+                clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
+                onSuccess={() => {}}
+                isSignedIn={true}
+              />
             </form>
           </div>
         </div>
