@@ -10,6 +10,7 @@ import { Login, Signup } from "./pages/auth";
 import { Game } from "./pages/game";
 import { Vocab, Word } from "./pages/material";
 import { Profile } from "./pages/profile";
+import { LandingPage } from "./pages/landingPage";
 
 const BaseLayout = () => {
   return (
@@ -17,7 +18,7 @@ const BaseLayout = () => {
       <div className="fixed w-full z-40">
         <NavigaComponent />
       </div>
-      <div className="bg-fixed overflow-y-auto flex flex-col justify-stretch items-center w-full h-fit min-h-screen bg-slate-100 py-16 pt-32 px-16">
+      <div className="bg-fixed overflow-y-auto flex flex-col justify-stretch items-center w-full h-fit min-h-screen bg-slate-100 px-16">
         <Outlet />
       </div>
     </NextUIProvider>
@@ -64,8 +65,9 @@ const App: React.FC = () => {
           <Route path="/game/:chapterId" element={<Game />} />
           <Route path="/home/:id" element={<Vocab />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/landingPage" element={<LandingPage />} />
         </Route>
-      </Routes>{" "}
+      </Routes>
     </BrowserRouter>
   );
 };
