@@ -30,15 +30,17 @@ export default function NavigaComponent() {
           <AcmeLogo />
           <p
             className="font-bold text-inherit cursor-pointer"
-            onClick={() => {}}
+            onClick={() => {
+              navigate("/");
+            }}
           >
             EngX
           </p>
         </NavbarBrand>
         <NavbarContent className="hidden sm:flex gap-4" justify="center">
           <NavbarItem isActive>
-            <Link href="/home" aria-current="page" color="secondary">
-              Home Page
+            <Link href="/course" aria-current="page" color="secondary">
+              Course
             </Link>
           </NavbarItem>
         </NavbarContent>
@@ -91,7 +93,7 @@ export default function NavigaComponent() {
                     key="logout"
                     color="danger"
                     onClick={() => {
-                      navigate("/");
+                      navigate("/login");
                     }}
                   >
                     Log In

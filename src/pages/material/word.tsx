@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+// import { useParams } from "react-router-dom";
 import EngXLearningService, {
   Language,
 } from "../../services/engx_learning_service";
@@ -19,9 +19,9 @@ import {
 } from "@nextui-org/react";
 // @ts-expect-error
 import { useSpeechSynthesis } from "react-speech-kit";
+import { Word } from "src/types/word.type";
 
-export default function Word() {
-  const { word } = useParams();
+export default function WordComponent({ word }: { word: Word }) {
   const engx_service = EngXLearningService.getInstance();
   const [pronunciation, setPronunciation] = useState<Message | undefined>();
   const [definition, setDefinition] = useState<Message | undefined>();
@@ -45,13 +45,15 @@ export default function Word() {
     setExample(undefined);
     engx_service.clearHistory();
     engx_service
-      .getWordPronunciation(word!)
+      .getWordPronunciation(word.writing!)
       .then((_pronunciation) => setPronunciation(_pronunciation));
     engx_service
-      .getWordDefinition(word!)
+      .getWordDefinition(word.writing!)
       .then((_definition) => setDefinition(_definition));
-    engx_service.getWordExample(word!).then((_example) => setExample(_example));
-  }, [language, engx_service, voices, word]);
+    engx_service
+      .getWordExample(word.writing!)
+      .then((_example) => setExample(_example));
+  }, [language, engx_service, voices, word.writing]);
   return (
     <div className="w-full bg-white p-16 rounded-lg shadow-lg flex flex-col gap-10">
       <div className="flex gap-5">
@@ -73,13 +75,13 @@ export default function Word() {
         </Dropdown>
       </div>
       <div className="text-slate-800 text-5xl font-bold flex-row flex items-center">
-        {word}
+        {word.writing}
         <MicrophoneOutline
           width={24}
           height={24}
           className={`ml-2 cursor-pointer ${mic1 && "hidden"}`}
           onClick={() => {
-            turnOnMic(word);
+            turnOnMic(word.writing);
             setMic1((prev) => !prev);
           }}
         />
@@ -89,9 +91,9 @@ export default function Word() {
           className={`ml-2 cursor-pointer ${!mic1 && "hidden"}`}
         />
       </div>
-      <div className="text-slate-600 text-lg items-center flex gap-5">
+      <div className="text-slate-600 text-sm items-center flex gap-5">
         <UserIcon className="w-8 h-8" />
-        What is the pronunciation of '{word}'?
+        What is the pronunciation of '{word.writing}'?
       </div>
       <div className="border border-slate-500 rounded-lg p-5 flex flex-col gap-5 text-slate-800">
         <BoltIcon className="w-5 h-5" />
@@ -105,7 +107,7 @@ export default function Word() {
       </div>
       <div className="text-slate-600 text-lg items-center flex gap-5">
         <UserIcon className="w-8 h-8" />
-        What is the definition of '{word}'?
+        What is the definition of '{word.writing}'?
       </div>
       <div className="border border-slate-500 rounded-lg p-5 flex flex-col gap-5 text-slate-800">
         <BoltIcon className="w-5 h-5" />
@@ -119,7 +121,7 @@ export default function Word() {
       </div>
       <div className="text-slate-600 text-lg items-center flex gap-5">
         <UserIcon className="w-8 h-8" />
-        Example using '{word}' in sentence?
+        Example using '{word.writing}' in sentence?
       </div>
       <div className="border border-slate-500 rounded-lg p-5 flex flex-col gap-5 text-slate-800">
         <BoltIcon className="w-5 h-5" />
