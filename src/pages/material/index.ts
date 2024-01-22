@@ -1,5 +1,6 @@
-import BookPage from "./book";
+import BookPage from "./BookPage";
 import Vocab from "./vocab";
-import Word from "./word";
+import WordComponent from "./word";
+import Unit from "./Units";
 
-export { BookPage, Word, Vocab };
+export { BookPage, WordComponent, Vocab, Unit };

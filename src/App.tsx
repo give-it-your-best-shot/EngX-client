@@ -8,7 +8,7 @@ import { setCookie } from "cookies-next";
 import { ACCESS_TOKEN_EXPIRE, REFRESH_TOKEN_EXPIRE } from "./utils/const";
 import { Login, Signup } from "./pages/auth";
 import { Game } from "./pages/game";
-import { Vocab, Word } from "./pages/material";
+import { BookPage, Vocab, Unit} from "./pages/material";
 import { Profile } from "./pages/profile";
 import { LandingPage } from "./pages/landingPage";
 import OAuthCallback from "./pages/auth/oauth_callback";
@@ -19,7 +19,7 @@ const BaseLayout = () => {
       <div className="fixed w-full z-40">
         <NavigaComponent />
       </div>
-      <div className="bg-fixed overflow-y-auto flex flex-col justify-stretch items-center w-full h-fit min-h-screen bg-slate-100 px-16">
+      <div className="bg-fixed overflow-y-auto items-center w-full h-fit min-h-screen bg-slate-100">
         <Outlet />
       </div>
     </NextUIProvider>
@@ -44,24 +44,24 @@ const router = createBrowserRouter([
         element: <Signup />,
       },
       {
-        path: "/word/:word",
-        element: <Word />,
-      },
-      {
-        path: "/home",
-        element: <>Nothing</>,
+        path: "/course",
+        element: <BookPage/>,
       },
       {
         path: "/game/:chapterId",
         element: <Game />,
       },
       {
-        path: "/home/:id",
+        path: "/units/:id/words",
         element: <Vocab />,
       },
       {
         path: "/profile",
         element: <Profile />,
+      },
+      {
+        path: "/course/:id/units",
+        element: <Unit/>,
       },
       {
         path: "/oauth2/callback",
