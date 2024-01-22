@@ -25,7 +25,9 @@ export default function CombatScene(props: CombatSceneProps) {
   const engXBotStore = useEngXBotStore();
   props;
 
-  const combatIdleState = useRef<CombatIdle>(new CombatIdle(engXBotStore));
+  const combatIdleState = useRef<CombatIdle>(
+    new CombatIdle(engXBotStore, gameStore),
+  );
   const stateMachine = useRef<StateMachine>();
 
   useEffect(() => {
