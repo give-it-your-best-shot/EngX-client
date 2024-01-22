@@ -24,11 +24,11 @@ export default function Signup({
   linkUrl = "/",
   titleInput1 = "First Name",
   titleInput2 = "Last Name",
-  titleInput3 = "Username",
+  titleInput3 = "Email",
   titleInput4 = "Password",
   titleInput5 = "Retype Password",
 }: LoginProps) {
-  const [username, setUsername] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [retypePassword, setRetypePassword] = useState<string>("");
   const [firstname, setFirstname] = useState<string>("");
@@ -52,7 +52,7 @@ export default function Signup({
     const payload = await AuthService.register(
       firstname,
       lastname,
-      username,
+      email,
       password,
     );
     if (payload) {
@@ -66,7 +66,7 @@ export default function Signup({
       setUser(auth_user);
       navigate("/home");
     } else {
-      setError("Username existed");
+      setError("Email existed");
       return;
     }
   };
@@ -113,11 +113,11 @@ export default function Signup({
               isRequired
               type="text"
               label={titleInput3}
-              value={username}
+              value={email}
               className="mb-5 h-12 mr-32"
               onChange={(e) => {
                 const value = handleInputChange(e);
-                setUsername(value);
+                setEmail(value);
               }}
             />
 

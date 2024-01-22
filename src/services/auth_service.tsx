@@ -10,11 +10,11 @@ interface AuthReponse {
 
 class AuthService {
   public async login(
-    username: string,
+    email: string,
     password: string,
   ): Promise<AuthReponse | null> {
     const body = {
-      username: username,
+      email: email,
       password: password,
     };
     const response = await http.post(`/auth/authenticate`, body);
@@ -26,13 +26,13 @@ class AuthService {
   public async register(
     firstname: string,
     lastname: string,
-    username: string,
+    email: string,
     password: string,
   ): Promise<AuthReponse | null> {
     const body = {
       firstname: firstname,
       lastname: lastname,
-      username: username,
+      email: email,
       password: password,
     };
     const response = await http.post("/auth/register", body);
@@ -54,9 +54,9 @@ class AuthService {
     return !("error" in data);
   }
 
-  public async getUser(): Promise<User | null | undefined> {
+  public async getUser(): Promise<User | null> {
     const access_token = getCookie("access_token");
-    if (!Boolean(access_token)) return undefined;
+    if (!Boolean(access_token)) return null;
     const response = await http.post("/users/get-user", null, {
       headers: {
         Accept: "application/json",
@@ -71,7 +71,8 @@ class AuthService {
 
   public async refresh(): Promise<AuthReponse | null> {
     const refresh_token = getCookie("refresh_token");
-    const response = await http.post(`/auth/refresh`, null, {
+    if (!Boolean(refresh_token)) return null;
+    const response = await http.post(`/auth/refresh-token`, null, {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json;charset=UTF-8",

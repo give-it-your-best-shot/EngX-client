@@ -44,7 +44,7 @@ export default function Profile() {
         <p className="text-purple-400 font-semibold mt-2.5">Active</p>
         <div className="mt-2">
           <h2 className="text-black font-bold tracking-wide uppercase">
-            username: {user?.username}
+            email: {user?.email}
           </h2>
         </div>
         <div className="h-1 w-full bg-gray-200 mt-4 rounded-full">

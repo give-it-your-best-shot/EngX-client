@@ -11,7 +11,7 @@ export default function BookPage() {
   const [units, setUnits] = useState<Unit[]>([]);
 
   useEffect(() => {
-    // if(user == null)
+    // if(user === null)
     //   navigate("/")
     material_service.getAllUnitsOfBook(1).then((units) => {
       if (units) setUnits(units);
