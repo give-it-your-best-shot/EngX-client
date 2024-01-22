@@ -7,7 +7,11 @@ import { useNavigate } from "react-router-dom";
 import { FormEvent } from "react";
 import AuthService from "src/services/auth_service";
 import { useAuthenticationStore } from "src/stores";
-import { ACCESS_TOKEN_EXPIRE, REFRESH_TOKEN_EXPIRE } from "src/utils/const";
+import {
+  ACCESS_TOKEN_EXPIRE,
+  REFRESH_TOKEN_EXPIRE,
+  SERVER_URL,
+} from "src/utils/const";
 
 interface LoginProps {
   paragraph?: string;
@@ -33,7 +37,7 @@ export default function Login({
 
   useEffect(() => {
     if (user) {
-      navigate("/home");
+      navigate("/");
       return;
     }
   }, [navigate, user]);
@@ -64,7 +68,7 @@ export default function Login({
   };
 
   const handleGoogleButtonClick = () => {
-    window.location.href = "http://localhost:8080/oauth2/authorization/google";
+    window.location.href = `${SERVER_URL}/oauth2/authorization/google`;
   };
 
   return (

@@ -31,8 +31,36 @@ export default function Vocab() {
     }
   }, [wordList]);
 
-  console.log(wordList);
-  console.log(currentIndex);
+  useEffect(() => {
+    const handleScroll = () => {
+      const headerHeight = document
+        .getElementById("app-header")!
+        .getBoundingClientRect().bottom;
+      const materialVocabTopY = document
+        .getElementById("material-vocab")
+        ?.getBoundingClientRect().top;
+      if (Number(materialVocabTopY) - Number(headerHeight) < 0) {
+        const materialVocabRight = document.getElementById(
+          "material-vocab-right",
+        );
+        const atLeft = materialVocabRight!.getBoundingClientRect().left + "px";
+        materialVocabRight!.style.position = "fixed";
+        materialVocabRight!.style.right = "0";
+        materialVocabRight!.style.top = headerHeight + "px";
+      } else {
+        const materialVocabRight = document.getElementById(
+          "material-vocab-right",
+        );
+        materialVocabRight!.style.position = "relative";
+        materialVocabRight!.style.left = "auto";
+        materialVocabRight!.style.top = "auto";
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   // const handleStartButtonClick = () => {
   //   setIsLoading(true);
@@ -59,42 +87,48 @@ export default function Vocab() {
           {currentIndex != -1 && (
             <WordComponent word={wordList![currentIndex]} />
           )}
-          {wordList?.map((word: Word, index: Key | null | undefined) => (
-            <div key={index} className="flex justify-center items-center mt-10">
-              <Tooltip
-                key={word.id}
-                color="secondary"
-                content={word.writing}
-                className="capitalize"
-              >
+
+          <div id="material-vocab" className="mx-5">
+            <div id="material-vocab-left" className="float-left">
+              <p className="text-center text-3xl font-semibold leading-loose text-gray-900 dark:text-white">
+                The Al-powered app will help you improve yourself.
+              </p>
+              {wordList?.map((word: Word, index: Key | null | undefined) => (
                 <div
-                  className="flex items-center justify-between p-4 border rounded-lg shadow-xl w-96 cursor-pointer"
-                  onClick={() => {
-                    window.scrollTo(0, 0);
-                    setCurrentIndex(index as number);
-                  }}
+                  key={index}
+                  className="flex justify-center items-center mt-1 transition duration-300 transform hover:scale-105"
                 >
-                  <Link
-                    size="md"
-                    className="text-blue-500 hover:underline"
+                  <div
+                    className="flex items-center justify-between p-4 border rounded-lg shadow-xl w-96 cursor-pointer"
                     onClick={() => {
                       window.scrollTo(0, 0);
                       setCurrentIndex(index as number);
                     }}
                   >
                     {word.writing}
-                  </Link>
-                  <div className="flex items-center">
-                    <IoIosArrowRoundForward
-                      size={15}
-                      className="text-gray-500 cursor-pointer"
-                      onClick={() => navigate(`/word/${word.writing}`)}
-                    />
+                    <div className="flex items-center">
+                      <IoIosArrowRoundForward
+                        size={15}
+                        className="text-gray-500 cursor-pointer"
+                        onClick={() => {
+                          window.scrollTo(0, 0);
+                          setCurrentIndex(index as number);
+                        }}
+                      />
+                    </div>
                   </div>
                 </div>
-              </Tooltip>
+              ))}
             </div>
-          ))}
+            <div id="material-vocab-right" className="float-right mt-4">
+              <img
+                src="/images/sunAI.png"
+                alt=""
+                className="object-scale-down"
+                style={{ height: "80vh" }}
+              />
+            </div>
+          </div>
         </Tab>
         <Tab key="game" title="Game">
           <div className="flex justify-center items-center h-full">

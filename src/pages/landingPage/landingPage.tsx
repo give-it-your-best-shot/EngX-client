@@ -2,6 +2,7 @@ import React from "react";
 import landingImage from "../../assets/landingImage.jpg";
 import pic_1 from "../../assets/pic-1.jpg";
 import { Button } from "@nextui-org/react";
+import { Link } from "react-router-dom";
 export default function LandingPage() {
   return (
     <div>
@@ -35,16 +36,16 @@ export default function LandingPage() {
           </p>
 
           <div className="d-flex justify-content-between">
-            <a href="/signup" className="pl-20">
+            <Link to="/signup" className="pl-20">
               <Button color="primary" className="px-8 py-4 text-lg font-bold">
                 Register Now!
               </Button>
-            </a>
-            <a href="/login" className="pl-20">
+            </Link>
+            <Link to="/login" className="pl-20">
               <Button color="primary" className="px-8 py-4 text-lg font-bold">
                 Login
               </Button>
-            </a>
+            </Link>
           </div>
         </div>
       </div>

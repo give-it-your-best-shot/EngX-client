@@ -53,7 +53,7 @@ export default function WordComponent({ word }: { word: Word }) {
     engx_service
       .getWordExample(word.writing!)
       .then((_example) => setExample(_example));
-  }, [language, engx_service, voices, word.writing]);
+  }, []);
   return (
     <div className="w-full bg-white p-16 rounded-lg shadow-lg flex flex-col gap-10">
       <div className="flex gap-5">

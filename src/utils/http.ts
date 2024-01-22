@@ -1,7 +1,8 @@
 import axios from "axios";
+import { SERVER_URL } from "./const";
 
 const http = axios.create({
-  baseURL: import.meta.env.VITE_BACKEND_URL,
+  baseURL: SERVER_URL,
   headers: {
     "Content-Type": "application/json;charset=UTF-8",
     Accept: "application/json;charset=UTF-8",

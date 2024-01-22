@@ -4,7 +4,7 @@ import { NextUIProvider } from "@nextui-org/react";
 import NavigaComponent from "src/components/loading/NavigaComponent";
 import { useAuthenticationStore } from "./stores";
 import auth_service from "./services/auth_service";
-import { setCookie } from "cookies-next";
+import { deleteCookie, setCookie } from "cookies-next";
 import { ACCESS_TOKEN_EXPIRE, REFRESH_TOKEN_EXPIRE } from "./utils/const";
 import { Login, Signup } from "./pages/auth";
 import { BookPage, Vocab, Unit } from "./pages/material";
@@ -44,7 +44,7 @@ const router = createBrowserRouter([
         element: <Signup />,
       },
       {
-        path: "/course",
+        path: "/courses",
         element: <BookPage />,
       },
       {
@@ -60,7 +60,7 @@ const router = createBrowserRouter([
         element: <Profile />,
       },
       {
-        path: "/course/:id/units",
+        path: "/courses/:id/units",
         element: <Unit />,
       },
       {
@@ -73,6 +73,7 @@ const router = createBrowserRouter([
 
 const App: React.FC = () => {
   const setUser = useAuthenticationStore((state) => state.setUser);
+  const user = useAuthenticationStore((state) => state.user);
 
   useEffect(() => {
     (async () => {
@@ -96,6 +97,14 @@ const App: React.FC = () => {
       }
     })();
   }, [setUser]);
+
+  useEffect(() => {
+    if (user === null) {
+      deleteCookie("access_token");
+      deleteCookie("refresh_token");
+    }
+  }, [user]);
+
   return <RouterProvider router={router} />;
 };
 
