@@ -28,7 +28,7 @@ export default function LoadingScene() {
 
   return (
     <Container pivot={{ x: -gameStore.width / 2, y: -gameStore.height / 2 }}>
-      <EngXBot />
+      <EngXBot x={0} y={-100} width={512} height={512} />
       <Text
         resolution={2}
         text="Stay tuned. It might seems to stuck but we actually trying to generate the best test for you."

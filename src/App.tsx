@@ -7,11 +7,11 @@ import auth_service from "./services/auth_service";
 import { setCookie } from "cookies-next";
 import { ACCESS_TOKEN_EXPIRE, REFRESH_TOKEN_EXPIRE } from "./utils/const";
 import { Login, Signup } from "./pages/auth";
-import { Game } from "./pages/game";
 import { Vocab, Word } from "./pages/material";
 import { Profile } from "./pages/profile";
 import { LandingPage } from "./pages/landingPage";
 import OAuthCallback from "./pages/auth/oauth_callback";
+import BaseGame from "./pages/game/base";
 
 const BaseLayout = () => {
   return (
@@ -53,7 +53,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/game/:chapterId",
-        element: <Game />,
+        element: <BaseGame />,
       },
       {
         path: "/home/:id",
