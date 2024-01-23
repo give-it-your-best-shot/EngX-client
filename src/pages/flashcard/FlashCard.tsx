@@ -1,11 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import MaterialService from "src/services/material_service";
+import { Unit } from "src/types/unit.type";
+import { Word } from "src/types/word.type";
+import { Book } from "src/types/book.type";
 
 const FlashCard = () => {
   const [unitName, setUnitName] = useState("");
   const [vocabulary, setVocabulary] = useState([{ word: "", meaning: "" }]);
+  const [units, setUnits] = useState<Unit[] | null>(null);
+  const [selectedUnit, setSelectedUnit] = useState<number | null>(null);
+
+  useEffect(() => {
+    // MaterialService.getAllUnitsOfBook()
+    //   .then((data) => setUnits(data))
+    //   .catch((error) => console.error("Error fetching units:", error));
+  }, []);
 
   const handleUnitNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUnitName(e.target.value);
+  };
+  const handleUnitChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedUnit(Number(e.target.value));
   };
 
   const handleVocabularyChange = (
@@ -30,7 +45,7 @@ const FlashCard = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log({ unitName, vocabulary });
+    console.log({ unitName, vocabulary, selectedUnit });
     setUnitName("");
     setVocabulary([{ word: "", meaning: "" }]);
   };
