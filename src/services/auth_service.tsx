@@ -66,7 +66,7 @@ class AuthService {
       },
     });
     const data = response.data;
-    if ("error" in data) return null;
+    if (data == null || "error" in data) return null;
     return data["payload"];
   }
 
