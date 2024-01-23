@@ -12,17 +12,20 @@ import { Profile } from "./pages/profile";
 import { LandingPage } from "./pages/landingPage";
 import OAuthCallback from "./pages/auth/oauth_callback";
 import BaseGame from "./pages/game/base";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const BaseLayout = () => {
   return (
-    <NextUIProvider>
-      <div className="fixed w-full z-40">
-        <NavigaComponent />
-      </div>
-      <div className="bg-fixed overflow-y-auto items-center w-full h-fit min-h-screen bg-slate-100">
-        <Outlet />
-      </div>
-    </NextUIProvider>
+    <GoogleOAuthProvider clientId="715345910762-d45r71gu26i7ncjg7uuqabd9otatdblc.apps.googleusercontent.com">
+      <NextUIProvider>
+        <div className="fixed w-full z-40">
+          <NavigaComponent />
+        </div>
+        <div className="bg-fixed overflow-y-auto items-center w-full h-fit min-h-screen bg-slate-100">
+          <Outlet />
+        </div>
+      </NextUIProvider>
+    </GoogleOAuthProvider>
   );
 };
 
