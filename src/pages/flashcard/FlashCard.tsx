@@ -36,7 +36,7 @@ const FlashCard = () => {
   };
 
   return (
-    <div className="bg-fixed overflow-y-auto flex flex-col justify-stretch items-center w-full h-full min-h-screen bg-slate-100 px-4 py-20 border-4 border-blue-500 rounded-md">
+    <div className="bg-fixed overflow-y-auto flex flex-col justify-stretch items-center w-full h-full min-h-screen bg-slate-100 px-4 py-20 border-4 rounded-md">
       <form onSubmit={handleSubmit} className="w-full max-w-xl">
         <div className="mb-4">
           <label className="block text-gray-700 text-lg font-bold mb-2">

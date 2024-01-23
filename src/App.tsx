@@ -11,6 +11,8 @@ import { BookPage, Vocab, Unit } from "./pages/material";
 import { Profile } from "./pages/profile";
 import { LandingPage } from "./pages/landingPage";
 import OAuthCallback from "./pages/auth/oauth_callback";
+import { FlashCard } from "./pages/flashcard";
+import BaseGame from "./pages/game/base";
 
 const BaseLayout = () => {
   return (
