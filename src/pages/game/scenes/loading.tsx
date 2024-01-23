@@ -5,7 +5,15 @@ import useGameStore from "../stores/game_store";
 import WebFont from "webfontloader";
 import { EngXBot } from "../components/engx-bot";
 
-export default function LoadingScene() {
+interface LoadingSceneProps {
+  loadingText?: string;
+}
+
+export default function LoadingScene(
+  props: LoadingSceneProps = {
+    loadingText: "Generating something wonderful",
+  },
+) {
   const [isLoaded, setLoaded] = useState(false);
 
   const gameStore = useGameStore();
@@ -36,6 +44,20 @@ export default function LoadingScene() {
         y={gameStore.height * 0.35}
         style={
           new TextStyle({
+            align: "center",
+            fontFamily: "VT323",
+            fill: "#ffffff",
+          })
+        }
+      />
+      <Text
+        resolution={2}
+        text={props.loadingText}
+        anchor={{ x: 0.5, y: 0.5 }}
+        y={gameStore.height * 0.4}
+        style={
+          new TextStyle({
+            fontSize: 20,
             align: "center",
             fontFamily: "VT323",
             fill: "#ffffff",

@@ -50,6 +50,7 @@ class AuthService {
         Authorization: `Bearer ${token}`,
       },
     });
+    console.log(response.data);
     const data = response.data;
     return !("error" in data);
   }
@@ -65,7 +66,7 @@ class AuthService {
       },
     });
     const data = response.data;
-    if ("error" in data) return null;
+    if (data == null || "error" in data) return null;
     return data["payload"];
   }
 
@@ -77,6 +78,20 @@ class AuthService {
         Accept: "application/json",
         "Content-Type": "application/json;charset=UTF-8",
         Authorization: `Bearer ${refresh_token}`,
+      },
+    });
+    const data = response.data;
+    if ("error" in data) return null;
+    return data["payload"];
+  }
+
+  public async googleAuth(
+    idToken: string | undefined,
+  ): Promise<AuthReponse | null> {
+    const response = await http.post("/auth/google", idToken, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json;charset=UTF-8",
       },
     });
     const data = response.data;

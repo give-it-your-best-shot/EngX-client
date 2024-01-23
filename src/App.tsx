@@ -14,17 +14,20 @@ import OAuthCallback from "./pages/auth/oauth_callback";
 import { CreateBook } from "./pages/flashcard";
 import BaseGame from "./pages/game/base";
 import FlashCard from "./pages/flashcard/FlashCard";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const BaseLayout = () => {
   return (
-    <NextUIProvider>
-      <div className="fixed w-full z-40">
-        <NavigaComponent />
-      </div>
-      <div className="bg-fixed overflow-y-auto items-center w-full h-fit min-h-screen bg-slate-100">
-        <Outlet />
-      </div>
-    </NextUIProvider>
+    <GoogleOAuthProvider clientId="715345910762-d45r71gu26i7ncjg7uuqabd9otatdblc.apps.googleusercontent.com">
+      <NextUIProvider>
+        <div className="fixed w-full z-40">
+          <NavigaComponent />
+        </div>
+        <div className="bg-fixed overflow-y-auto items-center w-full h-fit min-h-screen bg-slate-100">
+          <Outlet />
+        </div>
+      </NextUIProvider>
+    </GoogleOAuthProvider>
   );
 };
 
@@ -72,10 +75,6 @@ const router = createBrowserRouter([
       {
         path: "/courses/:id/units",
         element: <Unit />,
-      },
-      {
-        path: "/oauth2/callback",
-        element: <OAuthCallback />,
       },
     ],
   },

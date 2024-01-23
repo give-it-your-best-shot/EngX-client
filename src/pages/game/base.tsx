@@ -7,14 +7,18 @@ import { Stage } from "@pixi/react";
 import useGameStore from "./stores/game_store";
 import LoadingScene from "./scenes/loading";
 import CombatScene from "./scenes/combat";
-import { Sound } from "@pixi/sound";
 import EngXGameService, {
   Question,
   Quiz,
 } from "src/services/engx_game_service";
 import MusicPlayer from "./util/music_player";
+import AnswerExplain from "./components/answer_explain";
 
-function RealGame(props: { quiz: Quiz }) {
+function RealGame(props: {
+  quiz: Quiz;
+  onWin?: (score: number) => void;
+  onLose?: (score: number) => void;
+}) {
   const quiz = props.quiz;
   const [qid, setQid] = useState(-1);
   const [viewAnswer, setViewingAnswer] = useState(false);
@@ -55,7 +59,7 @@ function RealGame(props: { quiz: Quiz }) {
   }
   if (death && gameover) {
     return (
-      <div className="pt-32 py-16">
+      <div className="pt-32 py-16 min-h-screen">
         <div className="bg-slate-800 bg-opacity-75 p-16 px-16 rounded-lg shadow-lg h-fit justify-between text-6xl font-bold text-red-500 flex flex-col gap-10">
           Game Over
           <div className="flex justify-between">
@@ -80,33 +84,35 @@ function RealGame(props: { quiz: Quiz }) {
   }
   if (gameover) {
     return (
-      <div className="bg-slate-800 bg-opacity-75 p-16 px-16 rounded-lg shadow-lg h-fit justify-between text-6xl font-bold text-green-500 flex flex-col gap-10 items-center">
-        Congratulation
-        <div className="text-slate-800 font-semibold text-lg">
-          You answered {score}/{quiz?.questions.length} questions correctly!
-        </div>
-        <div className="flex justify-between w-full">
-          <Button
-            className="w-1/3 font-bold"
-            color="primary"
-            onClick={() => navigate(0)}
-          >
-            Try again
-          </Button>
-          <Button
-            className="w-1/3 font-bold"
-            color="danger"
-            onClick={() => navigate("/home")}
-          >
-            Exit
-          </Button>
+      <div className="pt-32 py-16 min-h-screen">
+        <div className="bg-slate-800 bg-opacity-75 p-16 px-16 rounded-lg shadow-lg h-fit justify-between text-6xl font-bold text-green-500 flex flex-col gap-10 items-center">
+          Congratulation
+          <div className="text-slate-800 font-semibold text-lg">
+            You answered {score}/{quiz?.questions.length} questions correctly!
+          </div>
+          <div className="flex justify-between w-full">
+            <Button
+              className="w-1/3 font-bold"
+              color="primary"
+              onClick={() => navigate(0)}
+            >
+              Try again
+            </Button>
+            <Button
+              className="w-1/3 font-bold"
+              color="danger"
+              onClick={() => navigate("/home")}
+            >
+              Exit
+            </Button>
+          </div>
         </div>
       </div>
     );
   }
   return (
     <>
-      <div className="flex flex-col h-[calc(75vh)] gap-5 w-4/5">
+      <div className="flex flex-col justify-center min-h-screen gap-5 w-4/5">
         <div className="bg-slate-800 bg-opacity-75 p-5 px-16 rounded-lg shadow-lg flex h-1/3 justify-between w-2/3">
           {hp != -1 ? (
             <div className="flex gap-5 items-center justify-center h-full">
@@ -187,6 +193,9 @@ export default function BaseGame() {
   const gameStore = useGameStore();
 
   const [quiz, setQuiz] = useState<Quiz>();
+  const [loadingText, setLoadingText] = useState<string>(
+    "Generating something wonderful",
+  );
 
   addEventListener("resize", () => {
     gameStore.setWidth(window.innerWidth / 1.1);
@@ -196,13 +205,24 @@ export default function BaseGame() {
   useEffect(() => {
     const start = async () => {
       engx_game_service
-        .getGameOfWords([
-          "Hello World",
-          "Encapsulation",
-          "Inheritance",
-          "Polymorphism",
-          "Abstraction",
-        ])
+        .getGameOfWords(
+          [
+            "hands-on",
+            "unscrupulous",
+            "seller",
+            "conquer",
+            "meandering",
+            "wandering",
+          ],
+          {
+            onParagraphGenerated: (_) =>
+              setLoadingText("A wonderful story has been generated"),
+            onSDPromptGenerated: (_) =>
+              setLoadingText("Working hard on game background"),
+            onSDImageGenerated: (_) =>
+              setLoadingText("Almost done. Get ready to battle"),
+          },
+        )
         .then((quiz) => {
           setQuiz(quiz);
           gameStore.setLoading(false);
@@ -215,15 +235,16 @@ export default function BaseGame() {
   }, []);
 
   return (
-    <>
+    <div className="flex flex-col items-center">
       {gameStore.isLoading ? (
         <></>
       ) : (
         <div
-          className="absolute flex items-center justify-center min-h-screen"
+          className="absolute flex flex-col items-center justify-center min-h-screen"
           style={{}}
         >
           <RealGame quiz={quiz!} />
+          <AnswerExplain quiz={quiz!} />
         </div>
       )}
       <Stage
@@ -238,11 +259,11 @@ export default function BaseGame() {
         }}
       >
         {gameStore.isLoading ? (
-          <LoadingScene />
+          <LoadingScene loadingText={loadingText} />
         ) : (
           <CombatScene image={quiz?.image} />
         )}
       </Stage>
-    </>
+    </div>
   );
 }
