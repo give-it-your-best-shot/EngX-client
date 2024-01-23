@@ -10,7 +10,6 @@ import { Login, Signup } from "./pages/auth";
 import { BookPage, Vocab, Unit } from "./pages/material";
 import { Profile } from "./pages/profile";
 import { LandingPage } from "./pages/landingPage";
-import OAuthCallback from "./pages/auth/oauth_callback";
 import BaseGame from "./pages/game/base";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
@@ -65,10 +64,6 @@ const router = createBrowserRouter([
       {
         path: "/courses/:id/units",
         element: <Unit />,
-      },
-      {
-        path: "/oauth2/callback",
-        element: <OAuthCallback />,
       },
     ],
   },

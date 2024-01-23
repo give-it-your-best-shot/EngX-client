@@ -84,6 +84,20 @@ class AuthService {
     if ("error" in data) return null;
     return data["payload"];
   }
+
+  public async googleAuth(
+    idToken: string | undefined,
+  ): Promise<AuthReponse | null> {
+    const response = await http.post("/auth/google", idToken, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json;charset=UTF-8",
+      },
+    });
+    const data = response.data;
+    if ("error" in data) return null;
+    return data["payload"];
+  }
 }
 
 export default new AuthService();

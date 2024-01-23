@@ -13,6 +13,7 @@ import {
   SERVER_URL,
 } from "src/utils/const";
 import { GoogleLogin } from "@react-oauth/google";
+import auth_service from "src/services/auth_service";
 interface LoginProps {
   paragraph?: string;
   linkName?: string;
@@ -54,7 +55,7 @@ export default function Login({
         maxAge: REFRESH_TOKEN_EXPIRE,
       });
       setUser(auth_user);
-      navigate("/home");
+      navigate("/courses");
     } else {
       setLoginFail(true);
       return;
@@ -65,10 +66,6 @@ export default function Login({
     setLoginFail(false);
     const value = e.target.value;
     return value;
-  };
-
-  const handleGoogleButtonClick = () => {
-    window.location.href = `${SERVER_URL}/oauth2/authorization/google`;
   };
 
   return (
@@ -126,11 +123,34 @@ export default function Login({
                   Login
                 </Button>
               </div>
-              <GoogleLogin
-                onSuccess={(response) => {
-                  console.log(response);
-                }}
-              />
+              <div className="flex justify-center items-center gap-2 my-2 w-full flex-row">
+                <hr className="w-full"></hr>
+                <p className="text-sm font-normal">Or</p>
+                <hr className="w-full"></hr>
+              </div>
+              <div className="flex justify-center">
+                <GoogleLogin
+                  onSuccess={async (response) => {
+                    const payload = await auth_service.googleAuth(
+                      response.credential,
+                    );
+                    if (payload) {
+                      const { access_token, refresh_token, auth_user } =
+                        payload;
+                      setCookie("access_token", access_token, {
+                        maxAge: ACCESS_TOKEN_EXPIRE,
+                      });
+                      setCookie("refresh_token", refresh_token, {
+                        maxAge: REFRESH_TOKEN_EXPIRE,
+                      });
+                      setUser(auth_user);
+                      navigate("/home");
+                    } else {
+                      return;
+                    }
+                  }}
+                />
+              </div>
             </form>
           </div>
         </div>

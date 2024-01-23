@@ -11,7 +11,7 @@ export default class UserService {
   private constructor() {}
 
   public async getUnitsRecordByUserId(
-    userId: number
+    userId: number,
   ): Promise<UserRecord | null> {
     const response = await http.get(`/records/users/${userId}/units`);
     const data = response.data;
@@ -20,12 +20,13 @@ export default class UserService {
   }
 
   public async getBooksRecordByUserId(
-    userId: number
+    userId: number,
   ): Promise<UserRecord | null> {
     const response = await http.get(`/records/users/${userId}/books`);
     const data = response.data;
     if ("error" in data) return null;
     return data["payload"];
+  }
 
   public async saveUnitRecord(
     userId: number,
