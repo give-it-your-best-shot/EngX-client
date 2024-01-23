@@ -23,7 +23,7 @@ export default class SDService {
     options: SDOptions = {
       width: 640,
       height: 320,
-      steps: 30,
+      steps: 10,
     },
   ): Promise<SDResponse> {
     return fetch(`${this.url}/sdapi/v1/txt2img`, {
@@ -44,7 +44,7 @@ export default class SDService {
         hr_upscaler: "Latent (antialiased)",
         hr_scale: 2,
         hr_sampler_name: "Euler",
-        hr_second_pass_steps: 10,
+        hr_second_pass_steps: 5,
         denoising_strength: 0.7,
       }),
     }).then((res) => res.json());

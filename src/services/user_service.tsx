@@ -12,7 +12,7 @@ export default class UserService {
 
   public async getUnitsRecordByUserId(
     userId: number,
-  ): Promise<UserRecord | null> {
+  ): Promise<UserRecord[] | null> {
     const response = await http.get(`/records/users/${userId}/units`);
     const data = response.data;
     if ("error" in data) return null;
@@ -21,7 +21,7 @@ export default class UserService {
 
   public async getBooksRecordByUserId(
     userId: number,
-  ): Promise<UserRecord | null> {
+  ): Promise<UserRecord[] | null> {
     const response = await http.get(`/records/users/${userId}/books`);
     const data = response.data;
     if ("error" in data) return null;
