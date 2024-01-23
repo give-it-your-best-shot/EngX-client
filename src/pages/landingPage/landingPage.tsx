@@ -1,4 +1,3 @@
-import React from "react";
 import landingImage from "../../assets/landingImage.jpg";
 import pic_1 from "../../assets/pic-1.jpg";
 import { Button } from "@nextui-org/react";
@@ -36,12 +35,12 @@ export default function LandingPage() {
           </p>
 
           <div className="d-flex justify-content-between">
-            <Link to="/signup" className="pl-20">
+            <Link to="/signup" className="ml-20">
               <Button color="primary" className="px-8 py-4 text-lg font-bold">
                 Register Now!
               </Button>
             </Link>
-            <Link to="/login" className="pl-20">
+            <Link to="/login" className="ml-20">
               <Button color="primary" className="px-8 py-4 text-lg font-bold">
                 Login
               </Button>

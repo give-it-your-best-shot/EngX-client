@@ -11,7 +11,6 @@ import { BookPage, Vocab, Unit } from "./pages/material";
 import { Profile } from "./pages/profile";
 import { LandingPage } from "./pages/landingPage";
 import OAuthCallback from "./pages/auth/oauth_callback";
-import BaseGame from "./pages/game/base";
 
 const BaseLayout = () => {
   return (
@@ -34,6 +33,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <LandingPage />,
+      },
+      {
+        path: "/flashcard",
+        element: <FlashCard />,
       },
       {
         path: "/login",
