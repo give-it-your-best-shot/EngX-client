@@ -1,12 +1,33 @@
 import { Avatar } from "@nextui-org/react";
+import { useEffect } from "react";
+import UserService from "src/services/user_service";
 import { useAuthenticationStore } from "src/stores";
+import { UserRecord } from "src/types/user_record.type";
 
 export default function Profile() {
   const user = useAuthenticationStore((state) => state.user);
-  console.log({ user });
+
+  const userService = UserService.getInstance();
+
+  let bookRecord;
+  let unitRecord;
+
+  useEffect(() => {
+    const start = async () => {
+      if (user != null) {
+        if (user?.id != null) {
+          bookRecord = await userService.getUnitsRecordByUserId(user.id);
+          unitRecord = await userService.getUnitsRecordByUserId(user.id);
+          console.log({ bookRecord }, { unitRecord });
+        }
+      }
+    };
+    start();
+  }, [user]);
+
   return (
-    <div className="flex items-center pt-20 justify-between w-full gap-16 px-20">
-      <div className="flex-1 w-1/3 mx-auto bg-white rounded-2xl px-8 py-6 shadow-lg h-[400px]">
+    <div className="flex items-center pt-40 justify-between w-full gap-16 px-20">
+      <div className="flex-1 w-1/3 mx-auto bg-white rounded-2xl px-8 py-6 shadow-lg h-[440px]">
         <div className="flex items-center justify-between">
           <span className="text-black text-sm font-bold">ID: {user?.id}</span>
           <span className="text-purple-800">
@@ -55,7 +76,7 @@ export default function Profile() {
           <span>40%</span>
         </div>
       </div>
-      <div className="flex w-2/3 h-[400px] mx-auto bg-white rounded-2xl px-8 py-6 shadow-lg"></div>
+      <div className="flex w-2/3 h-[440px] mx-auto bg-white rounded-2xl px-8 py-6 shadow-lg"></div>
     </div>
   );
 }
