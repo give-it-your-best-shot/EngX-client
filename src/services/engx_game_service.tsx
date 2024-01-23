@@ -1,3 +1,4 @@
+import http from "src/utils/http";
 import AzureOpenAIService from "./azure_openai_service";
 import SDService from "./stable_diffusion_service";
 

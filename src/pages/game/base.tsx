@@ -215,7 +215,7 @@ export default function BaseGame() {
   }, []);
 
   return (
-    <>
+    <div className="flex flex-col items-center">
       {gameStore.isLoading ? (
         <></>
       ) : (
@@ -243,6 +243,6 @@ export default function BaseGame() {
           <CombatScene image={quiz?.image} />
         )}
       </Stage>
-    </>
+    </div>
   );
 }

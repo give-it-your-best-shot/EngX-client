@@ -50,6 +50,7 @@ class AuthService {
         Authorization: `Bearer ${token}`,
       },
     });
+    console.log(response.data);
     const data = response.data;
     return !("error" in data);
   }

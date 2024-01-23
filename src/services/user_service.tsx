@@ -26,5 +26,32 @@ export default class UserService {
     const data = response.data;
     if ("error" in data) return null;
     return data["payload"];
+
+  public async saveUnitRecord(
+    userId: number,
+    unitId: number,
+    numOfQuestions: number,
+    score: number,
+  ) {
+    return http.post("/records/units", {
+      userId: userId,
+      unitId: unitId,
+      numQuestion: numOfQuestions,
+      score: score,
+    });
+  }
+
+  public async saveBookRecord(
+    userId: number,
+    bookId: number,
+    numOfQuestions: number,
+    score: number,
+  ) {
+    return http.post("/records/books", {
+      userId: userId,
+      bookId: bookId,
+      numQuestion: numOfQuestions,
+      score: score,
+    });
   }
 }

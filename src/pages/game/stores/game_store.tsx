@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-type GameStore = {
+export type GameStore = {
   width: number;
   setWidth: (width: number) => void;
   height: number;

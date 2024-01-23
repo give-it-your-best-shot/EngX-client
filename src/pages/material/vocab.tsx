@@ -45,7 +45,7 @@ export default function Vocab() {
         );
         const atLeft = materialVocabRight!.getBoundingClientRect().left + "px";
         materialVocabRight!.style.position = "fixed";
-        materialVocabRight!.style.right = "0";
+        materialVocabRight!.style.right = "25px";
         materialVocabRight!.style.top = headerHeight + "px";
       } else {
         const materialVocabRight = document.getElementById(
@@ -53,6 +53,7 @@ export default function Vocab() {
         );
         materialVocabRight!.style.position = "relative";
         materialVocabRight!.style.left = "auto";
+        materialVocabRight!.style.right = "auto";
         materialVocabRight!.style.top = "auto";
       }
     };
