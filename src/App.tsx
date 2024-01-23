@@ -10,7 +10,10 @@ import { Login, Signup } from "./pages/auth";
 import { BookPage, Vocab, Unit } from "./pages/material";
 import { Profile } from "./pages/profile";
 import { LandingPage } from "./pages/landingPage";
+import OAuthCallback from "./pages/auth/oauth_callback";
+import { CreateBook } from "./pages/flashcard";
 import BaseGame from "./pages/game/base";
+import FlashCard from "./pages/flashcard/FlashCard";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const BaseLayout = () => {
@@ -36,6 +39,14 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <LandingPage />,
+      },
+      {
+        path: "/createBook",
+        element: <CreateBook />,
+      },
+      {
+        path: "/flashcard",
+        element: <FlashCard />,
       },
       {
         path: "/login",
