@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import MaterialService from "src/services/material_service";
+import { useAuthenticationStore } from "src/stores";
 
 const CreateBook = () => {
   const [bookName, setBookName] = useState("");
+
+  const authStore = useAuthenticationStore();
 
   const handleBookNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setBookName(e.target.value);
@@ -14,7 +18,7 @@ const CreateBook = () => {
     try {
       const createdBook = await MaterialService.createBook({
         name: bookName,
-        ownerId: 1,
+        ownerId: authStore.user?.id,
       });
       console.log("New book created:", createdBook);
       // history.push("/books");
@@ -24,6 +28,13 @@ const CreateBook = () => {
 
     setBookName("");
   };
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // if(authStore.user == null)
+    //   navigate("/login")
+  }, []);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-slate-100">

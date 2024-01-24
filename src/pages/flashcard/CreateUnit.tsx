@@ -3,12 +3,17 @@ import MaterialService from "src/services/material_service";
 import { Unit } from "src/types/unit.type";
 import { Word } from "src/types/word.type";
 import { Book } from "src/types/book.type";
+import { useNavigate, useParams } from "react-router-dom";
+import material_service from "src/services/material_service";
 
 const CreateUnit = () => {
+  const { id } = useParams();
   const [unitName, setUnitName] = useState("");
   const [vocabulary, setVocabulary] = useState([{ word: "", meaning: "" }]);
   const [units, setUnits] = useState<Unit[] | null>(null);
   const [selectedUnit, setSelectedUnit] = useState<number | null>(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     // MaterialService.getAllUnitsOfBook()
@@ -48,6 +53,27 @@ const CreateUnit = () => {
     console.log({ unitName, vocabulary, selectedUnit });
     setUnitName("");
     setVocabulary([{ word: "", meaning: "" }]);
+    material_service
+      .createUnit({ name: unitName, bookId: parseInt(id ?? "0") })
+      .then((unit) => {
+        if (!unit) {
+          return;
+        }
+        const promises: Promise<Word | null>[] = [];
+        vocabulary.forEach((word) =>
+          promises.push(
+            material_service.createWord({
+              writing: word.word,
+              meaning: word.meaning,
+              unitId: unit.id,
+            }),
+          ),
+        );
+        Promise.all(promises).then((words) => {
+          console.log(words);
+          navigate(`/courses/${id}/edit`);
+        });
+      });
   };
 
   return (

@@ -15,6 +15,7 @@ import { CreateUnit } from "./pages/flashcard";
 import BaseGame from "./pages/game/base";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { Flashcard } from "./pages/flashcard";
+import EditBook from "./pages/flashcard/EditBook";
 
 const BaseLayout = () => {
   return (
@@ -45,10 +46,6 @@ const router = createBrowserRouter([
         element: <CreateBook />,
       },
       {
-        path: "/createUnit",
-        element: <CreateUnit />,
-      },
-      {
         path: "/flashcard",
         element: <Flashcard />,
       },
@@ -77,8 +74,16 @@ const router = createBrowserRouter([
         element: <Profile />,
       },
       {
-        path: "/courses/:id/units",
+        path: "/courses/:id",
         element: <Unit />,
+      },
+      {
+        path: "/courses/:id/edit",
+        element: <EditBook />,
+      },
+      {
+        path: "/courses/:id/create-unit",
+        element: <CreateUnit />,
       },
     ],
   },

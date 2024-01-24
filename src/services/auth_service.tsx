@@ -19,7 +19,7 @@ class AuthService {
     };
     const response = await http.post(`/auth/authenticate`, body);
     const data = response.data;
-    if ("error" in data) return null;
+    if (data.error) return null;
     return data["payload"];
   }
 
@@ -37,7 +37,7 @@ class AuthService {
     };
     const response = await http.post("/auth/register", body);
     const data = response.data;
-    if ("error" in data) return null;
+    if (data.error) return null;
     return data["payload"];
   }
 
@@ -52,7 +52,7 @@ class AuthService {
     });
     console.log(response.data);
     const data = response.data;
-    return !("error" in data);
+    return !data.error;
   }
 
   public async getUser(): Promise<User | null> {
@@ -66,7 +66,7 @@ class AuthService {
       },
     });
     const data = response.data;
-    if (data == null || "error" in data) return null;
+    if (data == null || data.error) return null;
     return data["payload"];
   }
 
@@ -81,7 +81,7 @@ class AuthService {
       },
     });
     const data = response.data;
-    if ("error" in data) return null;
+    if (data.error) return null;
     return data["payload"];
   }
 
@@ -95,7 +95,7 @@ class AuthService {
       },
     });
     const data = response.data;
-    if ("error" in data) return null;
+    if (data.error) return null;
     return data["payload"];
   }
 }

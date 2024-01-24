@@ -24,25 +24,56 @@ class MaterialService {
     }
   }
 
+  public async createUnit(unitData: {
+    name: string;
+    bookId: number;
+  }): Promise<Unit | null> {
+    return http
+      .post("/materials/units", unitData)
+      .then((res) => (res.data.error ? null : res.data.payload));
+  }
+
+  public async createWord(wordData: {
+    writing: string;
+    meaning: string;
+    unitId: number;
+  }): Promise<Word | null> {
+    return http
+      .post("/materials/words", wordData)
+      .then((res) => (res.data.error ? null : res.data.payload));
+  }
+
   public async getAllUnitsOfBook(bookId: number): Promise<Unit[] | null> {
     const response = await http.get(`/materials/books/${bookId}/units`);
     const data = response.data;
-    if ("error" in data) return null;
+    if (data.error) return null;
     return data["payload"];
   }
 
   public async getAllWordsOfUnit(unitId: number): Promise<Word[] | null> {
     const response = await http.get(`/materials/units/${unitId}/words`);
     const data = response.data;
-    if ("error" in data) return null;
+    if (data.error) return null;
     return data["payload"];
   }
 
   public async getAllBooksOfOwner(ownerId: number): Promise<Book[] | null> {
     const response = await http.get(`/materials/owner/${ownerId}/books`);
     const data = response.data;
-    if ("error" in data) return null;
+    if (data.error) return null;
     return data["payload"];
+  }
+
+  public async getBookById(bookId: number): Promise<Book | null> {
+    return http
+      .get(`/materials/books/${bookId}`)
+      .then((response) => (response.data.error ? null : response.data.payload));
+  }
+
+  public async getUnitById(unitId: number): Promise<Unit | null> {
+    return http
+      .get(`/materials/units/${unitId}`)
+      .then((response) => (response.data.error ? null : response.data.payload));
   }
 }
 
