@@ -85,18 +85,16 @@ export default function NavigaComponent() {
                     color="secondary"
                     name="Jason Hughes"
                     size="sm"
-                    src={user?.photoURL}
+                    src={user?.photoURL ?? ""}
                   />
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Profile Actions" variant="flat">
-                  <DropdownItem key="profile" className="h-14 gap-2">
+                  <DropdownItem key="profile" className="h-14 gap-2" onClick= {() => {navigate("/profile")}}>
                     <p className="font-semibold">Signed in as</p>
                     <p className="font-semibold">
                       @{user ? user.firstName : "Anonymous"} {user?.lastName}
                     </p>
                   </DropdownItem>
-                </DropdownMenu>
-                {user && (
                   <DropdownItem
                     key="logout"
                     color="danger"
@@ -113,7 +111,7 @@ export default function NavigaComponent() {
                   >
                     Log Out
                   </DropdownItem>
-                )}
+                </DropdownMenu>
               </Dropdown>
             </NavbarItem>
           )}

@@ -66,7 +66,7 @@ export default function Profile() {
             alt="Avatar Alt Text"
             name="Jonathan Smith"
             showFallback={true}
-            className="p-1 w-[150px] h-[150px] border-5 border-purple-600"
+            className="w-[150px] h-[150px] border-5 border-purple-600"
           />
         </div>
 
