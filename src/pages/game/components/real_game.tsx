@@ -97,7 +97,7 @@ export default function RealGame(props: {
             <Button
               className="w-1/3 font-bold"
               color="danger"
-              onClick={() => navigate("/home")}
+              onClick={props.onExit}
             >
               Exit
             </Button>

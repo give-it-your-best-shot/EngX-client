@@ -38,13 +38,7 @@ export default function Profile() {
 
   const getWinNum = (records: UserRecord[] | undefined) => {
     if (!records) return 0;
-    console.log(
-      records.length,
-      records.length -
-        records.filter((e) => e.score > Math.floor(e.numQuestion / 2)).length,
-    );
-    return records.filter((e) => e.score > Math.floor(e.numQuestion / 2))
-      .length;
+    return records.filter((e) => e.passed).length;
   };
 
   return (

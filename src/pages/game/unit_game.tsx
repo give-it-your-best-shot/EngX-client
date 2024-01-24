@@ -44,11 +44,12 @@ export default function UnitGame() {
               parseInt(unitId ?? "0"),
               quiz?.questions.length ?? 0,
               score,
+              isWin,
             );
           }
         }}
         onExit={() => {
-          navigate(`/units/:${unitId}/words`);
+          navigate(`/units/${unitId}/words`);
         }}
       />
     </>

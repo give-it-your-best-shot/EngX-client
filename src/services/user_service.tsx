@@ -33,12 +33,14 @@ export default class UserService {
     unitId: number,
     numOfQuestions: number,
     score: number,
+    passed: boolean,
   ) {
     return http.post("/records/units", {
       userId: userId,
       unitId: unitId,
       numQuestion: numOfQuestions,
       score: score,
+      passed: passed,
     });
   }
 
@@ -47,12 +49,14 @@ export default class UserService {
     bookId: number,
     numOfQuestions: number,
     score: number,
+    passed: boolean,
   ) {
     return http.post("/records/books", {
       userId: userId,
       bookId: bookId,
       numQuestion: numOfQuestions,
       score: score,
+      passed: passed,
     });
   }
 }

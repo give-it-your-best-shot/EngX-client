@@ -83,6 +83,7 @@ export default function BaseGame(props: BaseGameProps) {
                 props.onGameEnd(quiz, score, false);
               }
             }}
+            onExit={props.onExit}
           />
           {showAnswers ? <AnswerExplain quiz={quiz!} /> : " "}
         </div>
