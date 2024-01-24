@@ -89,7 +89,13 @@ export default function NavigaComponent() {
                   />
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Profile Actions" variant="flat">
-                  <DropdownItem key="profile" className="h-14 gap-2" onClick= {() => {navigate("/profile")}}>
+                  <DropdownItem
+                    key="profile"
+                    className="h-14 gap-2"
+                    onClick={() => {
+                      navigate("/profile");
+                    }}
+                  >
                     <p className="font-semibold">Signed in as</p>
                     <p className="font-semibold">
                       @{user ? user.firstName : "Anonymous"} {user?.lastName}

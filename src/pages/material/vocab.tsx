@@ -20,9 +20,11 @@ export default function Vocab() {
   // const wordList = Array.isArray(unit?.words) ? unit?.words : [];
 
   useEffect(() => {
-    material_service
-      .getAllWordsOfUnit(parseInt(id ?? "-1"))
-      .then((words) => setWordList(words));
+    const unitId = parseInt(id ?? "-1");
+    if (unitId !== -1)
+      material_service
+        .getAllWordsOfUnit(unitId)
+        .then((words) => setWordList(words));
   }, [id]);
 
   useEffect(() => {
@@ -39,12 +41,22 @@ export default function Vocab() {
   };
 
   const handleNextButtonClick = () => {
-    if (wordList) {
-      if (currentIndex !== null && currentIndex < (wordList?.length || 0) - 1) {
-        setCurrentIndex(currentIndex + 1);
-      }
+    if (wordList && wordList.length > 0) {
+      setCurrentIndex((state) => {
+        console.log(state);
+        if (state < wordList.length - 1) return state + 1;
+        return state;
+      });
     }
   };
+
+  const handlePreviousButtonClick = () => {
+    setCurrentIndex((state) => {
+      if (state > 0) return state - 1;
+      return state;
+    });
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       const headerHeight = document
@@ -102,24 +114,21 @@ export default function Vocab() {
           <div className="flex flex-wrap justify-center items-center mt-5 gap-8">
             {currentIndex !== -1 && (
               <WordComponent
+                wordPrevious={wordList![currentIndex - 1]}
                 word={wordList![currentIndex]}
                 onNextButtonClick={handleNextButtonClick}
+                onPreviousButtonClick={handlePreviousButtonClick}
                 wordNext={wordList![currentIndex + 1]}
               />
             )}
-            {wordList?.map((word: Word, index: Key | null | undefined) => (
-              <div
-                key={index}
-                className="transition duration-500 transform hover:scale-105"
-              >
-                <Tooltip
-                  key={word.id}
-                  color="secondary"
-                  content={word.writing}
-                  className="capitalize"
+            <div className="flex flex-start flex-wrap gap-8 items-start">
+              {wordList?.map((word: Word, index: Key | null | undefined) => (
+                <div
+                  key={index}
+                  className="transition duration-500 transform hover:scale-105"
                 >
                   <div
-                    className="flex items-center justify-between p-4 border rounded-lg shadow-xl w-96 cursor-pointer"
+                    className="flex items-center justify-between p-4 border rounded-lg shadow-xl w-96 cursor-pointer bg-[#c1eaf5]"
                     onClick={() => {
                       scrollToTop();
                       setCurrentIndex(index as number);
@@ -127,7 +136,7 @@ export default function Vocab() {
                   >
                     <Link
                       size="md"
-                      className="text-blue-500 hover:underline"
+                      className="text-black"
                       onClick={() => {
                         scrollToTop();
                         setCurrentIndex(index as number);
@@ -143,9 +152,9 @@ export default function Vocab() {
                       />
                     </div>
                   </div>
-                </Tooltip>
-              </div>
-            ))}
+                </div>
+              ))}
+            </div>
           </div>
         </Tab>
         <Tab key="game" title="Game">

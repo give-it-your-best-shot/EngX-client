@@ -1,6 +1,7 @@
 {
   "name": "engx-client",
   "version": "1.0.0",
+  "licenses": [],
   "description": "Starter template for Vite with React (TypeScript). Supports Tailwind. Vitest and @react/testing-library configured and ready to go. Also ESLint, Prettier, Husky, Commit-lint and Atomic Design for components.",
   "homepage": "https://github.com/give-it-your-best-shot/EngX-client#readme",
   "repository": {

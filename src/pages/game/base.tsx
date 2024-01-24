@@ -10,7 +10,7 @@ import AnswerExplain from "./components/answer_explain";
 import RealGame from "./components/real_game";
 
 interface BaseGameProps {
-  words: string[];
+  words?: string[];
   onGameEnd?: (quiz: Quiz | undefined, score: number, isWin: boolean) => void;
 }
 

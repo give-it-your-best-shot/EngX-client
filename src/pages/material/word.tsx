@@ -20,18 +20,22 @@ import {
 // @ts-expect-error
 import { useSpeechSynthesis } from "react-speech-kit";
 import { Word } from "src/types/word.type";
-import { FcAdvance } from "react-icons/fc";
+import { FcAdvance, FcPrevious } from "react-icons/fc";
 
 interface WordComponentProps {
   word: Word;
   onNextButtonClick: () => void;
+  onPreviousButtonClick: () => void;
   wordNext: Word;
+  wordPrevious: Word;
 }
 
 export default function WordComponent({
   word,
   onNextButtonClick,
+  onPreviousButtonClick,
   wordNext,
+  wordPrevious,
 }: WordComponentProps) {
   const engx_service = EngXLearningService.getInstance();
   const [pronunciation, setPronunciation] = useState<Message | undefined>();
@@ -85,35 +89,48 @@ export default function WordComponent({
           </DropdownMenu>
         </Dropdown>
       </div>
-      <div className="text-slate-800 text-5xl font-bold flex-row flex items-center">
-        <div className="flex-grow">{word.writing}</div>
-        <MicrophoneOutline
-          width={24}
-          height={24}
-          className={`ml-2 cursor-pointer ${mic1 && "hidden"}`}
-          onClick={() => {
-            turnOnMic(word.writing);
-            setMic1((prev) => !prev);
-          }}
-        />
-        <div className="flex-grow mr-96" />
-        <div className="flex-grow mr-96" />{" "}
-        <MicrophoneSolid
-          width={24}
-          height={24}
-          className={`ml-2 cursor-pointer ${!mic1 && "hidden"}`}
-        />
-        <div className="text-sm text-gray-500 opacity-75 animate-fadeIn">
-          {wordNext.writing}
+
+      <div className="w-full text-slate-800 text-5xl font-bold flex justify-between items-center">
+        <div className="flex justify-center items-center">
+          {word.writing}
+          <MicrophoneOutline
+            width={24}
+            height={24}
+            className={`ml-2 cursor-pointer ${mic1 && "hidden"}`}
+            onClick={() => {
+              turnOnMic(word.writing);
+              setMic1((prev) => !prev);
+            }}
+          />
+          <MicrophoneSolid
+            width={24}
+            height={24}
+            className={`ml-2 cursor-pointer ${!mic1 && "hidden"}`}
+          />
         </div>
-        <FcAdvance
-          onClick={onNextButtonClick}
-          className="p-2 rounded-md mt-2 cursor-pointer"
-        />
-        <div className="flex-grow" /> <div className="flex-grow" />{" "}
+        <div className="flex flex-row justify-around items-center">
+          {wordPrevious && (
+            <FcAdvance
+              onClick={onPreviousButtonClick}
+              className="p-2 rounded-md mt-2 cursor-pointer rotate-180 hover:scale-110 transition"
+            />
+          )}
+          <div className="text-sm text-gray-500 opacity-75 animate-fadeIn mr-5">
+            {wordPrevious?.writing}
+          </div>
+          <div className="text-sm text-gray-500 opacity-75 animate-fadeIn">
+            {wordNext?.writing}
+          </div>
+          {wordNext && (
+            <FcAdvance
+              onClick={onNextButtonClick}
+              className="p-2 rounded-md mt-2 cursor-pointer hover:scale-110 transition"
+            />
+          )}
+        </div>
       </div>
 
-      <div className="text-slate-600 text-sm items-center flex gap-5">
+      <div className="text-slate-600 text-lg items-center flex gap-5">
         <UserIcon className="w-8 h-8" />
         What is the pronunciation of '{word.writing}'?
       </div>

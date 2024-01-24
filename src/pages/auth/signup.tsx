@@ -59,7 +59,7 @@ export default function Signup({
       firstname,
       lastname,
       email,
-      password
+      password,
     );
     if (payload) {
       const { access_token, refresh_token, auth_user } = payload;
@@ -75,10 +75,6 @@ export default function Signup({
       setError("Email existed");
       return;
     }
-  };
-
-  const handleGoogleButtonClick = () => {
-    window.location.href = `${SERVER_URL}/oauth2/authorization/google`;
   };
 
   useEffect(() => {
