@@ -13,7 +13,7 @@ export interface Quiz {
 export interface Question {
   answers: Array<string>;
   correct_answer: number;
-  explaination: string;
+  explanation: string;
   _correct_answer_str: string;
   _blank_index: number | undefined;
   _blank_length: number | undefined;
@@ -65,7 +65,7 @@ export default class EngXGameService {
     word: string,
     num_of_incorrect = 3,
   ) {
-    const prompt = `Please also give ${num_of_incorrect} incorrect answers, for the blank number ${blank_id}, which should be fill with ${word}. Also give the brief explaination why ${word} is the correct one and the others are wrong, Don't use any control character in json. Reponse in json {incorrect_answers, explaination}. The incorrect answers must be reasonable and not related to the theme of the paragraph. Don't reply any intro, outro or somthing related to the theme and blank number. Reply only in JSON.`;
+    const prompt = `Please also give ${num_of_incorrect} incorrect answers, for the blank number ${blank_id}, which should be fill with ${word}. Also give the brief explanation why ${word} is the correct one and the others are wrong, Don't use any control character in json. Reponse in json {incorrect_answers, explanation}. The incorrect answers must be reasonable and not related to the theme of the paragraph. Don't reply any intro, outro or somthing related to the theme and blank number. Reply only in JSON.`;
     return this.gpt_service
       .prompt(prompt)
       .then((messages) => messages![0].content);
@@ -135,8 +135,9 @@ export default class EngXGameService {
     const results = await Promise.all(promises);
     for (const _answers of results) {
       const correct = _answers[1];
+      console.log(_answers);
       const incorrects = _answers[0].incorrect_answers;
-      const explaination = _answers[0].explaination;
+      const explanation = _answers[0].explanation;
       const correct_index = this.randRange(0, incorrects.length);
 
       const answers = [
@@ -148,7 +149,7 @@ export default class EngXGameService {
       res.questions.push({
         answers: answers,
         correct_answer: correct_index,
-        explaination: explaination,
+        explanation: explanation,
         _correct_answer_str: correct[0].slice(1, correct[0].length - 1),
         _blank_index: correct.index,
         _blank_length: correct[0].length,
