@@ -47,6 +47,12 @@ export default class SDService {
         hr_second_pass_steps: 5,
         denoising_strength: 0.7,
       }),
-    }).then((res) => res.json());
+    })
+      .then((res) => res.json())
+      .catch((reason) => {
+        return {
+          images: [],
+        };
+      });
   }
 }
