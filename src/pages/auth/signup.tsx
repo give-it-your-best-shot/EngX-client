@@ -59,7 +59,7 @@ export default function Signup({
       firstname,
       lastname,
       email,
-      password,
+      password
     );
     if (payload) {
       const { access_token, refresh_token, auth_user } = payload;

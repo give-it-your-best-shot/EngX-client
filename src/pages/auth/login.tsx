@@ -38,7 +38,7 @@ export default function Login({
 
   useEffect(() => {
     if (user) {
-      navigate("/");
+      navigate("/profile");
       return;
     }
   }, [navigate, user]);
@@ -66,6 +66,10 @@ export default function Login({
     setLoginFail(false);
     const value = e.target.value;
     return value;
+  };
+
+  const handleGoogleButtonClick = () => {
+    window.location.href = "http://localhost:8080/oauth2/authorization/google";
   };
 
   return (

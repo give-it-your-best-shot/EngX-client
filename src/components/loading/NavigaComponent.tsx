@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   Navbar,
   NavbarBrand,
@@ -10,6 +9,8 @@ import {
   DropdownMenu,
   DropdownItem,
   Avatar,
+  Button,
+  Input,
 } from "@nextui-org/react";
 import { deleteCookie } from "cookies-next";
 import AcmeLogo from "src/Icon/AcmeLogo";
@@ -17,11 +18,14 @@ import { useNavigate } from "react-router-dom";
 import AuthService from "src/services/auth_service";
 
 import { useAuthenticationStore } from "src/stores";
+import SearchIcon from "src/Icon/SearchIcon";
 
 export default function NavigaComponent() {
   const navigate = useNavigate();
   const user = useAuthenticationStore((state) => state.user);
   const setUser = useAuthenticationStore((state) => state.setUser);
+
+  console.log(user);
 
   return (
     <>
@@ -45,37 +49,52 @@ export default function NavigaComponent() {
           </NavbarItem>
         </NavbarContent>
         <NavbarContent justify="end">
-          <NavbarItem>
-            <Dropdown placement="bottom-end">
-              <DropdownTrigger>
-                <Avatar
-                  isBordered
-                  as="button"
-                  className="transition-transform"
-                  color="secondary"
-                  name="Jason Hughes"
-                  size="sm"
-                  src={
-                    user
-                      ? user.photoURL
-                      : "https://i.pravatar.cc/150?u=a042581f4e29026704d"
-                  }
-                />
-              </DropdownTrigger>
-              <DropdownMenu aria-label="Profile Actions" variant="flat">
-                <DropdownItem
-                  key="profile"
-                  className="h-14 gap-2"
-                  onClick={() => {
-                    navigate("/profile");
-                  }}
-                >
-                  <p className="font-semibold">Signed in as</p>
-                  <p className="font-semibold">
-                    @{user ? user.firstName : "Anonymous"} {user?.lastName}
-                  </p>
-                </DropdownItem>
-                {user && (
+          <Input
+            classNames={{
+              base: "max-w-[20rem] sm:max-w-60 h-10",
+              mainWrapper: "h-full",
+              input: "text-small",
+              inputWrapper:
+                "h-full font-normal text-default-500 bg-default-400/20 dark:bg-default-500/20",
+            }}
+            placeholder="Type a course, email..."
+            size="sm"
+            startContent={<SearchIcon size={18} />}
+            type="search"
+          />
+          {user === null ? (
+            <NavbarItem>
+              <Button
+                color="primary"
+                onClick={() => {
+                  navigate("/login");
+                }}
+              >
+                {" "}
+                Login{" "}
+              </Button>
+            </NavbarItem>
+          ) : (
+            <NavbarItem>
+              <Dropdown placement="bottom-end">
+                <DropdownTrigger>
+                  <Avatar
+                    isBordered
+                    as="button"
+                    className="transition-transform"
+                    color="secondary"
+                    name="Jason Hughes"
+                    size="sm"
+                    src={user?.photoURL ?? ""}
+                  />
+                </DropdownTrigger>
+                <DropdownMenu aria-label="Profile Actions" variant="flat">
+                  <DropdownItem key="profile" className="h-14 gap-2" onClick= {() => {navigate("/profile")}}>
+                    <p className="font-semibold">Signed in as</p>
+                    <p className="font-semibold">
+                      @{user ? user.firstName : "Anonymous"} {user?.lastName}
+                    </p>
+                  </DropdownItem>
                   <DropdownItem
                     key="logout"
                     color="danger"
@@ -92,22 +111,10 @@ export default function NavigaComponent() {
                   >
                     Log Out
                   </DropdownItem>
-                )}
-
-                {user === null && (
-                  <DropdownItem
-                    key="logout"
-                    color="danger"
-                    onClick={() => {
-                      navigate("/login");
-                    }}
-                  >
-                    Log In
-                  </DropdownItem>
-                )}
-              </DropdownMenu>
-            </Dropdown>
-          </NavbarItem>
+                </DropdownMenu>
+              </Dropdown>
+            </NavbarItem>
+          )}
         </NavbarContent>
       </Navbar>
     </>

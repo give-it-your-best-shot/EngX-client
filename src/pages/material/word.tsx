@@ -20,8 +20,19 @@ import {
 // @ts-expect-error
 import { useSpeechSynthesis } from "react-speech-kit";
 import { Word } from "src/types/word.type";
+import { FcAdvance } from "react-icons/fc";
 
-export default function WordComponent({ word }: { word: Word }) {
+interface WordComponentProps {
+  word: Word;
+  onNextButtonClick: () => void;
+  wordNext: Word;
+}
+
+export default function WordComponent({
+  word,
+  onNextButtonClick,
+  wordNext,
+}: WordComponentProps) {
   const engx_service = EngXLearningService.getInstance();
   const [pronunciation, setPronunciation] = useState<Message | undefined>();
   const [definition, setDefinition] = useState<Message | undefined>();
@@ -53,7 +64,7 @@ export default function WordComponent({ word }: { word: Word }) {
     engx_service
       .getWordExample(word.writing!)
       .then((_example) => setExample(_example));
-  }, []);
+  }, [language, engx_service, voices, word.writing]);
   return (
     <div className="w-full bg-white p-16 rounded-lg shadow-lg flex flex-col gap-10">
       <div className="flex gap-5">
@@ -75,7 +86,7 @@ export default function WordComponent({ word }: { word: Word }) {
         </Dropdown>
       </div>
       <div className="text-slate-800 text-5xl font-bold flex-row flex items-center">
-        {word.writing}
+        <div className="flex-grow">{word.writing}</div>
         <MicrophoneOutline
           width={24}
           height={24}
@@ -85,12 +96,23 @@ export default function WordComponent({ word }: { word: Word }) {
             setMic1((prev) => !prev);
           }}
         />
+        <div className="flex-grow mr-96" />
+        <div className="flex-grow mr-96" />{" "}
         <MicrophoneSolid
           width={24}
           height={24}
           className={`ml-2 cursor-pointer ${!mic1 && "hidden"}`}
         />
+        <div className="text-sm text-gray-500 opacity-75 animate-fadeIn">
+          {wordNext.writing}
+        </div>
+        <FcAdvance
+          onClick={onNextButtonClick}
+          className="p-2 rounded-md mt-2 cursor-pointer"
+        />
+        <div className="flex-grow" /> <div className="flex-grow" />{" "}
       </div>
+
       <div className="text-slate-600 text-sm items-center flex gap-5">
         <UserIcon className="w-8 h-8" />
         What is the pronunciation of '{word.writing}'?

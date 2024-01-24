@@ -22,8 +22,8 @@ export default function Units() {
 
   return (
     <>
-      <div className="flex justify-center items-center h-full">
-        <div className="gap-8 grid grid-cols-2 sm:grid-cols-4 max-w-[900px]">
+      <div className="flex justify-center items-center h-screen">
+        <div className="gap-24 grid grid-cols-2 sm:grid-cols-4 max-w-[900px]">
           {units?.map((item, index) => (
             <Card
               shadow="sm"
