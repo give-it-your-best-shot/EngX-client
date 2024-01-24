@@ -51,8 +51,8 @@ export default function RealGame(props: {
   }
   if (death && gameover) {
     return (
-      <div className="pt-32 py-16 min-h-screen">
-        <div className="bg-slate-800 bg-opacity-75 p-16 px-16 rounded-lg shadow-lg h-fit justify-between text-6xl font-bold text-red-500 flex flex-col gap-10">
+      <div className="w-full min-h-screen h-full py-32 flex flex-col items-center justify-center">
+        <div className="bg-slate-800 bg-opacity-75 p-16 rounded-lg shadow-lg h-full justify-between text-6xl font-bold text-red-500 flex flex-col gap-10">
           Game Over
           <div className="flex justify-between">
             <Button
@@ -79,8 +79,8 @@ export default function RealGame(props: {
   }
   if (gameover) {
     return (
-      <div className="pt-32 py-16 min-h-screen">
-        <div className="bg-slate-800 bg-opacity-75 p-16 px-16 rounded-lg shadow-lg h-fit justify-between text-6xl font-bold text-green-500 flex flex-col gap-10 items-center">
+      <div className="w-full min-h-screen h-full py-32 flex flex-col items-center justify-center">
+        <div className="bg-slate-800 bg-opacity-75 p-16 px-16 rounded-lg shadow-lg h-full justify-between text-6xl font-bold text-green-500 flex flex-col gap-10 items-center">
           Congratulation
           <div className="text-white font-semibold text-lg">
             You answered {score}/{quiz?.questions.length} questions correctly!
@@ -110,76 +110,79 @@ export default function RealGame(props: {
   }
   return (
     <>
-      <div className="flex flex-col justify-center min-h-screen gap-5 w-4/5">
-        <div className="bg-slate-800 bg-opacity-75 p-5 px-16 rounded-lg shadow-lg flex h-1/3 justify-between w-2/3">
-          {hp != -1 ? (
-            <div className="flex gap-5 items-center justify-center h-full">
-              <div className="text-red-500 text-xl font-bold align-middle items-center">
-                HP: {hp}
+      <div className="w-full min-h-screen h-full pt-32 pb-16 flex flex-col items-center justify-center">
+        <div className="flex flex-col h-full w-4/5 justify-center gap-5">
+          <div className="bg-slate-800 bg-opacity-75 p-5 px-16 rounded-lg shadow-lg flex h-1/3 justify-between w-2/3">
+            {hp != -1 ? (
+              <div className="flex gap-5 items-center justify-center h-full">
+                <div className="text-red-500 text-xl font-bold align-middle items-center">
+                  HP: {hp}
+                </div>
+                <div className="h-full flex items-center">
+                  {Array.from(Array(hp).keys()).map((e) => (
+                    <div
+                      key={e}
+                      className="h-5 w-8 bg-red-500 border-4 border-red-200"
+                    ></div>
+                  ))}
+                </div>
               </div>
-              <div className="h-full flex items-center">
-                {Array.from(Array(hp).keys()).map((e) => (
-                  <div
-                    key={e}
-                    className="h-5 w-8 bg-red-500 border-4 border-red-200"
-                  ></div>
-                ))}
-              </div>
+            ) : (
+              <></>
+            )}
+            <div className="text-slate-200 flex items-center font-bold text-xl">
+              Score: {score}
             </div>
-          ) : (
-            <></>
-          )}
-          <div className="text-slate-200 flex items-center font-bold text-xl">
-            Score: {score}
           </div>
-        </div>
-        <div className="bg-slate-800 bg-opacity-75 p-16 rounded-lg shadow-lg flex flex-col gap-10 h-full overflow-y-auto">
-          <div className="text-slate-200 text-lg font-semibold leading-loose">
-            {quiz.paragraph.map((paragraph, index) => (
-              <React.Fragment key={index}>
-                {!!index && (
-                  <span
-                    className={
-                      index - 1 == qid
-                        ? "border border-green-500 text-green-500 px-2 py-1"
-                        : "border border-slate-200 text-slate-200 px-2 py-1"
-                    }
-                  >
-                    {index - 1 < qid
-                      ? quiz?.questions[index - 1]._correct_answer_str
-                      : "_".repeat(
-                          quiz?.questions[index - 1]._correct_answer_str.length,
-                        )}
-                  </span>
-                )}
-                {paragraph}
-              </React.Fragment>
-            ))}
+          <div className="bg-slate-800 bg-opacity-75 p-16 rounded-lg shadow-lg flex flex-col gap-10 h-full overflow-y-auto">
+            <div className="text-slate-200 text-lg font-semibold leading-loose">
+              {quiz.paragraph.map((paragraph, index) => (
+                <React.Fragment key={index}>
+                  {!!index && (
+                    <span
+                      className={
+                        index - 1 == qid
+                          ? "border border-green-500 text-green-500 px-2 py-1"
+                          : "border border-slate-200 text-slate-200 px-2 py-1"
+                      }
+                    >
+                      {index - 1 < qid
+                        ? quiz?.questions[index - 1]._correct_answer_str
+                        : "_".repeat(
+                            quiz?.questions[index - 1]._correct_answer_str
+                              .length,
+                          )}
+                    </span>
+                  )}
+                  {paragraph}
+                </React.Fragment>
+              ))}
+            </div>
           </div>
-        </div>
-        <div className="bg-slate-800 bg-opacity-75 p-5 rounded-lg shadow-lg flex gap-5 justify-evenly h-1/4">
-          {qid == -1 ? (
-            <div></div>
-          ) : (
-            quiz?.questions[qid].answers.map((answer, id) => (
-              <Button
-                key={id}
-                color={
-                  viewAnswer
-                    ? id == quiz!.questions[qid].correct_answer
-                      ? "success"
-                      : "danger"
-                    : "primary"
-                }
-                variant={viewAnswer ? "faded" : "ghost"}
-                onClick={() => doAnswer(quiz?.questions[qid], id)}
-                disabled={viewAnswer}
-                className="font-bold text-xl h-full w-full"
-              >
-                {answer}
-              </Button>
-            ))
-          )}
+          <div className="bg-slate-800 bg-opacity-75 p-5 rounded-lg shadow-lg flex gap-5 justify-evenly h-1/4">
+            {qid == -1 ? (
+              <div></div>
+            ) : (
+              quiz?.questions[qid].answers.map((answer, id) => (
+                <Button
+                  key={id}
+                  color={
+                    viewAnswer
+                      ? id == quiz!.questions[qid].correct_answer
+                        ? "success"
+                        : "danger"
+                      : "primary"
+                  }
+                  variant={viewAnswer ? "faded" : "ghost"}
+                  onClick={() => doAnswer(quiz?.questions[qid], id)}
+                  disabled={viewAnswer}
+                  className="font-bold text-xl h-full w-full"
+                >
+                  {answer}
+                </Button>
+              ))
+            )}
+          </div>
         </div>
       </div>
     </>

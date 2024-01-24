@@ -67,10 +67,7 @@ export default function BaseGame(props: BaseGameProps) {
       {gameStore.isLoading ? (
         <></>
       ) : (
-        <div
-          className="absolute flex flex-col items-center justify-center min-h-screen w-full"
-          style={{}}
-        >
+        <div className="absolute h-screen w-full" style={{}}>
           <RealGame
             quiz={quiz!}
             onWin={(score) => {
