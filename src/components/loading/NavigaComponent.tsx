@@ -29,7 +29,7 @@ export default function NavigaComponent() {
 
   return (
     <>
-      <Navbar className="bg-white shadow-lg text-black">
+      <Navbar className="bg-white shadow-lg text-black" id="app-header">
         <NavbarBrand>
           <AcmeLogo />
           <p
@@ -43,7 +43,7 @@ export default function NavigaComponent() {
         </NavbarBrand>
         <NavbarContent className="hidden sm:flex gap-4" justify="center">
           <NavbarItem isActive>
-            <Link href="/course" aria-current="page" color="secondary">
+            <Link href="/courses" aria-current="page" color="secondary">
               Course
             </Link>
           </NavbarItem>

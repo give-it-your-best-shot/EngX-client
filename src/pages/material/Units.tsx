@@ -22,8 +22,13 @@ export default function Units() {
 
   return (
     <>
+<<<<<<< HEAD
       <div className="flex justify-center items-center h-screen">
         <div className="gap-24 grid grid-cols-2 sm:grid-cols-4 max-w-[900px]">
+=======
+      <div className="flex justify-center items-center h-full">
+        <div className="gap-8 grid grid-cols-2 sm:grid-cols-4 max-w-[900px]">
+>>>>>>> 48b30514e7aebedb7774ae201e7c68108840ce5b
           {units?.map((item, index) => (
             <Card
               shadow="sm"
@@ -42,8 +47,13 @@ export default function Units() {
                 />
               </CardBody>
               <CardFooter className="text-small justify-between">
+<<<<<<< HEAD
                 <b className= "mr-2">{"Unit 1"}</b>
                 <p className="text-default-500">{"Xin chao"}</p>
+=======
+                <b>{item.name}</b>
+                <p className="text-default-500">{item.id}</p>
+>>>>>>> 48b30514e7aebedb7774ae201e7c68108840ce5b
               </CardFooter>
             </Card>
           ))}

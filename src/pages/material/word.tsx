@@ -20,6 +20,7 @@ import {
 // @ts-expect-error
 import { useSpeechSynthesis } from "react-speech-kit";
 import { Word } from "src/types/word.type";
+<<<<<<< HEAD
 import { FcAdvance } from "react-icons/fc";
 
 interface WordComponentProps {
@@ -33,6 +34,10 @@ export default function WordComponent({
   onNextButtonClick,
   wordNext,
 }: WordComponentProps) {
+=======
+
+export default function WordComponent({ word }: { word: Word }) {
+>>>>>>> 48b30514e7aebedb7774ae201e7c68108840ce5b
   const engx_service = EngXLearningService.getInstance();
   const [pronunciation, setPronunciation] = useState<Message | undefined>();
   const [definition, setDefinition] = useState<Message | undefined>();
@@ -64,7 +69,11 @@ export default function WordComponent({
     engx_service
       .getWordExample(word.writing!)
       .then((_example) => setExample(_example));
+<<<<<<< HEAD
   }, [language, engx_service, voices, word.writing]);
+=======
+  }, []);
+>>>>>>> 48b30514e7aebedb7774ae201e7c68108840ce5b
   return (
     <div className="w-full bg-white p-16 rounded-lg shadow-lg flex flex-col gap-10">
       <div className="flex gap-5">
@@ -86,7 +95,11 @@ export default function WordComponent({
         </Dropdown>
       </div>
       <div className="text-slate-800 text-5xl font-bold flex-row flex items-center">
+<<<<<<< HEAD
         <div className="flex-grow">{word.writing}</div>
+=======
+        {word.writing}
+>>>>>>> 48b30514e7aebedb7774ae201e7c68108840ce5b
         <MicrophoneOutline
           width={24}
           height={24}
@@ -112,7 +125,10 @@ export default function WordComponent({
         />
         <div className="flex-grow" /> <div className="flex-grow" />{" "}
       </div>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 48b30514e7aebedb7774ae201e7c68108840ce5b
       <div className="text-slate-600 text-sm items-center flex gap-5">
         <UserIcon className="w-8 h-8" />
         What is the pronunciation of '{word.writing}'?

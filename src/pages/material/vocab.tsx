@@ -31,6 +31,7 @@ export default function Vocab() {
     }
   }, [wordList]);
 
+<<<<<<< HEAD
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -45,6 +46,39 @@ export default function Vocab() {
       }
     }
   };
+=======
+  useEffect(() => {
+    const handleScroll = () => {
+      const headerHeight = document
+        .getElementById("app-header")!
+        .getBoundingClientRect().bottom;
+      const materialVocabTopY = document
+        .getElementById("material-vocab")
+        ?.getBoundingClientRect().top;
+      if (Number(materialVocabTopY) - Number(headerHeight) < 0) {
+        const materialVocabRight = document.getElementById(
+          "material-vocab-right",
+        );
+        const atLeft = materialVocabRight!.getBoundingClientRect().left + "px";
+        materialVocabRight!.style.position = "fixed";
+        materialVocabRight!.style.right = "25px";
+        materialVocabRight!.style.top = headerHeight + "px";
+      } else {
+        const materialVocabRight = document.getElementById(
+          "material-vocab-right",
+        );
+        materialVocabRight!.style.position = "relative";
+        materialVocabRight!.style.left = "auto";
+        materialVocabRight!.style.right = "auto";
+        materialVocabRight!.style.top = "auto";
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+>>>>>>> 48b30514e7aebedb7774ae201e7c68108840ce5b
 
   // const handleStartButtonClick = () => {
   //   setIsLoading(true);
@@ -67,6 +101,7 @@ export default function Vocab() {
         radius="full"
         className="flex justify-center items-center"
       >
+<<<<<<< HEAD
         <Tab key="vocab" title="Vocabulary" className="px-6">
           <div className="flex flex-wrap justify-center items-center mt-5 gap-8">
             {currentIndex !== -1 && (
@@ -86,10 +121,27 @@ export default function Vocab() {
                   color="secondary"
                   content={word.writing}
                   className="capitalize"
+=======
+        <Tab key="vocab" title="Vocabulary">
+          {currentIndex != -1 && (
+            <WordComponent word={wordList![currentIndex]} />
+          )}
+
+          <div id="material-vocab" className="mx-5">
+            <div id="material-vocab-left" className="float-left">
+              <p className="text-center text-3xl font-semibold leading-loose text-gray-900 dark:text-white">
+                The Al-powered app will help you improve yourself.
+              </p>
+              {wordList?.map((word: Word, index: Key | null | undefined) => (
+                <div
+                  key={index}
+                  className="flex justify-center items-center mt-1 transition duration-300 transform hover:scale-105"
+>>>>>>> 48b30514e7aebedb7774ae201e7c68108840ce5b
                 >
                   <div
                     className="flex items-center justify-between p-4 border rounded-lg shadow-xl w-96 cursor-pointer"
                     onClick={() => {
+<<<<<<< HEAD
                       scrollToTop();
                       setCurrentIndex(index as number);
                     }}
@@ -104,10 +156,18 @@ export default function Vocab() {
                     >
                       {word.writing}
                     </Link>
+=======
+                      window.scrollTo(0, 0);
+                      setCurrentIndex(index as number);
+                    }}
+                  >
+                    {word.writing}
+>>>>>>> 48b30514e7aebedb7774ae201e7c68108840ce5b
                     <div className="flex items-center">
                       <IoIosArrowRoundForward
                         size={15}
                         className="text-gray-500 cursor-pointer"
+<<<<<<< HEAD
                         onClick={() => navigate(`/word/${word.writing}`)}
                       />
                     </div>
@@ -115,6 +175,26 @@ export default function Vocab() {
                 </Tooltip>
               </div>
             ))}
+=======
+                        onClick={() => {
+                          window.scrollTo(0, 0);
+                          setCurrentIndex(index as number);
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div id="material-vocab-right" className="float-right mt-4">
+              <img
+                src="/images/sunAI.png"
+                alt=""
+                className="object-scale-down"
+                style={{ height: "80vh" }}
+              />
+            </div>
+>>>>>>> 48b30514e7aebedb7774ae201e7c68108840ce5b
           </div>
         </Tab>
         <Tab key="game" title="Game">

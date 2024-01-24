@@ -1,5 +1,4 @@
 import AzureOpenAIService from "./azure_openai_service";
-import SDService from "./stable_diffusion_service";
 
 export enum Language {
   ENGLISH = "english",
@@ -12,21 +11,6 @@ export enum Age {
   STUDENT = "student",
   EXPERT = "expert",
 }
-export interface Quiz {
-  _original_paragraph: string;
-  paragraph: string[];
-  questions: Array<Question>;
-  image: string | undefined;
-}
-
-export interface Question {
-  answers: Array<string>;
-  correct_answer: number;
-  _correct_answer_str: string;
-  _blank_index: number | undefined;
-  _blank_length: number | undefined;
-}
-
 export default class EngXLearningService {
   private static instance: EngXLearningService;
   public static getInstance(): EngXLearningService {
@@ -35,7 +19,6 @@ export default class EngXLearningService {
   }
 
   private gpt_service: AzureOpenAIService;
-  private sd_service: SDService;
   private age_mapper = {
     english: {
       kid: "kid",
@@ -82,10 +65,8 @@ export default class EngXLearningService {
 
   private constructor(
     gpt_service: AzureOpenAIService = AzureOpenAIService.getInstance(),
-    sd_service: SDService = SDService.getInstance(),
   ) {
     this.gpt_service = gpt_service;
-    this.sd_service = sd_service;
   }
 
   public clearHistory() {
@@ -117,88 +98,5 @@ export default class EngXLearningService {
     return this.gpt_service
       .prompt(example)
       .then((messages) => messages?.shift());
-  }
-
-  private async getIncorrectAnswers(
-    blank_id: number,
-    word: string,
-    num_of_incorrect = 3,
-  ) {
-    const prompt = `Please also give ${num_of_incorrect} incorrect answers, for the blank number ${blank_id}, which should be fill with ${word}. Reponse in json {incorrect_answers:}`;
-    return this.gpt_service
-      .prompt(prompt)
-      .then((messages) => messages![0].content);
-  }
-
-  private randRange(min: number, max: number) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
-
-  private async getImagePromptFromParagraph(paragraph: string) {
-    const prompt = `Please generate a stable diffusion prompt that is suitable for game background with the context of this paragraph: ${paragraph}. Please add some positives prompts to make the image better, and vary between a lot of color scheme.`;
-    const sd_prompt = await this.gpt_service
-      .prompt(prompt)
-      .then((messages) => messages![0].content);
-    console.log(sd_prompt);
-    return sd_prompt;
-  }
-
-  private themes = ["normal", "fantasy", "futuristic", "cartoon"];
-
-  public async getGameOfWords(
-    words: Array<string>,
-    num_sentence = 3,
-    min_num_words = 50,
-    max_num_words = 100,
-    theme_id: number = this.randRange(0, 3),
-  ) {
-    const prompt = `Please generate a fill in the blanks quiz pragraph contains total of ${num_sentence} sentences in IELTS format. The paragraph includes some of the following words: ${words.join(", ")}, which should be filled in the blanks. The blank should be replaced with the words mentioned, and highlight them with {}, and not with ___. The paragraph should use only the volcabulary for ${this.age} to understand. The theme is ${this.themes[theme_id]}. The paragraph must be between ${min_num_words} to ${max_num_words} words. The grammars must be correct. Response only the paragraph`;
-    const paragraph = (await this.gpt_service.prompt(prompt))![0].content;
-    const corrects = paragraph.matchAll(/{[^}]+}/g);
-
-    const sd_prompt = await this.getImagePromptFromParagraph(paragraph);
-    console.log(sd_prompt);
-    const sd_res = await this.sd_service.txt2img(sd_prompt);
-
-    const res = {
-      _original_paragraph: paragraph,
-      paragraph: paragraph.split(/{[^}]+}/g),
-      questions: Array<Question>(),
-      image: sd_res.images.shift(),
-    };
-
-    const promises: Promise<Array<any>>[] = [];
-
-    for (const correct of corrects) {
-      promises.push(
-        this.getIncorrectAnswers(
-          correct.index!,
-          correct[0].slice(1, correct[0].length - 1),
-        ).then((res) => [JSON.parse(res).incorrect_answers, correct]),
-      );
-    }
-
-    const results = await Promise.all(promises);
-    for (const _answers of results) {
-      const correct = _answers[1];
-      const incorrects = _answers[0];
-      const correct_index = this.randRange(0, incorrects.length);
-
-      const answers = [
-        ...incorrects.slice(0, correct_index),
-        correct[0].slice(1, correct[0].length - 1),
-        ...incorrects.slice(correct_index),
-      ];
-
-      res.questions.push({
-        answers: answers,
-        correct_answer: correct_index,
-        _correct_answer_str: correct[0].slice(1, correct[0].length - 1),
-        _blank_index: correct.index,
-        _blank_length: correct[0].length,
-      });
-    }
-
-    return res;
   }
 }

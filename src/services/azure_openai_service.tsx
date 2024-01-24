@@ -1,3 +1,5 @@
+import { SERVER_URL } from "src/utils/const";
+
 export enum Model {
   GPT35TURBO = "GPT35TURBO",
   GPT35TURBO16K = "GPT35TURBO16K",
@@ -20,7 +22,7 @@ export default class AzureOpenAIService {
   private model: Model = Model.GPT35TURBO;
   // private endpoint: string = import.meta.env.VITE_AZURE_OPENAI_API_ENDPOINT
   // private key: string = import.meta.env.VITE_AZURE_OPENAI_API_KEY
-  private hostURL = import.meta.env.VITE_BACKEND_URL;
+  private hostURL = SERVER_URL;
   private assistant_desc =
     "Your name is XBot. You are a helpful assistant who assist children learning English. Always reply without intro or outro. If giving examples, use bulletpoint response like.";
   private maxHistoryLength = 16;

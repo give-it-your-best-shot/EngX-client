@@ -7,8 +7,13 @@ import { useNavigate } from "react-router-dom";
 import { FormEvent } from "react";
 import AuthService from "src/services/auth_service";
 import { useAuthenticationStore } from "src/stores";
-import { ACCESS_TOKEN_EXPIRE, REFRESH_TOKEN_EXPIRE } from "src/utils/const";
-
+import {
+  ACCESS_TOKEN_EXPIRE,
+  REFRESH_TOKEN_EXPIRE,
+  SERVER_URL,
+} from "src/utils/const";
+import { GoogleLogin } from "@react-oauth/google";
+import auth_service from "src/services/auth_service";
 interface LoginProps {
   paragraph?: string;
   linkName?: string;
@@ -33,7 +38,7 @@ export default function Login({
 
   useEffect(() => {
     if (user) {
-      navigate("/home");
+      navigate("/");
       return;
     }
   }, [navigate, user]);
@@ -50,7 +55,7 @@ export default function Login({
         maxAge: REFRESH_TOKEN_EXPIRE,
       });
       setUser(auth_user);
-      navigate("/home");
+      navigate("/courses");
     } else {
       setLoginFail(true);
       return;
@@ -122,6 +127,7 @@ export default function Login({
                   Login
                 </Button>
               </div>
+<<<<<<< HEAD
               <button
                 onClick={handleGoogleButtonClick}
                 className="flex ml-10 mt-6 items-center bg-white dark:bg-gray-900 border border-gray-300 rounded-lg shadow-md px-6 py-2 text-sm font-medium text-gray-800 dark:text-white hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
@@ -183,6 +189,36 @@ export default function Login({
                 </svg>
                 <span>Continue with Google</span>
               </button>
+=======
+              <div className="flex justify-center items-center gap-2 my-2 w-full flex-row">
+                <hr className="w-full"></hr>
+                <p className="text-sm font-normal">Or</p>
+                <hr className="w-full"></hr>
+              </div>
+              <div className="flex justify-center">
+                <GoogleLogin
+                  onSuccess={async (response) => {
+                    const payload = await auth_service.googleAuth(
+                      response.credential,
+                    );
+                    if (payload) {
+                      const { access_token, refresh_token, auth_user } =
+                        payload;
+                      setCookie("access_token", access_token, {
+                        maxAge: ACCESS_TOKEN_EXPIRE,
+                      });
+                      setCookie("refresh_token", refresh_token, {
+                        maxAge: REFRESH_TOKEN_EXPIRE,
+                      });
+                      setUser(auth_user);
+                      navigate("/home");
+                    } else {
+                      return;
+                    }
+                  }}
+                />
+              </div>
+>>>>>>> 48b30514e7aebedb7774ae201e7c68108840ce5b
             </form>
           </div>
         </div>

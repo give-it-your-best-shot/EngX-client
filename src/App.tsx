@@ -4,25 +4,29 @@ import { NextUIProvider } from "@nextui-org/react";
 import NavigaComponent from "src/components/loading/NavigaComponent";
 import { useAuthenticationStore } from "./stores";
 import auth_service from "./services/auth_service";
-import { setCookie } from "cookies-next";
+import { deleteCookie, setCookie } from "cookies-next";
 import { ACCESS_TOKEN_EXPIRE, REFRESH_TOKEN_EXPIRE } from "./utils/const";
 import { Login, Signup } from "./pages/auth";
-import { Game } from "./pages/game";
-import { BookPage, Vocab, Unit} from "./pages/material";
+import { BookPage, Vocab, Unit } from "./pages/material";
 import { Profile } from "./pages/profile";
 import { LandingPage } from "./pages/landingPage";
-import OAuthCallback from "./pages/auth/oauth_callback";
+import { CreateBook } from "./pages/flashcard";
+import BaseGame from "./pages/game/base";
+import FlashCard from "./pages/flashcard/FlashCard";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const BaseLayout = () => {
   return (
-    <NextUIProvider>
-      <div className="fixed w-full z-40">
-        <NavigaComponent />
-      </div>
-      <div className="bg-fixed overflow-y-auto items-center w-full h-fit min-h-screen bg-slate-100">
-        <Outlet />
-      </div>
-    </NextUIProvider>
+    <GoogleOAuthProvider clientId="715345910762-d45r71gu26i7ncjg7uuqabd9otatdblc.apps.googleusercontent.com">
+      <NextUIProvider>
+        <div className="fixed w-full z-40">
+          <NavigaComponent />
+        </div>
+        <div className="bg-fixed overflow-y-auto items-center w-full h-fit min-h-screen bg-slate-100">
+          <Outlet />
+        </div>
+      </NextUIProvider>
+    </GoogleOAuthProvider>
   );
 };
 
@@ -36,6 +40,14 @@ const router = createBrowserRouter([
         element: <LandingPage />,
       },
       {
+        path: "/createBook",
+        element: <CreateBook />,
+      },
+      {
+        path: "/flashcard",
+        element: <FlashCard />,
+      },
+      {
         path: "/login",
         element: <Login />,
       },
@@ -44,12 +56,12 @@ const router = createBrowserRouter([
         element: <Signup />,
       },
       {
-        path: "/course",
-        element: <BookPage/>,
+        path: "/courses",
+        element: <BookPage />,
       },
       {
         path: "/game/:chapterId",
-        element: <Game />,
+        element: <BaseGame />,
       },
       {
         path: "/units/:id/words",
@@ -60,12 +72,8 @@ const router = createBrowserRouter([
         element: <Profile />,
       },
       {
-        path: "/course/:id/units",
-        element: <Unit/>,
-      },
-      {
-        path: "/oauth2/callback",
-        element: <OAuthCallback />,
+        path: "/courses/:id/units",
+        element: <Unit />,
       },
     ],
   },
@@ -73,6 +81,7 @@ const router = createBrowserRouter([
 
 const App: React.FC = () => {
   const setUser = useAuthenticationStore((state) => state.setUser);
+  const user = useAuthenticationStore((state) => state.user);
 
   useEffect(() => {
     (async () => {
@@ -96,6 +105,14 @@ const App: React.FC = () => {
       }
     })();
   }, [setUser]);
+
+  useEffect(() => {
+    if (user === null) {
+      deleteCookie("access_token");
+      deleteCookie("refresh_token");
+    }
+  }, [user]);
+
   return <RouterProvider router={router} />;
 };
 

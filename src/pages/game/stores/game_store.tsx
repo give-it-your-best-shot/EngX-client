@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-type GameStore = {
+export type GameStore = {
   width: number;
   setWidth: (width: number) => void;
   height: number;
@@ -10,8 +10,8 @@ type GameStore = {
 };
 
 const useGameStore = create<GameStore>((set) => ({
-  width: window.innerWidth / 1.2,
-  height: window.innerHeight / 1.4,
+  width: window.innerWidth / 1.15,
+  height: window.innerHeight / 1.15,
   setWidth: (width: number) => set(() => ({ width: width })),
   setHeight: (height: number) => set(() => ({ height: height })),
   isLoading: true,
