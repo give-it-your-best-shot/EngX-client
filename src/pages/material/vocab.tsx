@@ -31,8 +31,20 @@ export default function Vocab() {
     }
   }, [wordList]);
 
-  console.log(wordList);
-  console.log(currentIndex);
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  const handleNextButtonClick = () => {
+    if (wordList) {
+      if (currentIndex !== null && currentIndex < (wordList?.length || 0) - 1) {
+        setCurrentIndex(currentIndex + 1);
+      }
+    }
+  };
 
   // const handleStartButtonClick = () => {
   //   setIsLoading(true);
@@ -55,49 +67,61 @@ export default function Vocab() {
         radius="full"
         className="flex justify-center items-center"
       >
-        <Tab key="vocab" title="Vocabulary">
-          {currentIndex != -1 && (
-            <WordComponent word={wordList![currentIndex]} />
-          )}
-          {wordList?.map((word: Word, index: Key | null | undefined) => (
-            <div key={index} className="flex justify-center items-center mt-10">
-              <Tooltip
-                key={word.id}
-                color="secondary"
-                content={word.writing}
-                className="capitalize"
+        <Tab key="vocab" title="Vocabulary" className="px-6">
+          <div className="flex flex-wrap justify-center items-center mt-5 gap-8">
+            {currentIndex !== -1 && (
+              <WordComponent
+                word={wordList![currentIndex]}
+                onNextButtonClick={handleNextButtonClick}
+                wordNext={wordList![currentIndex + 1]}
+              />
+            )}
+            {wordList?.map((word: Word, index: Key | null | undefined) => (
+              <div
+                key={index}
+                className="transition duration-500 transform hover:scale-105"
               >
-                <div
-                  className="flex items-center justify-between p-4 border rounded-lg shadow-xl w-96 cursor-pointer"
-                  onClick={() => {
-                    window.scrollTo(0, 0);
-                    setCurrentIndex(index as number);
-                  }}
+                <Tooltip
+                  key={word.id}
+                  color="secondary"
+                  content={word.writing}
+                  className="capitalize"
                 >
-                  <Link
-                    size="md"
-                    className="text-blue-500 hover:underline"
+                  <div
+                    className="flex items-center justify-between p-4 border rounded-lg shadow-xl w-96 cursor-pointer"
                     onClick={() => {
-                      window.scrollTo(0, 0);
+                      scrollToTop();
                       setCurrentIndex(index as number);
                     }}
                   >
-                    {word.writing}
-                  </Link>
-                  <div className="flex items-center">
-                    <IoIosArrowRoundForward
-                      size={15}
-                      className="text-gray-500 cursor-pointer"
-                      onClick={() => navigate(`/word/${word.writing}`)}
-                    />
+                    <Link
+                      size="md"
+                      className="text-blue-500 hover:underline"
+                      onClick={() => {
+                        scrollToTop();
+                        setCurrentIndex(index as number);
+                      }}
+                    >
+                      {word.writing}
+                    </Link>
+                    <div className="flex items-center">
+                      <IoIosArrowRoundForward
+                        size={15}
+                        className="text-gray-500 cursor-pointer"
+                        onClick={() => navigate(`/word/${word.writing}`)}
+                      />
+                    </div>
                   </div>
-                </div>
-              </Tooltip>
-            </div>
-          ))}
+                </Tooltip>
+              </div>
+            ))}
+          </div>
         </Tab>
         <Tab key="game" title="Game">
-          <div className="flex justify-center items-center h-full">
+          <div className="flex flex-col justify-center items-center h-full mt-10">
+            <p className="mb-10 text-lg font-semibold text-gray-800">
+              Let's practice together 🎮
+            </p>
             <Tooltip
               key={0}
               color="primary"
