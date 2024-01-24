@@ -54,7 +54,6 @@ export default function WordComponent({
   };
 
   useEffect(() => {
-    console.log(voices);
     setPronunciation(undefined);
     setDefinition(undefined);
     setExample(undefined);
@@ -70,7 +69,7 @@ export default function WordComponent({
       .then((_example) => setExample(_example));
   }, [language, engx_service, voices, word.writing]);
   return (
-    <div className="w-full bg-white p-16 rounded-lg shadow-lg flex flex-col gap-10">
+    <div className="w-full bg-white p-16 rounded-lg shadow-lg flex flex-col gap-5">
       <div className="flex gap-5">
         <Dropdown>
           <DropdownTrigger>

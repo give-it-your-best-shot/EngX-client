@@ -74,7 +74,7 @@ export default function Login({
 
   return (
     user === null && (
-      <div className="flex justify-center items-center h-screen py-16 mt-20">
+      <div className="flex justify-center items-center h-screen py-16 mt-3">
         <div className="bg-white p-8 rounded-lg shadow-lg w-96">
           <div className="flex flex-col justify-center items-center gap-4 font-bold text-2xl mb-6 text-gray-800">
             <SlLogin className="text-4xl text-blue-500" />

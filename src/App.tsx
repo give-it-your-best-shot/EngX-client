@@ -22,9 +22,9 @@ const BaseLayout = () => {
   return (
     <GoogleOAuthProvider clientId="715345910762-d45r71gu26i7ncjg7uuqabd9otatdblc.apps.googleusercontent.com">
       <NextUIProvider>
-        <div className="fixed w-full z-40">
+        <nav className="fixed z-40 top-0 h-14 bg-white w-full flex items-center">
           <NavigaComponent />
-        </div>
+        </nav>
         <div className="bg-fixed overflow-y-auto items-center w-full h-fit min-h-screen bg-slate-100">
           <Outlet />
         </div>

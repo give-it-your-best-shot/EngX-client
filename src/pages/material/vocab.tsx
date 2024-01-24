@@ -101,7 +101,7 @@ export default function Vocab() {
   return (
     <>
       <div className="flex justify-center items-center">
-        <div className="flex items-center justify-between p-4 mt-20"></div>
+        <div className="flex items-center justify-between p-4 mt-10"></div>
       </div>
       <Tabs
         key={0}
@@ -111,7 +111,7 @@ export default function Vocab() {
         className="flex justify-center items-center"
       >
         <Tab key="vocab" title="Vocabulary" className="px-6">
-          <div className="flex flex-wrap justify-center items-center mt-5 gap-8">
+          <div className="flex flex-wrap justify-center items-center gap-8">
             {currentIndex !== -1 && (
               <WordComponent
                 wordPrevious={wordList![currentIndex - 1]}

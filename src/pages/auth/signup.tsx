@@ -83,10 +83,9 @@ export default function Signup({
 
   return (
     user === null && (
-      <div className="flex justify-center items-center py-10 mt-12">
+      <div className="flex justify-center items-center py-10 mt-10">
         <div className="bg-white p-8 rounded-lg shadow-lg w-96">
           <div className="flex flex-col justify-center items-center gap-4 font-bold text-2xl mb-6 text-gray-800">
-            <FaUserPlus className="text-4xl text-blue-500" />
             Sign Up
             <form onSubmit={handleRegister}>
               <div className="flex justify-center">

@@ -43,7 +43,7 @@ export default function Profile() {
   };
 
   return (
-    <div className="flex flex-col pt-40 py-20 justify-between w-full gap-16 px-20">
+    <div className="flex flex-col py-20 justify-between w-full gap-16 px-20">
       <div className="flex items-center gap-16 w-full">
         <div className="flex-1 w-1/3 mx-auto bg-white rounded-2xl px-8 py-6 shadow-lg h-[440px]">
           <div className="flex items-center justify-between">

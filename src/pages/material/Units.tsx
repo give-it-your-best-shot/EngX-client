@@ -11,14 +11,10 @@ export default function Units() {
   const [units, setUnits] = useState<Unit[]>([]);
 
   useEffect(() => {
-    // if(user === null)
-    //   navigate("/")
     material_service.getAllUnitsOfBook(1).then((units) => {
       if (units) setUnits(units);
     });
   }, []);
-
-  console.log(units);
 
   return (
     <>

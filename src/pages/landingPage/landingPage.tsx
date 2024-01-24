@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 export default function LandingPage() {
   return (
     <div>
-      <div className="h-screen pt-0 flex flex-col items-center justify-center overflow-hidden relative mt-16">
+      <div className="h-screen pt-0 flex flex-col items-center justify-center overflow-hidden relative mt-14">
         <div className="absolute inset-0 bg-black opacity-50"></div>
         <img src={landingImage} alt="" className="object-cover w-full h-full" />
         <div className="absolute inset-0 flex flex-col justify-center text-white">
