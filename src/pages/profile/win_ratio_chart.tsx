@@ -6,6 +6,7 @@ interface WinRatioChartProps {
 }
 
 export default function WinRatioChart(props: WinRatioChartProps) {
+  console.log(props);
   return (
     <Chart
       options={{

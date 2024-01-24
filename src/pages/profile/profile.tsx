@@ -38,6 +38,11 @@ export default function Profile() {
 
   const getWinNum = (records: UserRecord[] | undefined) => {
     if (!records) return 0;
+    console.log(
+      records.length,
+      records.length -
+        records.filter((e) => e.score > Math.floor(e.numQuestion / 2)).length,
+    );
     return records.filter((e) => e.score > Math.floor(e.numQuestion / 2))
       .length;
   };
@@ -122,7 +127,7 @@ export default function Profile() {
                 <div>
                   <WinRatioChart
                     numWin={getWinNum(unitRecords)}
-                    numLose={unitRecords?.length ?? 0 - getWinNum(unitRecords)}
+                    numLose={unitRecords.length - getWinNum(unitRecords)}
                   />
                   <div className="font-bold text-center text-xl text-slate-600">
                     Unit Game
@@ -135,7 +140,7 @@ export default function Profile() {
                 <div>
                   <WinRatioChart
                     numWin={getWinNum(bookRecords)}
-                    numLose={bookRecords?.length ?? 0 - getWinNum(bookRecords)}
+                    numLose={bookRecords.length - getWinNum(bookRecords)}
                   />
                   <div className="font-bold text-center text-xl text-slate-600">
                     Book Game

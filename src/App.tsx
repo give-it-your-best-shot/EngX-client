@@ -17,6 +17,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import { Flashcard } from "./pages/flashcard";
 import EditBook from "./pages/flashcard/EditBook";
 import UnitGame from "./pages/game/unit_game";
+import BookGame from "./pages/game/book_game";
 
 const BaseLayout = () => {
   return (
@@ -81,6 +82,10 @@ const router = createBrowserRouter([
       {
         path: "/courses/:id",
         element: <Unit />,
+      },
+      {
+        path: "/courses/:bookId/game",
+        element: <BookGame />,
       },
       {
         path: "/courses/:id/edit",

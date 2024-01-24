@@ -8,6 +8,7 @@ export default function RealGame(props: {
   quiz: Quiz;
   onWin?: (score: number) => void;
   onLose?: (score: number) => void;
+  onExit?: () => void;
 }) {
   const quiz = props.quiz;
   const [qid, setQid] = useState(-1);
@@ -65,7 +66,7 @@ export default function RealGame(props: {
             <Button
               className="w-1/3 font-bold"
               color="danger"
-              onClick={() => navigate("/home")}
+              onClick={props.onExit}
             >
               Exit
             </Button>

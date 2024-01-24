@@ -7,40 +7,37 @@ import { Book } from "src/types/book.type";
 
 export default function BookPage() {
   const navigate = useNavigate();
+  const [mainBooks, setMainBooks] = useState<Book[] | null>([]);
   const [books, setBooks] = useState<Book[] | null>([]);
 
   useEffect(() => {
-    material_service.getAllBooksOfOwner(1).then((books) => {
-      if (books) setBooks(books);
+    const adminId = import.meta.env.VITE_ADMIN_ID;
+    material_service.getAllBooksOfOwner(adminId).then((books) => {
+      if (books) setMainBooks(books);
+      console.log(books);
     });
   }, []);
 
   return (
-    <div className="flex justify-center items-center py-20">
-      <div className="gap-16 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 max-w-[900px]">
-        {books &&
-          books.map((book, index) => (
+    <div className="flex flex-col justify-center py-20 px-32 gap-10">
+      <div className="text-slate-800 text-4xl font-bold">Main Book</div>
+      <div className="flex gap-10 justify-evenly h-40 w-full">
+        {mainBooks &&
+          mainBooks.map((book, index) => (
             <div
               key={index}
-              className="cursor-pointer relative group overflow-hidden rounded-lg transition duration-300 transform hover:scale-105 flex items-center justify-center"
+              className="cursor-pointer border-5 border-purple-300 hover:border-purple-500 rounded-lg transition duration-300 transform hover:scale-105 flex items-center justify-center h-full p-10"
               onClick={() => {
                 navigate(`/courses/${book.id}`);
               }}
             >
-              <img
-                src="images/bookImage.jpg"
-                alt=""
-                className="object-cover w-full h-full"
-              />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-back font-['Liberation_Mono'] mt-10 mr-10 font-bold text-large">
-                  {book.name}
-                </span>
+              <div className="flex items-center justify-center">
+                <span className="font-bold text-large">{book.name}</span>
               </div>
-              <div className=" absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 bg-black bg-opacity-50"></div>
             </div>
           ))}
       </div>
+      <div className="text-slate-800 text-4xl font-bold">Explore</div>
     </div>
   );
 }

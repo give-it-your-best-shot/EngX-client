@@ -8,6 +8,7 @@ import material_service from "src/services/material_service";
 // import { Unit } from "src/types/unit.type";
 import { Word } from "src/types/word.type";
 import { WordComponent } from ".";
+import UserUnitRecord from "./user_unit_record";
 
 export default function Vocab() {
   const navigate = useNavigate();
@@ -99,7 +100,7 @@ export default function Vocab() {
   // };
 
   return (
-    <>
+    <div className="px-16">
       <div className="flex justify-center items-center">
         <div className="flex items-center justify-between p-4 mt-10"></div>
       </div>
@@ -157,8 +158,8 @@ export default function Vocab() {
             </div>
           </div>
         </Tab>
-        <Tab key="game" title="Game">
-          <div className="flex flex-col justify-center items-center h-full mt-10">
+        <Tab key="game" title="Game" className="flex flex-col gap-10">
+          <div className="flex flex-col justify-center items-center h-full w-full mt-10">
             <p className="mb-10 text-lg font-semibold text-gray-800">
               Let's practice together 🎮
             </p>
@@ -166,19 +167,22 @@ export default function Vocab() {
               key={0}
               color="primary"
               content="Let's go"
-              className="capitalize"
+              className="capitalize font-bold"
             >
               <Button
                 color="secondary"
                 onClick={() => navigate(`/units/${id}/game`)}
                 disabled={isLoading}
+                className="w-3/5 font-bold h-12 text-xl"
               >
                 {isLoading ? "Loading..." : "Start"}
               </Button>
             </Tooltip>
           </div>
+          <div className="text-slate-800 text-4xl font-bold">Your records</div>
+          <UserUnitRecord unitId={parseInt(id ?? "0")} />
         </Tab>
       </Tabs>
-    </>
+    </div>
   );
 }

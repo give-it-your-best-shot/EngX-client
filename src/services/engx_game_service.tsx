@@ -65,7 +65,7 @@ export default class EngXGameService {
     word: string,
     num_of_incorrect = 3,
   ) {
-    const prompt = `Please also give ${num_of_incorrect} incorrect answers, for the blank number ${blank_id}, which should be fill with ${word}. Also give the brief explanation why ${word} is the correct one and the others are wrong, Don't use any control character in json. Reponse in json {incorrect_answers, explanation}. The incorrect answers must be reasonable and not related to the theme of the paragraph. Don't reply any intro, outro or somthing related to the theme and blank number. Reply only in JSON.`;
+    const prompt = `Please also give ${num_of_incorrect} incorrect answers, for the blank number ${blank_id}, which should be fill with ${word}. Also give the brief explanation why ${word} is the correct one and the others are wrong, Don't use any control character in json. Reponse in json {incorrect_answers: [], explanation: string}. The incorrect answers must be reasonable and not related to the theme of the paragraph. Don't reply any intro, outro or somthing related to the theme and blank number. Reply only in JSON.`;
     return this.gpt_service
       .prompt(prompt)
       .then((messages) => messages![0].content);

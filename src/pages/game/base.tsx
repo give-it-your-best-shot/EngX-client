@@ -12,6 +12,7 @@ import RealGame from "./components/real_game";
 interface BaseGameProps {
   words?: string[];
   onGameEnd?: (quiz: Quiz | undefined, score: number, isWin: boolean) => void;
+  onExit?: () => void;
 }
 
 export default function BaseGame(props: BaseGameProps) {
