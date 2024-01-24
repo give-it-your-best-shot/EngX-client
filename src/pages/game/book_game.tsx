@@ -10,7 +10,7 @@ export default function BookGame() {
   const [book, setBook] = useState<Unit>();
   useEffect(() => {
     const start = async () => {
-      // material_service.getAllUnitsOfBook
+      // material_service.ge
     };
     start();
   }, []);

@@ -34,7 +34,7 @@ export default function BaseGame(props: BaseGameProps) {
     const start = async () => {
       engx_game_service
         .getGameOfWords(
-          [
+          props.words ?? [
             "hands-on",
             "unscrupulous",
             "seller",

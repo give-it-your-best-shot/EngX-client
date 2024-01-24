@@ -170,7 +170,7 @@ export default function Vocab() {
             >
               <Button
                 color="secondary"
-                onClick={() => navigate(`/game/${id}`)}
+                onClick={() => navigate(`/units/${id}/game`)}
                 disabled={isLoading}
               >
                 {isLoading ? "Loading..." : "Start"}

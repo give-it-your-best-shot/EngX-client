@@ -25,7 +25,7 @@ export default function BookPage() {
                 key={index}
                 className="cursor-pointer relative group overflow-hidden rounded-lg transition duration-300 transform hover:scale-105 flex items-center justify-center"
                 onClick={() => {
-                  navigate(`/courses/${book.id}/units`);
+                  navigate(`/courses/${book.id}`);
                 }}
               >
                 <img

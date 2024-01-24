@@ -16,6 +16,7 @@ import BaseGame from "./pages/game/base";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { Flashcard } from "./pages/flashcard";
 import EditBook from "./pages/flashcard/EditBook";
+import UnitGame from "./pages/game/unit_game";
 
 const BaseLayout = () => {
   return (
@@ -68,6 +69,10 @@ const router = createBrowserRouter([
       {
         path: "/units/:id/words",
         element: <Vocab />,
+      },
+      {
+        path: "/units/:unitId/game",
+        element: <UnitGame />,
       },
       {
         path: "/profile",
