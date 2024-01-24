@@ -1,133 +1,109 @@
 import React, { useState, useEffect } from "react";
-import MaterialService from "src/services/material_service";
-import { Unit } from "src/types/unit.type";
-import { Word } from "src/types/word.type";
-import { Book } from "src/types/book.type";
+import CardFlip from "react-card-flip";
 
-const FlashCard = () => {
-  const [unitName, setUnitName] = useState("");
-  const [vocabulary, setVocabulary] = useState([{ word: "", meaning: "" }]);
-  const [units, setUnits] = useState<Unit[] | null>(null);
-  const [selectedUnit, setSelectedUnit] = useState<number | null>(null);
+const Flashcard = () => {
+  const flashcards = [
+    { front: "Hello", back: "Xin chào" },
+    { front: "Goodbye", back: "Tạm biệt" },
+  ];
 
+  const [currentCardIndex, setCurrentCardIndex] = useState(0);
+  const [isFlipped, setIsFlipped] = useState(false);
+
+  const handleFlip = () => {
+    setIsFlipped(!isFlipped);
+  };
+
+  const handlePrevious = () => {
+    setCurrentCardIndex((prevIndex) => Math.max(prevIndex - 1, 0));
+    setIsFlipped(false);
+  };
+
+  const handleNext = () => {
+    setCurrentCardIndex((prevIndex) =>
+      Math.min(prevIndex + 1, flashcards.length - 1),
+    );
+    setIsFlipped(false);
+  };
+
+  const currentFlashcard = flashcards[currentCardIndex];
   useEffect(() => {
-    // MaterialService.getAllUnitsOfBook()
-    //   .then((data) => setUnits(data))
-    //   .catch((error) => console.error("Error fetching units:", error));
-  }, []);
+    const handleKeyPress = (event: React.KeyboardEvent) => {
+      if (event.key === "ArrowLeft") {
+        handlePrevious();
+      } else if (event.key === "ArrowRight") {
+        handleNext();
+      }
+    };
 
-  const handleUnitNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUnitName(e.target.value);
-  };
-  const handleUnitChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedUnit(Number(e.target.value));
-  };
+    window.addEventListener("keydown", handleKeyPress as any);
 
-  const handleVocabularyChange = (
-    index: number,
-    type: string,
-    value: string,
-  ) => {
-    const newVocabulary = [...vocabulary];
-    newVocabulary[index][type as keyof (typeof newVocabulary)[number]] = value;
-    setVocabulary(newVocabulary);
-  };
-
-  const removeVocabularyRow = (index: number) => {
-    const newVocabulary = [...vocabulary];
-    newVocabulary.splice(index, 1);
-    setVocabulary(newVocabulary);
-  };
-
-  const addVocabularyRow = () => {
-    setVocabulary([...vocabulary, { word: "", meaning: "" }]);
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log({ unitName, vocabulary, selectedUnit });
-    setUnitName("");
-    setVocabulary([{ word: "", meaning: "" }]);
-  };
+    return () => {
+      window.removeEventListener("keydown", handleKeyPress as any);
+    };
+  }, [handlePrevious, handleNext]);
 
   return (
-    <div className="bg-fixed overflow-y-auto flex flex-col justify-stretch items-center w-full h-full min-h-screen bg-slate-100 px-4 py-20 border-4 rounded-md">
-      <form onSubmit={handleSubmit} className="w-full max-w-xl">
+    <div className="flex items-center justify-center min-h-screen bg-slate-100 pt-16">
+      <div className="max-w-2xl p-8 bg-white rounded-md shadow-md">
         <div className="mb-4">
-          <label className="block text-gray-700 text-lg font-bold mb-2">
-            Unit Name:
-          </label>
-          <input
-            type="text"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            value={unitName}
-            onChange={handleUnitNameChange}
-          />
+          <div className="text-lg font-semibold">Book:</div>
+          <div className="text-xl font-bold text-blue-600 text-center">
+            Toeic
+          </div>
         </div>
-
-        <table className="w-full mb-4 text-lg">
-          <thead>
-            <tr>
-              <th className="py-2">Word</th>
-              <th className="py-2">Meaning</th>
-              <th className="py-2">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {vocabulary.map((item, index) => (
-              <tr key={index}>
-                <td>
-                  <input
-                    type="text"
-                    className="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    value={item.word}
-                    onChange={(e) =>
-                      handleVocabularyChange(index, "word", e.target.value)
-                    }
-                  />
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    className="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    value={item.meaning}
-                    onChange={(e) =>
-                      handleVocabularyChange(index, "meaning", e.target.value)
-                    }
-                  />
-                </td>
-                <td>
-                  <button
-                    type="button"
-                    className="py-2 px-4 bg-red-500 text-white rounded"
-                    onClick={() => removeVocabularyRow(index)}
-                  >
-                    Remove
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-        <div className="flex justify-between text-lg">
-          <button
-            type="button"
-            className="py-2 px-4 bg-blue-500 text-white rounded"
-            onClick={addVocabularyRow}
-          >
-            Add Vocabulary
-          </button>
-          <button
-            type="submit"
-            className="py-2 px-4 bg-green-500 text-white rounded"
-          >
-            Submit
-          </button>
+        <div className="mb-4">
+          <div className="text-lg font-semibold">Unit:</div>
+          <div className="text-xl font-bold text-blue-600 text-center">
+            Unit1
+          </div>
         </div>
-      </form>
+        <div>
+          <CardFlip
+            isFlipped={isFlipped}
+            flipDirection="horizontal"
+            flipSpeedBackToFront={0.6}
+            flipSpeedFrontToBack={0.6}
+          >
+            <div
+              className="flashcard front bg-gray-200 p-6 rounded-md cursor-pointer flex items-center justify-center"
+              onClick={handleFlip}
+              style={{ width: "300px", height: "200px" }}
+            >
+              <div className="text-xl font-bold text-blue-600">
+                {currentFlashcard.front}
+              </div>
+            </div>
+            <div
+              className="flashcard back bg-green-500 p-6 rounded-md cursor-pointer flex items-center justify-center"
+              onClick={handleFlip}
+              style={{ width: "300px", height: "200px" }}
+            >
+              <div className="text-xl font-bold text-white">
+                {currentFlashcard.back}
+              </div>
+            </div>
+          </CardFlip>
+          <div className="flex justify-between mt-4">
+            <button
+              onClick={handlePrevious}
+              disabled={currentCardIndex === 0}
+              className="bg-blue-500 text-white px-4 py-2 rounded-md cursor-pointer"
+            >
+              Previous
+            </button>
+            <button
+              onClick={handleNext}
+              disabled={currentCardIndex === flashcards.length - 1}
+              className="bg-blue-500 text-white px-4 py-2 rounded-md cursor-pointer"
+            >
+              Next
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
 
-export default FlashCard;
+export default Flashcard;
