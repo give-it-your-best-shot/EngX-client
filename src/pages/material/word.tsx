@@ -54,7 +54,6 @@ export default function WordComponent({
   };
 
   useEffect(() => {
-    engx_service.clearHistory();
     setPronunciation(undefined);
     setDefinition(undefined);
     setExample(undefined);
@@ -90,7 +89,7 @@ export default function WordComponent({
         </Dropdown>
       </div>
 
-      <div className="w-full text-slate-800 text-5xl font-bold flex justify-between items-center">
+      <div className="w-full text-slate-800 text-5xl font-bold flex justify-between items-center text-ellipsis whitespace-nowrap overflow-x-clip">
         <div className="flex justify-center items-baseline">
           {word.writing}
           <MicrophoneOutline
@@ -115,10 +114,10 @@ export default function WordComponent({
               className="p-2 rounded-md mt-2 cursor-pointer rotate-180 hover:scale-110 transition"
             />
           )}
-          <div className="text-sm text-gray-500 opacity-75 animate-fadeIn mr-5">
+          <div className="hidden lg:block text-sm text-gray-500 opacity-75 animate-fadeIn mr-5 translate-y-0.5">
             {wordPrevious?.writing}
           </div>
-          <div className="text-sm text-gray-500 opacity-75 animate-fadeIn">
+          <div className="hidden lg:block text-sm text-gray-500 opacity-75 animate-fadeIn translate-y-0.5">
             {wordNext?.writing}
           </div>
           {wordNext && (

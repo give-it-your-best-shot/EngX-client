@@ -44,7 +44,6 @@ export default function Vocab() {
   const handleNextButtonClick = () => {
     if (wordList && wordList.length > 0) {
       setCurrentIndex((state) => {
-        console.log(state);
         if (state < wordList.length - 1) return state + 1;
         return state;
       });

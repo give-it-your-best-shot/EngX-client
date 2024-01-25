@@ -30,9 +30,13 @@ export default function BookPage() {
               }}
             >
               <img
-                src={book.photoUrl ?? "/book.png"}
+                src={
+                  book?.photoUrl && book.photoUrl.length
+                    ? book.photoUrl
+                    : "/book.png"
+                }
                 alt="No Image"
-                className="object-cover w-52 h-full border-5 border-purple-300 hover:border-purple-500 rounded-lg"
+                className="object-cover w-80 h-full border-5 border-purple-300 hover:border-purple-500 rounded-lg"
               />
               <div className="flex items-center justify-center">
                 <span className="font-bold text-large">{book.name}</span>

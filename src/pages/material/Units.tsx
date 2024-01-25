@@ -28,12 +28,16 @@ export default function Units() {
 
   return (
     <>
-      <div className="grid grid-cols-4 h-screen my-20 px-20">
+      <div className="grid grid-cols-4 my-20 px-20 overflow-hidden">
         <div className="col-span-3">
           <div className="grid grid-cols-2">
             <img
-              className="w-[20rem] h-[20rem] object-contain"
-              src={book?.photoUrl ?? "/book.png"}
+              className="w-[25rem] h-[25rem] object-contain"
+              src={
+                book?.photoUrl && book.photoUrl.length
+                  ? book.photoUrl
+                  : "/book.png"
+              }
               alt="No Image"
             />
             <div className="grid grid-rows-2">
@@ -67,7 +71,9 @@ export default function Units() {
             (book.description ? (
               <div
                 className="flex flex-col mx-2 py-10"
-                dangerouslySetInnerHTML={{ __html: book.description }}
+                dangerouslySetInnerHTML={{
+                  __html: book.description.replace(/^"|"$/g, ""),
+                }}
               />
             ) : (
               <div className="flex flex-col mx-2 py-10">

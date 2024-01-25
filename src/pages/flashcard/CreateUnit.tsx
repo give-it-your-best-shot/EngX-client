@@ -50,7 +50,6 @@ const CreateUnit = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log({ unitName, vocabulary, selectedUnit });
     setUnitName("");
     setVocabulary([{ word: "", meaning: "" }]);
     material_service
@@ -70,7 +69,6 @@ const CreateUnit = () => {
           ),
         );
         Promise.all(promises).then((words) => {
-          console.log(words);
           navigate(`/courses/${id}/edit`);
         });
       });

@@ -135,7 +135,6 @@ export default class EngXGameService {
     const results = await Promise.all(promises);
     for (const _answers of results) {
       const correct = _answers[1];
-      console.log(_answers);
       const incorrects = _answers[0].incorrect_answers;
       const explanation = _answers[0].explanation;
       const correct_index = this.randRange(0, incorrects.length);

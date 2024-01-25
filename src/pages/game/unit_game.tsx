@@ -27,7 +27,6 @@ export default function UnitGame() {
           navigate("/courses");
           return;
         }
-        console.log(unit);
         setUnit(unit);
         return unit;
       });
@@ -38,7 +37,6 @@ export default function UnitGame() {
     if (!unit) return [];
     let words = unit.words.map((e) => e.writing);
     words = shuffle(words);
-    console.log(words.slice(0, MAX_UNIT_WORDS));
     return words.slice(0, MAX_UNIT_WORDS);
   };
   if (unit == undefined) return <></>;

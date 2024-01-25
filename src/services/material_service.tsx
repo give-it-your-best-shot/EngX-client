@@ -12,7 +12,6 @@ class MaterialService {
     try {
       const response = await http.post("/materials/books", bookData);
       const data = response.data;
-      console.log(response);
       if (data.error) {
         return null;
       }

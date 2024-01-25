@@ -19,9 +19,7 @@ export default class CombatIdle extends State {
     this.DEFAULT_ENGX_BOT_X = gameStore.width / 2.5;
     this.DEFAULT_ENGX_BOT_Y = -gameStore.height / 2.5;
   }
-  onEnter(msg?: any): void {
-    console.log("Enter CombatIdle State");
-  }
+  onEnter(msg?: any): void {}
   update(_delta: number): void {
     if (this.engXBotStore.x != this.DEFAULT_ENGX_BOT_X)
       this.engXBotStore.setX(
