@@ -64,6 +64,17 @@ class MaterialService {
     return data["payload"];
   }
 
+  public async findAllBooksByNameTyping(name: string): Promise<Book[] | null> {
+    const response = await http.get(`/materials/books/search`, {
+      params: {
+        name,
+      },
+    });
+    const data = response.data;
+    if (data.error) return null;
+    return data["payload"];
+  }
+
   public async getBookById(bookId: number): Promise<Book | null> {
     return http
       .get(`/materials/books/${bookId}`)

@@ -16,6 +16,7 @@ import material_service from "src/services/material_service";
 export default function Units() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { id } = useParams();
   const [units, setUnits] = useState<Unit[]>([]);
 
   useEffect(() => {
