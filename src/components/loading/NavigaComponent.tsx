@@ -43,22 +43,25 @@ export default function NavigaComponent() {
 
   return (
     <div className="w-full flex items-center justify-between text-blue-gray-900 px-5">
-      <div className="flex justify-between items-center">
-        <AcmeLogo />
-        <p
-          className="font-bold text-inherit cursor-pointer"
-          onClick={() => {
-            navigate("/");
-          }}
-        >
-          EngX
-        </p>
+      <div className="flex items-center justify-between w-[15rem]">
+        <div className="flex justify-between items-center">
+          <AcmeLogo />
+          <p
+            className="font-bold text-inherit cursor-pointer"
+            onClick={() => {
+              navigate("/");
+            }}
+          >
+            EngX
+          </p>
+        </div>
+        <button onClick={() => navigate("/courses")} color="secondary">
+          <p className="font-bold text-medium ">Course</p>
+        </button>
       </div>
-      <button onClick={() => navigate("/courses")} color="secondary">
-        <p className="font-bold text-medium ">Course</p>
-      </button>
-      <div className="hidden lg:flex w-[5rem]">
-        <div className="flex flex-col self-start absolute top-2 w-[18rem]">
+
+      <div className="hidden lg:flex w-[30rem]">
+        <div className="flex flex-col self-start absolute top-2 w-[25rem]">
           <Input
             onChange={(e) => setSearchInput(e.target.value)}
             value={searchInput}
@@ -90,62 +93,63 @@ export default function NavigaComponent() {
               ))}
           </div>
         </div>
+        <div className="absolute right-5 top-2.5">
+          {user === null ? (
+            <Button
+              color="primary"
+              onClick={() => {
+                navigate("/login");
+              }}
+            >
+              Login
+            </Button>
+          ) : (
+            <Dropdown placement="bottom-end">
+              <DropdownTrigger>
+                <Avatar
+                  isBordered
+                  as="button"
+                  className="transition-transform"
+                  color="secondary"
+                  name="Jason Hughes"
+                  size="sm"
+                  src={user?.photoURL ?? ""}
+                />
+              </DropdownTrigger>
+              <DropdownMenu aria-label="Profile Actions" variant="flat">
+                <DropdownItem
+                  key="profile"
+                  className="h-14 gap-2"
+                  onClick={() => {
+                    navigate("/profile");
+                  }}
+                >
+                  <p className="font-semibold">Signed in as</p>
+                  <p className="font-semibold">
+                    @{user ? user.firstName : "Anonymous"} {user?.lastName}
+                  </p>
+                </DropdownItem>
+                <DropdownItem
+                  key="logout"
+                  color="danger"
+                  onClick={() => {
+                    AuthService.logout().then((loggedOut) => {
+                      if (loggedOut) {
+                        deleteCookie("access_token");
+                        deleteCookie("refresh_token");
+                        setUser(null);
+                        navigate("/");
+                      }
+                    });
+                  }}
+                >
+                  Log Out
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          )}
+        </div>
       </div>
-
-      {user === null ? (
-        <Button
-          color="primary"
-          onClick={() => {
-            navigate("/login");
-          }}
-        >
-          Login
-        </Button>
-      ) : (
-        <Dropdown placement="bottom-end">
-          <DropdownTrigger>
-            <Avatar
-              isBordered
-              as="button"
-              className="transition-transform"
-              color="secondary"
-              name="Jason Hughes"
-              size="sm"
-              src={user?.photoURL ?? ""}
-            />
-          </DropdownTrigger>
-          <DropdownMenu aria-label="Profile Actions" variant="flat">
-            <DropdownItem
-              key="profile"
-              className="h-14 gap-2"
-              onClick={() => {
-                navigate("/profile");
-              }}
-            >
-              <p className="font-semibold">Signed in as</p>
-              <p className="font-semibold">
-                @{user ? user.firstName : "Anonymous"} {user?.lastName}
-              </p>
-            </DropdownItem>
-            <DropdownItem
-              key="logout"
-              color="danger"
-              onClick={() => {
-                AuthService.logout().then((loggedOut) => {
-                  if (loggedOut) {
-                    deleteCookie("access_token");
-                    deleteCookie("refresh_token");
-                    setUser(null);
-                    navigate("/");
-                  }
-                });
-              }}
-            >
-              Log Out
-            </DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
-      )}
     </div>
   );
 }

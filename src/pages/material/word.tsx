@@ -90,7 +90,7 @@ export default function WordComponent({
       </div>
 
       <div className="w-full text-slate-800 text-5xl font-bold flex justify-between items-center">
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center items-baseline">
           {word.writing}
           <MicrophoneOutline
             width={24}
