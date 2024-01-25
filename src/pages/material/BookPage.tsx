@@ -19,23 +19,31 @@ export default function BookPage() {
   return (
     <div className="flex flex-col justify-center py-20 px-32 gap-10">
       <div className="text-slate-800 text-4xl font-bold">Main Book</div>
-      <div className="flex gap-10 justify-evenly h-40 w-full">
+      <div className="flex gap-10 justify-evenly items-stretch h-96 w-full">
         {mainBooks &&
           mainBooks.map((book, index) => (
             <div
               key={index}
-              className="cursor-pointer border-5 border-purple-300 hover:border-purple-500 rounded-lg transition duration-300 transform hover:scale-105 flex items-center justify-center h-full p-10"
+              className="flex flex-col cursor-pointer transition duration-300 transform hover:scale-105 items-center justify-center h-full p-10"
               onClick={() => {
                 navigate(`/courses/${book.id}`);
               }}
             >
+              <img
+                src={book.photoUrl ?? "/book.png"}
+                alt="No Image"
+                className="object-cover w-52 h-full border-5 border-purple-300 hover:border-purple-500 rounded-lg"
+              />
               <div className="flex items-center justify-center">
                 <span className="font-bold text-large">{book.name}</span>
               </div>
             </div>
           ))}
       </div>
-      <div className="text-slate-800 text-4xl font-bold">Explore</div>
+      {/* <div className="text-slate-800 text-4xl font-bold">Explore</div>
+      <div className="grid grid-cols-8">
+            
+      </div> */}
     </div>
   );
 }

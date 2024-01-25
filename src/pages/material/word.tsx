@@ -54,6 +54,7 @@ export default function WordComponent({
   };
 
   useEffect(() => {
+    engx_service.clearHistory();
     setPronunciation(undefined);
     setDefinition(undefined);
     setExample(undefined);

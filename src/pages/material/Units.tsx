@@ -33,8 +33,8 @@ export default function Units() {
           <div className="grid grid-cols-2">
             <img
               className="w-[20rem] h-[20rem] object-contain"
-              src="/images/bookImage.jpg"
-              alt=""
+              src={book?.photoUrl ?? "/book.png"}
+              alt="No Image"
             />
             <div className="grid grid-rows-2">
               <div className="flex items-center">

@@ -71,4 +71,10 @@ export default class MusicPlayer {
       this.current_sound.autoPlayStart();
     }
   }
+
+  public stop() {
+    if (this.current_sound && this.current_sound.isPlaying) {
+      this.current_sound.stop();
+    }
+  }
 }

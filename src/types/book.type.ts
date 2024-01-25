@@ -5,4 +5,5 @@ export interface Book {
   name: string;
   description: string;
   units: Unit[];
+  photoUrl: string;
 }

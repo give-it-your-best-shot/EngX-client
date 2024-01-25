@@ -11,6 +11,7 @@ import RealGame from "./components/real_game";
 
 interface BaseGameProps {
   words?: string[];
+  paragraphLengthRange?: number[];
   onGameEnd?: (quiz: Quiz | undefined, score: number, isWin: boolean) => void;
   onExit?: () => void;
 }
@@ -32,6 +33,8 @@ export default function BaseGame(props: BaseGameProps) {
   });
 
   useEffect(() => {
+    gameStore.setLoading(true);
+    const range = props.paragraphLengthRange ?? [50, 100];
     const start = async () => {
       engx_game_service
         .getGameOfWords(
@@ -50,6 +53,11 @@ export default function BaseGame(props: BaseGameProps) {
               setLoadingText("Working hard on game background"),
             onSDImageGenerated: (_) =>
               setLoadingText("Almost done. Get ready to battle"),
+          },
+          {
+            num_sentence: range[1] / 5,
+            min_num_words: range[0],
+            max_num_words: range[1],
           },
         )
         .then((quiz) => {

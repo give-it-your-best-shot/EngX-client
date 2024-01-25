@@ -6,6 +6,11 @@ import { Quiz } from "src/services/engx_game_service";
 import material_service from "src/services/material_service";
 import UserService from "src/services/user_service";
 import { useAuthenticationStore } from "src/stores";
+import MusicPlayer from "./util/music_player";
+import { shuffle } from "./util/array_util";
+
+const MAX_UNIT_WORDS = 10;
+const UNIT_PARAGRAPH_LENGTH = [50, 100];
 
 export default function UnitGame() {
   const { unitId } = useParams();
@@ -30,13 +35,18 @@ export default function UnitGame() {
     start();
   }, []);
   const getWords = () => {
-    return unit!.words.map((e) => e.writing);
+    if (!unit) return [];
+    let words = unit.words.map((e) => e.writing);
+    words = shuffle(words);
+    console.log(words.slice(0, MAX_UNIT_WORDS));
+    return words.slice(0, MAX_UNIT_WORDS);
   };
   if (unit == undefined) return <></>;
   return (
     <>
       <BaseGame
         words={getWords()}
+        paragraphLengthRange={UNIT_PARAGRAPH_LENGTH}
         onGameEnd={(quiz: Quiz | undefined, score: number, isWin: boolean) => {
           if (authStore.user) {
             user_service.saveUnitRecord(
@@ -49,7 +59,9 @@ export default function UnitGame() {
           }
         }}
         onExit={() => {
-          navigate(`/units/${unitId}/words`);
+          window.location.href = `/units/${unitId}/words`;
+          // navigate();
+          MusicPlayer.getInstance().stop();
         }}
       />
     </>

@@ -7,6 +7,11 @@ import { Book } from "src/types/book.type";
 import { Unit } from "src/types/unit.type";
 import UserService from "src/services/user_service";
 import { useAuthenticationStore } from "src/stores";
+import MusicPlayer from "./util/music_player";
+import { shuffle } from "./util/array_util";
+
+const MAX_BOOK_WORDS = 20;
+const BOOK_PARAGRAPH_LENGTH = [100, 200];
 
 export default function BookGame() {
   const { bookId } = useParams();
@@ -39,13 +44,17 @@ export default function BookGame() {
     start();
   }, []);
   const getWords = () => {
-    return book?.units.map((u) => u.words.map((w) => w.writing)).flat();
+    if (!book) return [];
+    let words = book.units.map((u) => u.words.map((w) => w.writing)).flat();
+    words = shuffle(words);
+    return words.slice(0, MAX_BOOK_WORDS);
   };
   if (book == undefined) return <></>;
   return (
     <>
       <BaseGame
         words={getWords()}
+        paragraphLengthRange={BOOK_PARAGRAPH_LENGTH}
         onGameEnd={(quiz: Quiz | undefined, score: number, isWin: boolean) => {
           if (authStore.user) {
             user_service.saveBookRecord(
@@ -58,7 +67,9 @@ export default function BookGame() {
           }
         }}
         onExit={() => {
-          navigate(`/courses/${bookId}`);
+          window.location.href = `/courses/${bookId}`;
+          // navigate(`/courses/${bookId}`);
+          MusicPlayer.getInstance().stop();
         }}
       />
     </>

@@ -61,7 +61,7 @@ export default class EngXLearningService {
   };
 
   public language: Language = Language.VIETNAMESE;
-  public age: Age = Age.KID;
+  public age: Age = Age.STUDENT;
 
   private constructor(
     gpt_service: AzureOpenAIService = AzureOpenAIService.getInstance(),
