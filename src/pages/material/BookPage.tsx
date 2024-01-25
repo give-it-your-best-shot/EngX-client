@@ -11,10 +11,8 @@ export default function BookPage() {
   const [books, setBooks] = useState<Book[] | null>([]);
 
   useEffect(() => {
-    const adminId = import.meta.env.VITE_ADMIN_ID;
-    material_service.getAllBooksOfOwner(adminId).then((books) => {
+    material_service.getAllBooksOfAdmin().then((books) => {
       if (books) setMainBooks(books);
-      console.log(books);
     });
   }, []);
 
