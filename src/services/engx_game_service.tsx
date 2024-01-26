@@ -96,7 +96,7 @@ export default class EngXGameService {
       options.theme = themes[this.randRange(0, NUM_THEME - 1)];
     }
 
-    const prompt = `Please generate a fill in the blanks quiz pragraph contains total of ${options.num_sentence} sentences in IELTS format. The paragraph includes some of the following words: ${words.join(", ")}, which should be filled in the blanks. The blank should be replaced with the words mentioned, and highlight them with {}, and not with ___. The paragraph should use only the volcabulary for IELTS learner to understand. The theme is ${options.theme}. The paragraph must be between ${options.min_num_words} to ${options.max_num_words} words. The grammars must be correct. Response only the paragraph`;
+    const prompt = `Please generate a fill in the blanks quiz pragraph contains total of ${options.num_sentence} sentences in IELTS format. The paragraph includes some of the following words: ${words.join(", ")}, which should be filled in the blanks. The blank should be replaced with the words mentioned, and highlight them with {}, and not with ___. The paragraph should be easy to understand. The theme is ${options.theme}. The paragraph must be between ${options.min_num_words} to ${options.max_num_words} words. The grammars must be correct. Response only the paragraph`;
     const paragraph = (await this.gpt_service.prompt(prompt))![0].content;
 
     callbacks.onParagraphGenerated?.apply(this, [paragraph]);

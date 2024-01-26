@@ -32,20 +32,25 @@ export default function RealGame(props: {
     setViewingAnswer(true);
     await delay(3000);
     setViewingAnswer(false);
+
+    let current_score = score;
+
     if (id != question.correct_answer) {
       if (hp - 1 <= 0) {
         setDeath(true);
         setGameover(true);
-        if (props.onLose) props.onLose(score);
+        if (props.onLose) props.onLose(current_score);
       } else {
         setHp(hp - 1);
       }
     } else {
-      setScore(score + 1);
+      current_score++;
+      setScore(current_score);
     }
+
     if (qid + 1 == quiz?.questions.length) {
       setGameover(true);
-      if (props.onWin) props.onWin(score);
+      if (props.onWin) props.onWin(current_score);
     } else {
       setQid(qid + 1);
     }
