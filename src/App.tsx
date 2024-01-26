@@ -1,5 +1,10 @@
 import React, { useEffect } from "react";
-import { Outlet, createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  Outlet,
+  createBrowserRouter,
+  RouterProvider,
+  createHashRouter,
+} from "react-router-dom";
 import { NextUIProvider } from "@nextui-org/react";
 import NavigaComponent from "src/components/loading/NavigaComponent";
 import { useAuthenticationStore } from "./stores";
@@ -34,7 +39,7 @@ const BaseLayout = () => {
   );
 };
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/",
     element: <BaseLayout />,
