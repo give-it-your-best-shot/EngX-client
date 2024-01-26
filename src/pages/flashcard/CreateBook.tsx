@@ -20,6 +20,7 @@ const CreateBook = () => {
         name: bookName,
         ownerId: authStore.user?.id,
       });
+      navigate("/profile");
       // history.push("/books");
     } catch (error) {
       console.error("Error creating book:", error);
