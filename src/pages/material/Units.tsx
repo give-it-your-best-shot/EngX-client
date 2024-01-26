@@ -7,7 +7,7 @@ import {
   Tooltip,
 } from "@nextui-org/react";
 // import { IoIosArrowRoundForward } from "react-icons/io";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 // import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Unit } from "src/types/unit.type";
@@ -147,12 +147,12 @@ export default function Units() {
             >
               {book.units.map((unit, index) => (
                 <li key={index}>
-                  <a
-                    href={`/units/${unit.id}/words`}
+                  <Link
+                    to={`/units/${unit.id}/words`}
                     className="block px-4 py-2 hover:bg-blue-800 hover:scale-105 transition bg-blue-600 my-1 text-white"
                   >
                     {unit.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>

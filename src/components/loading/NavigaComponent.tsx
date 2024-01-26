@@ -1,9 +1,4 @@
 import {
-  Navbar,
-  NavbarBrand,
-  NavbarContent,
-  NavbarItem,
-  Link,
   Dropdown,
   DropdownTrigger,
   DropdownMenu,
@@ -14,7 +9,7 @@ import {
 } from "@nextui-org/react";
 import { deleteCookie } from "cookies-next";
 import AcmeLogo from "src/Icon/AcmeLogo";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AuthService from "src/services/auth_service";
 import material_service from "src/services/material_service";
 import { useAuthenticationStore } from "src/stores";
@@ -81,15 +76,15 @@ export default function NavigaComponent() {
             {searchBooks &&
               searchBooks.length > 0 &&
               searchBooks.map((book, index) => (
-                <a
+                <Link
                   key={book.id}
-                  href={`/courses/${book.id}`}
+                  to={`/courses/${book.id}`}
                   className="text-gray-700 block px-4 py-2 text-sm hover:bg-slate-300"
                   role="menuitem"
                   id="menu-item-0"
                 >
                   {book.name}
-                </a>
+                </Link>
               ))}
           </div>
         </div>
